@@ -102,9 +102,15 @@ Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Ksi
 
 \section{Analiza złożoności problemu}
 \label{sec:opisProblemu}
-Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna. W związku z tym powstaje pytanie, czy istnieje strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ optymalizująca podejmowane decyzje w taki sposób, by zwiększać szansę wygrania gry. Dla uproszczenia założyłem, że gra będzie rozgrywana przez dwóch graczy.
+Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna. W związku z tym powstaje pytanie, czy istnieje strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ optymalizująca podejmowanie decyzji w taki sposób, by zwiększać szansę wygrania gry. Dla uproszczenia założyłem, że gra będzie rozgrywana przez dwóch graczy. Dodatkowo, by ustandaryzować pewne pojęcia, wprowadziłem następujące definicje:
+\begin{itemize}
+	\item \textit{Zagranie} - jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
+	\item \textit{Decyzja} - to zagranie użyte jako ruch w grze. Podjęcie decyzji to inaczej zwrócenie zagrania przez algorytm.
+	\item \textit{Strategia} - inaczej algorytm, który podejmuje decyzje. 
+	\item \textit{Scenariusz} - chronologiczny spis decyzji podjętych przez obu graczy, od początku do końca rundy.
+\end{itemize}
 
-By móc opracować najlepszą strategię, musiałbym znać wszystkie możliwe scenariusze gry, na podstawie których można by ustalić statystycznie który ruch w danym momencie jest najbardziej opłacalny. Jako scenariusz należy rozumieć wszystkie podjęte przez graczy ruchy w danej rundzie. Wpływ na to mają dwa czynniki:
+By móc opracować najlepszą strategię, musiałbym znać wszystkie możliwe scenariusze gry, na podstawie których można by ustalić statystycznie które zagranie w danym momencie jest najbardziej opłacalne. Na scenariusz wpływ mają następujące czynniki:
 \begin{itemize}
 	\item Kolejność kart w talii na początku rundy
 	\item Sposób zagrania karty
@@ -138,4 +144,4 @@ Na podstawie powyższego można oszacować, że możliwych scenariuszy dla danej
 	$54486432000 * 1024 = 55794106368000 \approx  5.8*10^{12}$
 \end{center}
 
-Z uwagi na rząd wielkości stworzenie strategii na podstawie analizy statystycznej wszystkich dostępnych scenariuszy jest problemem \textit{NP-trudnym}. Z tego powodu, zamiast odpowiadać na pytanie "Jaka jest najlepsza strategia podejmowania decyzji?", dużo łatwiej będzie odpowiedzieć na pytanie "Która z podanych strategii jest najlepsza?", gdyż jest to charakterystyczna cecha problemów klasy \textit{NP}. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji.
+Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystycznej wszystkich dostępnych scenariuszy jest problemem \textit{NP-trudnym}. Z tego powodu, zamiast odpowiadać na pytanie "Jaka jest najlepsza strategia podejmowania decyzji?", dużo łatwiej będzie odpowiedzieć na pytanie "Która z podanych strategii jest najlepsza?", gdyż jest to charakterystyczna cecha problemów klasy \textit{NP}. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji.

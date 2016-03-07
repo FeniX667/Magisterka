@@ -7,15 +7,14 @@
 \contentsline {section}{\numberline {2.1}Opis zasad gry}{9}
 \contentsline {section}{\numberline {2.2}Analiza z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci problemu}{15}
 \contentsline {chapter}{\numberline {3}Przegl\IeC {\k a}d wybranych algorytm\IeC {\'o}w i innych rozwi\IeC {\k a}za\IeC {\'n}}{17}
-\contentsline {section}{\numberline {3.1}Wst\IeC {\k e}p}{17}
-\contentsline {section}{\numberline {3.2}Algorytm losowy}{17}
-\contentsline {subsection}{\numberline {3.2.1}Opis}{17}
-\contentsline {subsection}{\numberline {3.2.2}Spos\IeC {\'o}b wykorzystania}{17}
-\contentsline {section}{\numberline {3.3}Algorytm zach\IeC {\l }anny}{17}
-\contentsline {subsection}{\numberline {3.3.1}Opis}{17}
-\contentsline {subsection}{\numberline {3.3.2}Spos\IeC {\'o}b wykorzystania}{18}
-\contentsline {subsection}{\numberline {3.3.3}Zapis formalny}{20}
-\contentsline {section}{\numberline {3.4}Algorytm Monte Carlo Tree Search}{20}
+\contentsline {section}{\numberline {3.1}Algorytm losowy}{17}
+\contentsline {subsection}{\numberline {3.1.1}Opis}{17}
+\contentsline {subsection}{\numberline {3.1.2}Spos\IeC {\'o}b wykorzystania}{17}
+\contentsline {section}{\numberline {3.2}Algorytm zach\IeC {\l }anny}{18}
+\contentsline {subsection}{\numberline {3.2.1}Opis}{18}
+\contentsline {subsection}{\numberline {3.2.2}Spos\IeC {\'o}b wykorzystania}{18}
+\contentsline {subsection}{\numberline {3.2.3}Zapis formalny}{20}
+\contentsline {section}{\numberline {3.3}Algorytm Monte Carlo Tree Search}{20}
 \contentsline {chapter}{\numberline {4}Implementacja}{21}
 \contentsline {section}{\numberline {4.1}Analiza wymaga\IeC {\'n}}{21}
 \contentsline {section}{\numberline {4.2}Koncepcja wykonania}{21}

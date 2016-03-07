@@ -1,14 +1,17 @@
 \chapter{Przegląd wybranych algorytmów i innych rozwiązań}
 \label{cha:rozdz3}
 
-\section{Wstęp}
-\label{sec:wstep2}
-W tym rozdziale przedstawiam kilka wybranych algorytmów oraz metod, które zaimplementuję w następnym rozdziale. Dla każdej z nich opisuję ich użycie w odniesieniu do gry 'Love Letter'.
+W tym rozdziale przedstawiam kilka wybranych algorytmów, które zaimplementuję w następnym rozdziale. Dla każdej z nich opisuję ich użycie w odniesieniu do gry 'Love Letter'. By ustandaryzować pewne pojęcia, wprowadziłem następujące definicje:
+\begin{itemize}
+	\item \textit{Zagranie} - jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
+	\item \textit{Decyzja} - to Zagranie użyte jako ruch w grze. Podjęcie decyzji to inaczej zwrócenie \textit{Zagrania} przez dany algorytm.
+	\item \textit{Strategia} - inaczej algorytm, który podejmuje decyzje. 
+\end{itemize}
 
 \section{Algorytm losowy}
 \label{sec:algLos}
 \subsection{Opis}
-Jest to najprostszy algorytm podejmowania decyzji. Na wejściu otrzymuje listę dostępnych decyzji, z których w sposób całkowicie losowy podejmuje jedną. Każda z dostępnych decyzji ma takie samo prawdopodobieństwo bycia wybraną przez ten algorytm.
+Jest to najprostszy algorytm podejmowania decyzji. Na wejściu otrzymuje listę dostępnych zagrań, z których w sposób całkowicie losowy podejmuje jedną. Każde z dostępnych zagrań ma takie samo prawdopodobieństwo bycia wybraną przez ten algorytm.
 
 \subsection{Sposób wykorzystania}
 Z uwagi na prostotę tego algorytmu, używam go jako punktu odniesienia dla wszystkich pozostałych strategii. Dla każdej z nich algorytm losowy spełnia rolę drugiego gracza i w ten sposób można łatwo porównać je ze sobą. Dla tego algorytmu zastosowałem jedną drobną modyfikację: nigdy nie podejmie decyzji o zagraniu Księżniczki - oznacza to natychmiastową przegraną niezależnie od momentu gry, co mogłoby mocno wypaczyć wyniki innych algorytmów.
@@ -16,13 +19,13 @@ Z uwagi na prostotę tego algorytmu, używam go jako punktu odniesienia dla wszy
 \section{Algorytm zachłanny}
 \label{sec:algZach}
 \subsection{Opis}
-Algorytm zachłanny polega na podjęciu najlepszej możliwej decyzji dostępnej w danej chwili, nie analizując ich konsekwencji w przyszłości\textsuperscript{[\ref{bib:algorytmy_zachlanny}]}. Pomimo, że jest to działanie krótkowzroczne, jest łatwe do implementacji i daje atrakcyjne wyniki w niektórych problemach, np. przy szukaniu minimalnego drzewa rozpinającego.
+Algorytm zachłanny polega na wyborze najlepszego możliwego zagrania dostępnego w danej chwili, nie analizując jego konsekwencji w przyszłości. Pomimo, że takie podejmowanie decyzji krótkowzroczne, jest łatwe w implementacji i daje atrakcyjne wyniki w niektórych problemach, np. przy szukaniu minimalnego drzewa rozpinającego\textsuperscript{[\ref{bib:algorytmy_zachlanny}]}.
 
 \subsection{Sposób wykorzystania}
 
-W kontekście gry 'Love Letter', implementacja algorytmu zachłannego wymaga pewnego doprecyzowania. Najważniejszą częścią jest funkcja oceny decyzji, która w niektórych przypadkach musi być oparta o probabilistykę wystąpienia kart u przeciwnika. 
+W kontekście gry 'Love Letter', implementacja algorytmu zachłannego wymaga pewnego doprecyzowania. Najważniejszą częścią jest funkcja oceny zagrania, która w niektórych przypadkach musi być oparta o probabilistykę wystąpienia kart u przeciwnika. 
 
-Rozważmy scenariusz, w którym algorytm musi podjąć decyzję zagrania karty Strażniczki, lub karty Barona. Jest to pierwszy ruch gracza, a w widocznych kartach odrzuconych na starcie są odrzucone karty Króla, Księcia i Pokojówki. Oznacza to, że w talii pozostało 9 kart, a jedna z odrzuconych jest niewidoczna, niemniej jednak też ją trzeba brać pod uwagę. Wyliczenie prawdopodobieństwa \textit{P} jaką kartę ma przeciwnik jest tym momencie proste, jednak trzeba jeszcze wziąć pod uwagę drobny szczegół - czy do liczenia \textit{P} wliczać karty posiadane w ręce. Z jednej strony wydaje się to nielogiczne i może prowadzić do wybierania nieoptymalnych decyzji (co przeczyłoby idei algorytmu zachłannego), z drugiej strony można to potraktować jako element blefu, który jest nieodłączną częścią każdej gry towarzyskiej. Z tego powodu zaimplementowane będą dwie wersje: klasyczna i blefująca.
+Rozważmy scenariusz, w którym algorytm musi podjąć decyzję o zagraniu karty Strażniczki, lub karty Barona. Jest to pierwszy ruch gracza, a w widocznych kartach odrzuconych na starcie są odrzucone karty Króla, Księcia i Pokojówki. Oznacza to, że w talii pozostało 9 kart, a jedna z odrzuconych jest niewidoczna, niemniej jednak też ją trzeba brać pod uwagę. Wyliczenie prawdopodobieństwa \textit{P} jaką kartę ma przeciwnik jest tym momencie proste, jednak trzeba jeszcze wziąć pod uwagę drobny szczegół - czy do liczenia \textit{P} wliczać karty posiadane w ręce. Z jednej strony wydaje się to nielogiczne i może prowadzić do wybierania nieoptymalnych decyzji (co przeczyłoby idei algorytmu zachłannego), z drugiej strony można to potraktować jako element blefu, który jest nieodłączną częścią każdej gry towarzyskiej. Z tego powodu zaimplementowałem dwie wersje, nazwane odpowiednio klasyczną i blefującą.
 
 Przyjmując do obliczeń wersję klasyczną, prawdopodobieństwo wystąpienia kart u przeciwnika rozkłada się następująco:
 
@@ -48,7 +51,7 @@ Przyjmując do obliczeń wersję klasyczną, prawdopodobieństwo wystąpienia ka
 		\end{tabular}
 \end{table}
 
-Zagranie Barona oznacza porównanie drugiej karty z kartą przeciwnika. Łatwo policzyć, że w 70\% przypadków skończyłoby to się porażką, a w 30\% remisem. Druga dostępna decyzja to zagranie karty Strażniczki, a w jej przypadku najlepszym wyborem jest wytypowanie Kapłana, co daje 20\% szans na zwycięstwo i 80\% szans na remis. Zauważmy, że gdybyśmy wliczali posiadane karty do obliczenia prawdopodobieństwa, wystąpienie Barona i Kapłana byłoby tak samo możliwe. W takich przypadkach algorytm powinien celować zawsze w kartę z wyższym numerem. By formalnie stwierdzić która decyzja jest lepsza, przyjmijmy, że funkcja oceny wygląda następująco:
+Zagranie karty Baron oznacza porównanie drugiej karty z kartą przeciwnika. Łatwo policzyć, że w 70\% przypadków skończyłoby to się porażką, a w 30\% remisem. Druga dostępna decyzja to zagranie karty Strażniczki, a w jej przypadku najlepszym wyborem jest wytypowanie Kapłana, co daje 20\% szans na zwycięstwo i 80\% szans na remis. Zauważmy, że gdybyśmy wliczali posiadane karty do obliczenia prawdopodobieństwa, wystąpienie Barona i Kapłana byłoby tak samo możliwe. W takich przypadkach algorytm powinien celować zawsze w kartę z wyższym numerem. By formalnie stwierdzić która decyzja jest lepsza, musimy wybrać  przyjmijmy, że funkcja oceny wygląda następująco:
 
 \begin{center}
 	$F_{(karta)} = 1 + prawdopodobienstwo\_wygranej - prawdopodobienstwo\_przegranej$
