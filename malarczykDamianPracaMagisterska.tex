@@ -1,0 +1,123 @@
+\documentclass[11pt]{aghdpl}
+% \documentclass[en,11pt]{aghdpl}  % praca w języku angielskim
+\usepackage[polish]{babel}
+%\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+% dodatkowe pakiety
+\usepackage{enumerate}
+\usepackage{listings}
+\lstloadlanguages{TeX}
+
+\lstset{
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'c}}1
+           {ę}{{\k{e}}}1
+           {ó}{{\'o}}1
+           {ń}{{\'n}}1
+           {ł}{{\l{}}}1
+           {ś}{{\'s}}1
+           {ź}{{\'z}}1
+           {ż}{{\.z}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'C}}1
+           {Ę}{{\k{E}}}1
+           {Ó}{{\'O}}1
+           {Ń}{{\'N}}1
+           {Ł}{{\L{}}}1
+           {Ś}{{\'S}}1
+           {Ź}{{\'Z}}1
+           {Ż}{{\.Z}}1
+}
+
+%---------------------------------------------------------------------------
+
+\author{Damian Malarczyk}
+\shortauthor{D. Malarczyk}
+
+\titlePL{Analiza i porównanie wybranych algorytmów dla gry karcianej}
+\titleEN{Analysis and comparison of selected algorithms for the card game}
+
+\shorttitlePL{Analiza i porównanie wybranych algorytmów dla gry karcianej}
+\shorttitleEN{Analysis and comparison of selected algorithms for the card game}
+
+\thesistype{Praca dyplomowa magisterska}
+%\thesistype{Engineering Thesis}
+
+\supervisor{dr inż. Edyta Kucharska}
+%\supervisor{dr Adam Sędziwy}
+
+\degreeprogramme{Informatyka}
+%\degreeprogramme{Computer Science}
+
+\date{2015}
+
+\department{Katedra Informatyki Stosowanej}
+%\department{Department of Applied Computer Science}
+
+\faculty{Wydział Elektrotechniki, Automatyki,\protect\\[-1mm] Informatyki i Inżynierii Biomedycznej}
+%\faculty{Faculty of Electrical Engineering, Automatics, Computer Science and Biomedical Engineering}
+
+\acknowledgements{Podziękowania}
+%\acknowledgements{Serdecznie dziękuję dr Edycie Kucharskiej za możliwość podjęcia pracy magisterskiej.}
+
+
+\setlength{\cftsecnumwidth}{10mm}
+
+%---------------------------------------------------------------------------
+\setcounter{secnumdepth}{4}
+
+\begin{document}
+
+\titlepages
+\setcounter{tocdepth}{3}
+\tableofcontents
+\clearpage
+
+\include{rozdzial1}
+\include{rozdzial2}
+\include{rozdzial3}
+\include{rozdzial4}
+\include{rozdzial5}
+\include{rozdzial6}
+
+\bibliographystyle{alpha}
+\begin{thebibliography}{1}
+	
+\bibitem{}
+\label{bib:loveLetterGame}
+Alderac Entertainment Group,
+\newblock {\em Love Letter},
+\newblock 2012.
+
+
+\bibitem{}
+\label{bib:loveLetterWebsite}
+Alderac Entertainment Group,
+\newblock {\em Love Letter},
+\newblock http://www.alderac.com/tempest/love-letter, 2016-02-08.
+
+\bibitem{}
+\label{bib:tabliceMatematyczne}
+Alicja Cewe, Halina Nahorska, Irena Pancer,
+\newblock {\em Tablice matematyczne},
+\newblock Wydawnictwo Podkowa Gdańsk 2002,
+\newblock rozdział {\em Kombinatoryka}.
+
+\bibitem{}
+\label{bib:wiki_StrategiaTeoriaGier}
+Alicja Cewe, Halina Nahorska, Irena Pancer,
+\newblock {\em Wikipedia}, hasło {\em Strategia w teorii gier}.
+\newblock https://pl.wikipedia.org/wiki/Strategia\_mieszana, 2016-02-21.
+
+\bibitem{}
+\label{bib:algorytmy_zachlanny}
+Sanjoy Dasgupta, Christos Papadimitriou, Umesh Vazirani,
+\newblock {\em Algorytmy},
+\newblock Wydawnictwo Naukowe PWN, Warszawa 2012,
+\newblock rozdział {\em Algorytmy Zachłanne}, s. 133.
+
+\end{thebibliography}
+
+\end{document}

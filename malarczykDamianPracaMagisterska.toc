@@ -1,0 +1,31 @@
+\select@language {polish}
+\contentsline {chapter}{\numberline {1}Wprowadzenie}{7}
+\contentsline {section}{\numberline {1.1}Przedmiot pracy}{7}
+\contentsline {section}{\numberline {1.2}Cel pracy}{7}
+\contentsline {section}{\numberline {1.3}Zawarto\IeC {\'s}\IeC {\'c} pracy}{7}
+\contentsline {chapter}{\numberline {2}Gra karciana Love Letter}{9}
+\contentsline {section}{\numberline {2.1}Opis zasad gry}{9}
+\contentsline {section}{\numberline {2.2}Analiza z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci problemu}{15}
+\contentsline {chapter}{\numberline {3}Przegl\IeC {\k a}d wybranych algorytm\IeC {\'o}w i innych rozwi\IeC {\k a}za\IeC {\'n}}{17}
+\contentsline {section}{\numberline {3.1}Wst\IeC {\k e}p}{17}
+\contentsline {section}{\numberline {3.2}Algorytm losowy}{17}
+\contentsline {subsection}{\numberline {3.2.1}Opis}{17}
+\contentsline {subsection}{\numberline {3.2.2}Spos\IeC {\'o}b wykorzystania}{17}
+\contentsline {section}{\numberline {3.3}Algorytm zach\IeC {\l }anny}{17}
+\contentsline {subsection}{\numberline {3.3.1}Opis}{17}
+\contentsline {subsection}{\numberline {3.3.2}Spos\IeC {\'o}b wykorzystania}{18}
+\contentsline {subsection}{\numberline {3.3.3}Zapis formalny}{20}
+\contentsline {section}{\numberline {3.4}Algorytm Monte Carlo Tree Search}{20}
+\contentsline {chapter}{\numberline {4}Implementacja}{21}
+\contentsline {section}{\numberline {4.1}Analiza wymaga\IeC {\'n}}{21}
+\contentsline {section}{\numberline {4.2}Koncepcja wykonania}{21}
+\contentsline {section}{\numberline {4.3}Wykorzystane technologie}{21}
+\contentsline {section}{\numberline {4.4}Diagramy}{21}
+\contentsline {section}{\numberline {4.5}Prezentacja systemu}{21}
+\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{21}
+\contentsline {chapter}{\numberline {5}Rezultaty}{23}
+\contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{23}
+\contentsline {section}{\numberline {5.2}Statystyki zwyci\IeC {\k e}stw}{23}
+\contentsline {section}{\numberline {5.3}Zbie\IeC {\.z}no\IeC {\'s}\IeC {\'c} algorytm\IeC {\'o}w podejmowania decyzji}{23}
+\contentsline {section}{\numberline {5.4}Wnioski}{23}
+\contentsline {chapter}{\numberline {6}Podsumowanie}{25}
