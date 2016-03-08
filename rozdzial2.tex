@@ -1,7 +1,7 @@
 \chapter{Gra karciana Love Letter}
 \label{cha:rozdz2}
 
-W tym rozdziale opisuję kontekst oraz zasady gry Love Letter. Tłumaczę działanie każdej karty oraz przedstawiam główny cel gry - wygranie określonej ilości rund. Następnie formułuję zagadnienie w sposób matematyczny. Wszystkie załączone zdjęcia oraz instrukcja zaczerpnięte są z [\ref{bib:loveLetterGame}] oraz [\ref{bib:loveLetterWebsite}].
+W tym rozdziale opisuję kontekst oraz zasady gry Love Letter. Tłumaczę działanie każdej karty oraz przedstawiam główny cel gry - wygranie określonej ilości rund. Następnie przedstawiam problem i analizuję jego złożoność. Wszystkie załączone zdjęcia oraz instrukcja zaczerpnięte są z [\ref{bib:loveLetterGame}] oraz [\ref{bib:loveLetterWebsite}].
 
 \begin{figure}[h]
 	\centering
@@ -34,7 +34,7 @@ Ustawienie początkowe każdej rundy wygląda następująco:
 
 \section*{Tura gracza i opis kart}
 \label{sec:turaGracza}
-Podczas swojej tury gracz dociąga jedna kartę ze stosu. Następnie wybiera jedną z dwóch kart, które posiada już na ręce, kładzie ją przed sobą tak, by była widoczna dla wszystkich i zastosowuje opisany na niej efekt - nawet jeśli jest negatywny. Zagrana karta pozostaje odkryta przez całą rundę, a druga pozostaje na ręce. Następnie tura przechodzi na osobę po lewej stronie aktywnego gracza.
+Podczas swojej tury gracz dociąga jedna kartę ze stosu. Następnie wybiera jedną z dwóch kart, które posiada już w ręce, kładzie ją przed sobą tak, by była widoczna dla wszystkich i zastosowuje opisany na niej efekt - nawet jeśli jest negatywny. Zagrana karta pozostaje odkryta przez całą rundę, a druga pozostaje w ręce. Następnie tura przechodzi na osobę po lewej stronie aktywnego gracza.
 
 W grze znajduje się 16 kart, w 8 typach. Każda z typów kart posiada wartość od 1 do 8. Są to kolejno: 4 karty Strażniczki, po 2 karty Kapłana, Barona, Pokojówki i Księcia, oraz po jednej karcie Króla, Hrabiny i Księżniczki. Ich szczegółowy opis wraz z wyglądem znajduje się poniżej:
 
@@ -57,14 +57,14 @@ Rysunek \ref{fig:Love_Letter_Card_Priest} przedstawia kartę typu Kapłan. Zagry
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Resources/Love_Letter_Card_Baron.png}
-	\caption{Baron - 2 karty} \label{fig:Love_Letter_Card_Baron}
+	\caption{Baron} \label{fig:Love_Letter_Card_Baron}
 \end{figure}
 Na rysunku \ref{fig:Love_Letter_Card_Baron} przedstawiona jest karta typu Baron. Po zagraniu tej karty należy w ukryciu porównać drugą posiadaną kartą z wybranym graczem. Następnie ten gracz, który ma kartę o mniejszej wartości odrzuca swoją kartę i przegrywa rundę. W przypadku remisu nic się nie dzieje.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics{Resources/Love_Letter_Card_Handmaid.png}
-	\caption{Pokojówka - 2 karty} \label{fig:Love_Letter_Card_Handmaid}
+	\caption{Pokojówka} \label{fig:Love_Letter_Card_Handmaid}
 \end{figure}
 Rysunek \ref{fig:Love_Letter_Card_Handmaid} przedstawia kartę typu Pokojówka. Zagranie tej karty sprawia, że gracz jest niewrażliwy na efekt pozostałych kart do czasu swojej następnej tury.
 
@@ -72,14 +72,14 @@ Rysunek \ref{fig:Love_Letter_Card_Handmaid} przedstawia kartę typu Pokojówka. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Resources/Love_Letter_Card_Prince.png}
-	\caption{Książe - 2 karty} \label{fig:Love_Letter_Card_Prince}
+	\caption{Książe} \label{fig:Love_Letter_Card_Prince}
 \end{figure}
 Na rysunku \ref{fig:Love_Letter_Card_Prince} przedstawiona jest karta typu Książę. Zagranie pozwala wybrać dowolnego gracza (w tym siebie), zmusić go do odrzucenia posiadanej karty i pociągnięcia następnej.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Resources/Love_Letter_Card_King.png}
-	\caption{Król - 1 karta} \label{fig:Love_Letter_Card_King}
+	\caption{Król} \label{fig:Love_Letter_Card_King}
 \end{figure}
 Rysunek \ref{fig:Love_Letter_Card_King} przedstawia kartę typu Król. Po jej zagraniu należy wymienić się pozostałą kartą z innym graczem.
 
@@ -87,14 +87,14 @@ Rysunek \ref{fig:Love_Letter_Card_King} przedstawia kartę typu Król. Po jej za
 \begin{figure}[h]
 	\centering
 	\includegraphics{Resources/Love_Letter_Card_Countess.png}
-	\caption{Hrabina - 1 karta} \label{fig:Love_Letter_Card_Countess}
+	\caption{Hrabina} \label{fig:Love_Letter_Card_Countess}
 \end{figure}
 Rysunek \ref{fig:Love_Letter_Card_Countess} przedstawia kartę typu Hrabina. Ta karta ma działanie pasywne. Nie wywiera efektu po zagraniu, natomiast zmusza gracza do jej zagrania jeśli równocześnie posiada na ręce kartę typu Książę lub Król.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Resources/Love_Letter_Card_Princess.png}
-	\caption{Księżniczka - 1 karta} \label{fig:Love_Letter_Card_Princess}
+	\caption{Księżniczka} \label{fig:Love_Letter_Card_Princess}
 \end{figure}
 Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Księżniczka. Zagranie tej karty oznacza natychmiastową przegraną w rundzie. Ta zasada działa również, gdy gracz został zmuszony do zagrania tej karty, np. przez efekt karty Książe.
 \clearpage
@@ -105,7 +105,7 @@ Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Ksi
 Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna. W związku z tym powstaje pytanie, czy istnieje strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ optymalizująca podejmowanie decyzji w taki sposób, by zwiększać szansę wygrania gry. Dla uproszczenia założyłem, że gra będzie rozgrywana przez dwóch graczy. Dodatkowo, by ustandaryzować pewne pojęcia, wprowadziłem następujące definicje:
 \begin{itemize}
 	\item \textit{Zagranie} - jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
-	\item \textit{Decyzja} - to zagranie użyte jako ruch w grze. Podjęcie decyzji to inaczej zwrócenie zagrania przez algorytm.
+	\item \textit{Decyzja} - to wybór zagrania, które zostanie użyte jako ruch w grze. Podjęcie decyzji to inaczej zwrócenie zagrania przez algorytm.
 	\item \textit{Strategia} - inaczej algorytm, który podejmuje decyzje. 
 	\item \textit{Scenariusz} - chronologiczny spis decyzji podjętych przez obu graczy, od początku do końca rundy.
 \end{itemize}
@@ -115,9 +115,7 @@ By móc opracować najlepszą strategię, musiałbym znać wszystkie możliwe sc
 	\item Kolejność kart w talii na początku rundy
 	\item Sposób zagrania karty
 \end{itemize}
-Dokonałem więc oszacowania, ile takich scenariuszy istnieje. 
-
-W każdej rundzie bierze udział wszystkie 16 kart. Zakładając, że każda z nich jest unikalna, to  liczba wszystkich możliwych kolejności kart to permutacja, którą obliczam wzorem podanym w [\ref{bib:tabliceMatematyczne}]:
+Dokonałem więc oszacowania, ile takich scenariuszy istnieje. W każdej rundzie bierze udział wszystkie 16 kart. Zakładając, że każda z nich jest unikalna, to  liczba wszystkich możliwych kolejności kart to permutacja, którą obliczam wzorem podanym w [\ref{bib:tabliceMatematyczne}]:
 
 \begin{center}
 	$P_n = n!$ , gdzie $n\in N^+$
@@ -129,9 +127,7 @@ Dla  $n$ = 16, $n!=20 922 789 888 000$. Część kart się powtarza, więc tę l
 	$20 922 789 888 000 / 32 = 54486432000$ - 54mld, 864mln i 432 tys.
 \end{center}
 
-Nie jest to jednak liczba wszystkich dostępnych scenariuszy. Ponieważ w każdej turze gracz zagrywa jedną z dwóch dostępnych kart, a ponadto w przypadku części z nich może podjąć różne decyzje, to kolejność w której gracze dociągną karty z dostępnej talii będzie się wielokrotnie zmieniać w trakcie rozgrywki. Dobrym przykładem jest Książę, który zmusza przeciwnika do odrzucenia posiadanej karty i pociągnięcia następnej. 
-
-By wyznaczyć w liczbę scenariuszy na zadanej kolejności kart, posłużyłem się następującym przybliżeniem:
+Nie jest to jednak liczba wszystkich dostępnych scenariuszy. W każdej turze gracz ma do wyboru co najmniej dwa zagrania, ponieważ tyle ma dostępnych kart. Jednakże, w przypadku karty Strażniczki możliwości jest więcej, ponieważ można wytypować 7 typów kart, a w jednym przypadku może to pokonać przeciwnika i skończyć rundę. W związku z tym, by oszacować liczbę scenariuszy na zadanej kolejności kart, posłużyłem się następującym przybliżeniem:
 \begin{itemize}
 	\item zgodnie z zasadami gry dla dwóch graczy, odrzucam łącznie 4 pierwsze karty (1 zakryta, 3 odkryte).
 	\item rozdaję po 1 karcie obu graczom. Pozostaje 10 kart w talii.
