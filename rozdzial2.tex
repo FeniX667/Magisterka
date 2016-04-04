@@ -144,7 +144,7 @@ Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystyc
 
 
 \section{Model matematyczny problemu}
-Ponieważ każda runda składa się z ciągu wykonywanych przez graczy tur, których stan zależy od podjętej wcześniej decyzji, to model matematyczny problemu można przedstawić za pomocą programowania dynamicznego:
+Ponieważ każda runda składa się z ciągu wykonywanych przez graczy tur, których stan zależy od podjętej wcześniej decyzji, to model matematyczny problemu optymalizacyjnego można przedstawić za pomocą programowania dynamicznego:
 
 \begin{figure}[h]
 	\centering
@@ -162,11 +162,11 @@ Gdzie wyróżnić należy następujące pojęcia:
 	\item $T_i$ - funkcja przejścia
 	\item $Q$ - funkcja celu
 	\item $q_n$ - funkcja oceniająca etap n-ty.
+	\item $F_{(S_(n-1)}$ - funkcja zwracająca $x_n$
 \end{itemize}
 Funkcja przejścia $T_i$ wynika bezpośrednio z opisanych wcześniej zasad, pozostaje więc opisać $Q$ oraz $q_n$. Zgodnie z zasadami, by wygrać rundę, musimy posiadać kartę o wyższym numerze niż przeciwnik na końcu ostatniej tury, z tego wynika, że:
 \begin{itemize}
 	\item $Q = q_k \rightarrow max$, gdzie k to numer ostatniej tury
 	\item $q_n = SK_{(karta)}$, gdzie $SK_{(karta)}$ to siła karty posiadanej w ręce na końcu tury
 \end{itemize}
-
-
+By rozwiązać przedstawiony problem optymalizacyjny należy zdefiniować $F_{(S_(n-1)}$, czym zajmuję się w następnym rozdziale.
