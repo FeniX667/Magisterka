@@ -20,9 +20,8 @@ Algorytm zachłanny polega na wyborze najlepszego możliwego zagrania dostępneg
 
 W kontekście gry 'Love Letter', implementacja algorytmu zachłannego wymaga pewnego doprecyzowania. Najważniejszą częścią jest funkcja kryterialna oceniająca wartość zagrania, która w niektórych przypadkach musi być oparta o probabilistykę wystąpienia kart u przeciwnika. 
 
-Rozważmy przypadek, w którym algorytm musi podjąć decyzję o zagraniu karty Strażniczki, lub karty Barona. Jest to pierwszy ruch gracza, a w widocznych kartach odrzuconych na starcie są odrzucone karty Króla, Księcia i Pokojówki. Oznacza to, że w talii pozostało 9 kart, a jedna z odrzuconych jest niewidoczna, niemniej jednak ją też trzeba brać pod uwagę. Wyliczenie prawdopodobieństwa \textit{P} jaką kartę ma przeciwnik jest tym momencie proste, jednak trzeba jeszcze wziąć pod uwagę drobny szczegół - czy do liczenia \textit{P} wliczać karty posiadane w ręce. Z jednej strony wydaje się to nielogiczne i może prowadzić do wybierania nieoptymalnych decyzji (co przeczyłoby idei algorytmu zachłannego), z drugiej strony można to potraktować jako element blefu, który jest nieodłączną częścią każdej gry towarzyskiej. Z tego powodu zaimplementowałem dwie wersje, nazwane odpowiednio klasyczną i blefującą.
-
-Przyjmując do obliczeń wersję klasyczną, prawdopodobieństwo wystąpienia kart u przeciwnika rozkłada się następująco:
+Rozważmy przypadek, w którym algorytm musi podjąć decyzję o zagraniu karty Strażniczki, lub karty Barona. Jest to pierwszy ruch gracza, a w widocznych kartach odrzuconych na starcie są odrzucone karty Króla, Księcia i Pokojówki. Oznacza to, że w talii pozostało 9 kart, a jedna z odrzuconych jest niewidoczna, niemniej jednak ją też trzeba brać pod uwagę. Wyliczenie prawdopodobieństwa \textit{P} jaką kartę ma przeciwnik jest tym momencie proste, jednak trzeba jeszcze wziąć pod uwagę drobny szczegół - czy do liczenia \textit{P} wliczać karty posiadane w ręce. Z jednej strony wydaje się to nielogiczne i może prowadzić do wybierania nieoptymalnych decyzji (co przeczyłoby idei algorytmu zachłannego), z drugiej strony można to potraktować jako element blefu, który jest nieodłączną częścią każdej gry towarzyskiej. W swojej implementacji założyłem absolutną zachłanność algorytmu i karty posiadane na ręce są pomijane w obliczeniach. 
+Wobec powyższego, prawdopodobieństwo wystąpienia kart u przeciwnika rozkłada się następująco:
 
 
 \begin{center}
@@ -60,14 +59,14 @@ Po podstawieniu otrzymujemy:
 
 Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem karty Kapłana. Jak jednak na podstawie powyższego wzoru ocenić zagranie karty Kapłana, Pokojówki lub Króla? Każda z nich wymaga unikalnej funkcji kryterialnej. Mając na uwadze, że w kontekście strategii zachłannej decyzja zawsze powinna być optymalna w ujęciu chwili, ustaliłem następujące warunki oceny zagrania karty:
 \begin{itemize}
-	\item Strażniczka - zagranie premiowane gdy pozwala wyeliminować przeciwnika.
-	\item Kapłan - w ujęciu chwili jest to karta neutralna, jednak jej przydatność wzrasta jeśli nasza druga karta to Strażniczka lub Książe.
-	\item Baron - premiowane gdy mamy drugą kartę silniejszą niż może mieć przeciwnik.
-	\item Pokojówka - im silniejszą posiadamy drugą kartę, tym bardziej warto ją zagrać.
+	\item Strażniczka - ocena zagrania wzrasta gdy pozwala wyeliminować przeciwnika.
+	\item Kapłan - w ujęciu chwili jest to karta neutralna i ocena jej zagrania będzie zawsze stała.
+	\item Baron - ocena zagrania wzrasta gdy mamy drugą kartę silniejszą niż może mieć przeciwnik.
+	\item Pokojówka - podobnie jak w przypadku kapłana, ocena zagrania karty będzie stała.
 	\item Książę - ocena wzrasta z prawdopodobieństwem Księżniczki u przeciwnika, lub gdy druga posiadana karta ma mniejszą siłę niż może mieć przeciwnik (wtedy zagrywana na siebie)
 	\item Król - premiowane gdy przeciwnik ma Księżniczkę lub Hrabinę.
 	\item Hrabina - karta neutralna, jednak musimy ją zagrać w określonych sytuacjach.
-	\item Księżniczka - nie powinna być nigdy wyrzucona.
+	\item Księżniczka - nie może być nigdy wyrzucona.
 	\item Dodatkowo, jeśli oba zagrania mają taką samą wartość, powinna być podjęta decyzja o zagraniu karty o niższej wartości.
 \end{itemize}
 
@@ -88,10 +87,10 @@ Wyjście - podjęta decyzja
 Skróty: DK - druga karta w ręce, $W_{(n)}$ - wartość karty
 \begin{itemize}
 	\item $F_{(Strazniczka)} = 1 + Max_{(P_{(Zbior\_kart - \{Strazniczka\})})} +0.08$
-	\item $F_{(Kaplan)} = 1 + 0.25 * (DK==Ksiaze \lor DK==Strazniczka) +0.07$
+	\item $F_{(Kaplan)} = 1 + +0.07$
 	\item $F_{(Baron)} = 1 + \sum P_{Zbior\_kart\_o\_mniejszej\_sile} - \sum P_{Zbior\_kart\_o\_wiekszej\_sile} +0.06$
-	\item $F_{(Pokojowka)} = 1 + 0.25 * (W_{(DK)} - W_{(Pokojowka)} )+0.05$
-	\item $F_{(Ksiaze)} = 1 + P_{(Ksiezniczka)} + 0.1*(W_{DK}<5)+0.04$ 
+	\item $F_{(Pokojowka)} = 1 + 0.05$
+	\item $F_{(Ksiaze)} = 1 + P_{(Ksiezniczka)} + 0.1*(W_{DK}<5)+0.04$ % TODO
 	\item $F_{(Krol)} = 1 + P_{(\{Ksiezniczka, Hrabina\})}+0.03$
 	\item $ F_{(Hrabina)} = \left\{ 
 								\begin{array}{ll}

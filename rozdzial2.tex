@@ -22,6 +22,7 @@ Love Letter rozgrywa się jako serię rund. Grę wygrywa gracz o następującej 
 	\item 5 w grze na 3 graczy,
 	\item 4 w grze na 4 graczy.
 \end{itemize}
+Każda runda dzieli się na tury, w których naprzemiennie jeden z graczy wykonuje ruch. Grę wygrywa ten z nich, który na końcu ostatniej tury posiada kartę o wyższym numerze.
 
 Ustawienie początkowe każdej rundy wygląda następująco:
 \begin{itemize}
@@ -99,7 +100,6 @@ Rysunek \ref{fig:Love_Letter_Card_Countess} przedstawia kartę typu Hrabina. Ta 
 Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Księżniczka. Zagranie tej karty oznacza natychmiastową przegraną w rundzie. Ta zasada działa również, gdy gracz został zmuszony do zagrania tej karty, np. przez efekt karty Książe.
 \clearpage
 
-
 \section{Analiza złożoności problemu}
 \label{sec:opisProblemu}
 Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna. W związku z tym powstaje pytanie, czy istnieje strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ optymalizująca podejmowanie decyzji w taki sposób, by zwiększać szansę wygrania gry. Dla uproszczenia założyłem, że gra będzie rozgrywana przez dwóch graczy. Dodatkowo, by ustandaryzować pewne pojęcia, wprowadziłem następujące definicje:
@@ -141,3 +141,32 @@ Na podstawie powyższego można oszacować, że możliwych scenariuszy dla danej
 \end{center}
 
 Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystycznej wszystkich dostępnych scenariuszy jest problemem \textit{NP-trudnym}. Z tego powodu, zamiast odpowiadać na pytanie "Jaka jest najlepsza strategia podejmowania decyzji?", dużo łatwiej będzie odpowiedzieć na pytanie "Która z podanych strategii jest najlepsza?", gdyż jest to charakterystyczna cecha problemów klasy \textit{NP}. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji.
+
+
+\section{Model matematyczny problemu}
+Ponieważ każda runda składa się z ciągu wykonywanych przez graczy tur, których stan zależy od podjętej wcześniej decyzji, to model matematyczny problemu można przedstawić za pomocą programowania dynamicznego:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{Resources/Schemat_Strategii.png}
+	\caption{Schemat programowania dynamicznego} \label{fig:Schemat_Strategii}
+\end{figure}
+Gdzie wyróżnić należy następujące pojęcia:
+\begin{itemize}
+	\item n - tura gry
+	\item $s_{n-1}$ - stan wejściowy
+	\item $x_n \in X_n$ - podjęta decyzja
+	\item $s_{n-1} \in S_n$ - stan wyjściowy
+	\item $X_n$ - zbiór dopuszczalnych decyzji dla etapu n-tego
+	\item $S_n$ - zbiór dopuszczalnych stanów dla etapu n-tego
+	\item $T_i$ - funkcja przejścia
+	\item $Q$ - funkcja celu
+	\item $q_n$ - funkcja oceniająca etap n-ty.
+\end{itemize}
+Funkcja przejścia $T_i$ wynika bezpośrednio z opisanych wcześniej zasad, pozostaje więc opisać $Q$ oraz $q_n$. Zgodnie z zasadami, by wygrać rundę, musimy posiadać kartę o wyższym numerze niż przeciwnik na końcu ostatniej tury, z tego wynika, że:
+\begin{itemize}
+	\item $Q = q_k \rightarrow max$, gdzie k to numer ostatniej tury
+	\item $q_n = SK_{(karta)}$, gdzie $SK_{(karta)}$ to siła karty posiadanej w ręce na końcu tury
+\end{itemize}
+
+
