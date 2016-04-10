@@ -100,22 +100,25 @@ Rysunek \ref{fig:Love_Letter_Card_Countess} przedstawia kartę typu Hrabina. Ta 
 Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Księżniczka. Zagranie tej karty oznacza natychmiastową przegraną w rundzie. Ta zasada działa również, gdy gracz został zmuszony do zagrania tej karty, np. przez efekt karty Książe.
 \clearpage
 
-\section{Analiza złożoności problemu}
+\section{Definicja i analiza problemu}
 \label{sec:opisProblemu}
-Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna. W związku z tym powstaje pytanie, czy istnieje strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ optymalizująca podejmowanie decyzji w taki sposób, by zwiększać szansę wygrania gry. Dla uproszczenia założyłem, że gra będzie rozgrywana przez dwóch graczy. Dodatkowo, by ustandaryzować pewne pojęcia, wprowadziłem następujące definicje:
+Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna, więc można ją przedstawić jako problem optymalizacyjny$^{[\ref{bib:wiki_ProblemOptymalizacyjny}]}$. W związku z tym powstaje również pytanie, jaka jest najlepsza strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ maksymalizująca prawdopodobieństwo wygrania gry. Dla dalszych rozważań zakładam, że w gra toczy się pomiędzy dwoma graczami.
+
+Najprostszym sposobem na znalezienie takiej strategii, byłoby stworzenie drzew probabilistycznych dla wszystkich możliwych stanów początkowych gry a następnie opracowanie algorytmu podejmowania decyzji opartego na danych statystycznych. Jednakże ilość i rozmiar tych drzew może być zbyt duża by znaleźć rozwiązanie problemu w rozsądnym czasie. Z tego powodu postanowiłem najpierw oszacować ile jest wszystkich możliwych przebiegów gry. Nim przejdę do obliczeń, wprowadzę kilka definicji by ustandaryzować używane pojęcia:
 \begin{itemize}
-	\item \textit{Zagranie} - jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
-	\item \textit{Decyzja} - to wybór zagrania, które zostanie użyte jako ruch w grze. Podjęcie decyzji to inaczej zwrócenie zagrania przez algorytm.
-	\item \textit{Strategia} - inaczej algorytm, który podejmuje decyzje. 
-	\item \textit{Scenariusz} - chronologiczny spis decyzji podjętych przez obu graczy, od początku do końca rundy.
+	\item \textit{Decyzja} - inaczej \textit{Zagranie}, jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
+	\item \textit{Podjęcie decyzji} - to wybór zagrania, które zostanie użyte jako ruch w grze. Podjęcie decyzji to inaczej zwrócenie zagrania przez algorytm.
+	\item \textit{Strategia} - algorytm, który podejmuje decyzje. 
+	\item \textit{Scenariusz} - inaczej przebieg gry, chronologiczny spis decyzji podjętych przez obu graczy od początku do końca rundy; Jedna ze ścieżek w drzewie probabilistycznym dla danego stanu początkowego rundy.
 \end{itemize}
 
-By móc opracować najlepszą strategię, musiałbym znać wszystkie możliwe scenariusze gry, na podstawie których można by ustalić statystycznie które zagranie w danym momencie jest najbardziej opłacalne. Na scenariusz wpływ mają następujące czynniki:
+\subsection*{Analiza złożoności}
+Na przebieg każdej rundy wpływ mają następujące czynniki:
 \begin{itemize}
 	\item Kolejność kart w talii na początku rundy
-	\item Sposób zagrania karty
+	\item Zagrywanie kart przez graczy
 \end{itemize}
-Dokonałem więc oszacowania, ile takich scenariuszy istnieje. W każdej rundzie bierze udział wszystkie 16 kart. Zakładając, że każda z nich jest unikalna, to  liczba wszystkich możliwych kolejności kart to permutacja, którą obliczam wzorem podanym w [\ref{bib:tabliceMatematyczne}]:
+Zacząłem od oszacowania ilości możliwych stanów początkowych. W każdej rundzie bierze udział wszystkie 16 kart. Zakładając, że każda z nich jest unikalna, to  liczba wszystkich możliwych kolejności kart to permutacja, którą obliczam wzorem podanym w [\ref{bib:tabliceMatematyczne}]:
 
 \begin{center}
 	$P_n = n!$ , gdzie $n\in N^+$
@@ -127,12 +130,12 @@ Dla  $n$ = 16, $n!=20 922 789 888 000$. Część kart się powtarza, więc tę l
 	$20 922 789 888 000 / 32 = 54486432000$ - 54mld, 864mln i 432 tys.
 \end{center}
 
-Nie jest to jednak liczba wszystkich dostępnych scenariuszy. W każdej turze gracz ma do wyboru co najmniej dwa zagrania, ponieważ tyle ma dostępnych kart. Jednakże, w przypadku karty Strażniczki możliwości jest więcej, ponieważ można wytypować 7 typów kart, a w jednym przypadku może to pokonać przeciwnika i skończyć rundę. W związku z tym, by oszacować liczbę scenariuszy na zadanej kolejności kart, posłużyłem się następującym przybliżeniem:
+Nie jest to jednak liczba wszystkich dostępnych scenariuszy. W każdej turze gracz ma do wyboru co najmniej dwa zagrania, ponieważ tyle ma dostępnych kart. Jednakże, w przypadku karty Strażniczki możliwości jest więcej, ponieważ można wytypować 7 typów kart, a w jednym przypadku może to pokonać przeciwnika i skończyć rundę. W związku z tym, by oszacować liczbę scenariuszy na zadanej kolejności kart, posłużyłem się następującą metodą:
 \begin{itemize}
 	\item zgodnie z zasadami gry dla dwóch graczy, odrzucam łącznie 4 pierwsze karty (1 zakryta, 3 odkryte).
 	\item rozdaję po 1 karcie obu graczom. Pozostaje 10 kart w talii.
 	\item zakładając, że żadna decyzja nie spowoduje przerwania rundy, gracze łącznie 10 razy pociągną kartę, więc podejmą 10 decyzji.
-	\item w uproszczeniu, każdą decyzję można przedstawić jako 0 (zagranie posiadanej karty) lub 1 (zagranie pociągniętej karty).
+	\item każdą decyzję można przedstawić jako 0 (zagranie posiadanej karty) lub 1 (zagranie pociągniętej karty) - w tym miejscu jeśli istnieje możliwość zagrania karty w wieloraki sposób, upraszczam to do jednego zagrania niekończącego rundę.
 \end{itemize}
 Na podstawie powyższego można oszacować, że możliwych scenariuszy dla danej kolejności kart jest $2^{10}=1024$. Łącząc tę liczbę z ilością możliwych kolejności kart, utrzymujemy przybliżoną liczbę scenariuszy:
 
@@ -140,33 +143,27 @@ Na podstawie powyższego można oszacować, że możliwych scenariuszy dla danej
 	$54486432000 * 1024 = 55794106368000 \approx  5.8*10^{12}$
 \end{center}
 
-Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystycznej wszystkich dostępnych scenariuszy jest problemem \textit{NP-trudnym}. Z tego powodu, zamiast odpowiadać na pytanie "Jaka jest najlepsza strategia podejmowania decyzji?", dużo łatwiej będzie odpowiedzieć na pytanie "Która z podanych strategii jest najlepsza?", gdyż jest to charakterystyczna cecha problemów klasy \textit{NP}. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji.
+Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystycznej wszystkich dostępnych scenariuszy jest problemem \textit{NP-trudnym}. Z tego powodu, zamiast odpowiadać na pytanie ,,Jaka jest najlepsza strategia podejmowania decyzji?'', dużo łatwiej będzie odpowiedzieć na pytanie ,,która z podanych strategii jest najlepsza?'', gdyż jest to charakterystyczna cecha problemów klasy \textit{NP}. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji. Pozostaje jeszcze sformalizować przedstawiony problem za pomocą modelu matematycznego.
 
 
 \section{Model matematyczny problemu}
-Ponieważ każda runda składa się z ciągu wykonywanych przez graczy tur, których stan zależy od podjętej wcześniej decyzji, to model matematyczny problemu optymalizacyjnego można przedstawić za pomocą programowania dynamicznego:
+Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapów (tur), gdzie w każdym etapie gracz podejmuje decyzję, a stan początkowy następnego etapu jest wynikiem podjętej decyzji oraz reakcji gracza przeciwnego. Takie zachowanie można przedstawić jako wieloetapowy proces podejmowania decyzji w warunkach niepewności$^{[\ref{bib:wiki_TeoriaDecyzji}]}$, który ogólnie zdefiniowałem następująco: 
 
+\clearpage
 \begin{figure}[h]
 	\centering
-	\includegraphics[]{Resources/Schemat_Strategii.png}
-	\caption{Schemat programowania dynamicznego} \label{fig:Schemat_Strategii}
+	\includegraphics[]{Resources/Schemat_Modelu.png}
+	\caption{Schemat modelu} \label{fig:Schemat_Modelu}
 \end{figure}
-Gdzie wyróżnić należy następujące pojęcia:
 \begin{itemize}
-	\item n - tura gry
-	\item $s_{n-1}$ - stan wejściowy
+	\item n - etap gry
+	\item $s_{n-1} \in S_{n-1}$ - stan wejściowy
 	\item $x_n \in X_n$ - podjęta decyzja
-	\item $s_{n-1} \in S_n$ - stan wyjściowy
+	\item $s_{n} \in S_n$ - stan wyjściowy
 	\item $X_n$ - zbiór dopuszczalnych decyzji dla etapu n-tego
 	\item $S_n$ - zbiór dopuszczalnych stanów dla etapu n-tego
-	\item $T_i$ - funkcja przejścia
-	\item $Q$ - funkcja celu
-	\item $q_n$ - funkcja oceniająca etap n-ty.
-	\item $F_{(S_(n-1)}$ - funkcja zwracająca $x_n$
+	\item $T_n: \{x_n, s_{n-1} \} \rightarrow \{s_n, X_n\}$ - funkcja przejścia
+	\item $Q = max(P_w)$ - funkcja celu, gdzie $P_w$ oznacza prawdopodobieństwo wygranej
+	\item $D_n: \{X_n, s_{n-1}\} \rightarrow x_n$ - strategia podejmowania decyzji
 \end{itemize}
-Funkcja przejścia $T_i$ wynika bezpośrednio z opisanych wcześniej zasad, pozostaje więc opisać $Q$ oraz $q_n$. Zgodnie z zasadami, by wygrać rundę, musimy posiadać kartę o wyższym numerze niż przeciwnik na końcu ostatniej tury, z tego wynika, że:
-\begin{itemize}
-	\item $Q = q_k \rightarrow max$, gdzie k to numer ostatniej tury
-	\item $q_n = SK_{(karta)}$, gdzie $SK_{(karta)}$ to siła karty posiadanej w ręce na końcu tury
-\end{itemize}
-By rozwiązać przedstawiony problem optymalizacyjny należy zdefiniować $F_{(S_(n-1)}$, czym zajmuję się w następnym rozdziale.
+Funkcja przejścia $T_n$ wynika bezpośrednio z opisanych wcześniej zasad oraz zawiera reakcję gracza przeciwnego, w efekcie zwracając jeden z możliwych stanów należących do $S_n$ oraz zbiór dopuszczalnych decyzji $X_n$. Również wszystkie $S_0 .. S_n$ oraz $X_0 .. X_n$ wynikają z zasad gry. Jedynym nieokreślonym elementem pozostaje $D_n$, a moje propozycje na jego zdefiniowanie przedstawiam w następnym rozdziale.
