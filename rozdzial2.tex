@@ -150,7 +150,7 @@ Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystyc
 Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapów (tur), gdzie w każdym etapie gracz podejmuje decyzję, a stan początkowy następnego etapu jest wynikiem podjętej decyzji oraz reakcji gracza przeciwnego. Takie zachowanie można przedstawić jako wieloetapowy proces podejmowania decyzji w warunkach niepewności$^{[\ref{bib:wiki_TeoriaDecyzji}]}$, który ogólnie zdefiniowałem następująco: 
 
 \clearpage
-\begin{figure}[h]
+\begin{figure}[h]  % TODO poprawić by xn było xi na obrazku, bo i to |X|
 	\centering
 	\includegraphics[]{Resources/Schemat_Modelu.png}
 	\caption{Schemat modelu} \label{fig:Schemat_Modelu}
@@ -158,11 +158,11 @@ Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapó
 \begin{itemize}
 	\item n - etap gry
 	\item $s_{n-1} \in S_{n-1}$ - stan wejściowy
-	\item $x_n \in X_n$ - podjęta decyzja
+	\item $x_i \in X_n$ - podjęta decyzja
 	\item $s_{n} \in S_n$ - stan wyjściowy
 	\item $X_n$ - zbiór dopuszczalnych decyzji dla etapu n-tego
 	\item $S_n$ - zbiór dopuszczalnych stanów dla etapu n-tego
-	\item $T_n: \{x_n, s_{n-1} \} \rightarrow \{s_n, X_n\}$ - funkcja przejścia
+	\item $T_n: \{x_i, s_{n-1} \} \rightarrow \{s_n, X_n\}$ - funkcja przejścia
 	\item $Q = max(P_w)$ - funkcja celu, gdzie $P_w$ oznacza prawdopodobieństwo wygranej
 	\item $D_n: \{X_n, s_{n-1}\} \rightarrow x_n$ - strategia podejmowania decyzji
 \end{itemize}

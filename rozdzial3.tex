@@ -24,12 +24,7 @@ Rozważmy przypadek, w którym algorytm musi podjąć decyzję o zagraniu karty 
 Wobec powyższego, prawdopodobieństwo wystąpienia kart u przeciwnika rozkłada się następująco:
 
 
-\begin{center}
-	Tutaj będzie tabelka zamiast na następnej stronie. %TODO 
-\end{center}
-
-\clearpage
-\begin{table}[t]
+\begin{table}[h]
 	\caption{Przykład rozkładu prawdopodobieństwa}
 	\centering
 		\begin{tabular}{|l|r|}
@@ -54,7 +49,7 @@ Po podstawieniu otrzymujemy:
 \begin{center}
  $F_{(Strazniczka)}=1.2$ i $F_{(Baron)} = 0.3$
  \\
- $F_{(Strazniczka)}>F_{(Baron)} => Decyzja=Zagranie_{(Pokojowka, Kaplan)}$ 
+ $F_{(Strazniczka)}>F_{(Baron)} => Decyzja=Zagranie_{(Pokojowka + Kaplan)}$ 
  \end{center} 
 
 Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem karty Kapłana. Jak jednak na podstawie powyższego wzoru ocenić zagranie karty Kapłana, Pokojówki lub Króla? Każda z nich wymaga unikalnej funkcji kryterialnej. Mając na uwadze, że w kontekście strategii zachłannej decyzja zawsze powinna być optymalna w ujęciu chwili, ustaliłem następujące warunki oceny zagrania karty:
@@ -70,37 +65,82 @@ Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem kar
 	\item Dodatkowo, jeśli oba zagrania mają taką samą wartość, powinna być podjęta decyzja o zagraniu karty o niższej wartości.
 \end{itemize}
 
-\subsection{Zapis formalny}
-\textbf{Strategia zachłanna:}
+\subsection{Zapis pseudokodem}
+Strategię zachłanną $D_n$ najlepiej przedstawić za pomocą pseudokodu:
+\begin{algorithmic}[1]
+	\Function{$D_n$}{$X_n,s_{n-1}$}
+		\ForAll{ rodzajKarty } \Comment Tworzenie tablicy prawdopodobieństwa
+			\State $P[rodzajKarty] \gets$  prawdopodobieństwo wystąpienia karty danego rodzaju u przeciwnika	
+		\EndFor
+		\ForAll{ $x_i$ } \Comment Obliczenie funkcji kryterialnej dla każdego zagrania
+				\State K[$x_i$] $\gets$ $F(x_i, P[])$
+		\EndFor
+		
+		\State $ decyzja \gets x_0$ \Comment Szukanie zagrania o najwyższej wycenie
+		\ForAll{ $x_i$ } 
+			\If {$K[decyzja] < K[x_i]$}
+				\State $decyzja \gets x_i$
+			\EndIf
+		\EndFor
 
-Wejście - obecny stan gry
+		\State \textbf{return} $decyzja$
+	\EndFunction
+\end{algorithmic}
 
-Wyjście - podjęta decyzja
-\begin{enumerate}
-	\item Stwórz tablicę prawdopodobieństwa $P_{(Karta)}$ wystąpienia karty u przeciwnika.
-	\item Dla obu posiadanych kart oblicz wartość funkcji kryterialnej $F_{(Karta)}$.
-	\item Jako decyzję zwróć zagranie o najwyższej ocenie.
-\end{enumerate}
+Gdzie funkcja kryterialna wygląda następująco:
+\begin{algorithmic}[1]
+	\Function{$F$}{$x_i,P[]$}	
+		\Switch{$x_i$}
+			\Case{Strażniczka + Kaplan} \Comment Zagranie Strażniczki na dany typ karty
+				\State \textbf{return} $ 1 + P[Kaplan] + 0.08 $
+			\EndCase
+			\Case{Strażniczka + Baron}
+				\State \textbf{return} $ 1 + P[Baron]  + 0.08 $
+			\EndCase
+			\State ...
+			\Case{Strażniczka + Księżniczka}
+				\State \textbf{return} $ 1 + P[Ksiezniczka]  + 0.08 $
+			\EndCase
+			\Case{Kapłan}
+				\State \textbf{return} $ 1 + 0.07 $
+			\EndCase
+			\Case{Baron}	\Comment Kryterium zależy od wartości W() drugiej posiadanej karty (DK)
+				\State $ szansePrzegranej \gets 0$ 
+				\State $ szanseWygranej \gets 0$ 
+				\ForAll {$typKarty$}
+					\If {$ W(DK) < W(typKarty) $}  
+						\State $szansePrzegranej \gets szansePrzegranej + P[typKarty]$ 
+					\ElsIf {$ W(DK) > W(typKarty) $}
+					\State $szanseWygranej \gets szanseWygranej + P[typKarty]$ 
+					\EndIf
+				\EndFor
+				\State \textbf{return} $ 1 - szansePrzegranej + szanseWygranej + 0.06 $
+			\EndCase
+			\Case{Pokojówka}
+				\State \textbf{return} $ 1 + 0.05 $
+			\EndCase
+			\Case{Książe na przeciwnika}
+				\State \textbf{return} $ 1 + P[Ksiezniczka] + 0.04 $
+			\EndCase
+			\Case{Książe na siebie} 
+				\State \textbf{return} $ 1 + 0.04 $
+			\EndCase
+			\Case{Król}
+				\State \textbf{return} $ 1 + P[Ksiezniczka] + P[Hrabina] + 0.03 $
+			\EndCase
+			\Case{Hrabina, gdy druga posiadana karta to Król lub Książe}
+				\State \textbf{return} $ 10 + 0.02 $
+			\EndCase
+			\Case{Hrabina}
+				\State \textbf{return} $ 1 + 0.02 $
+			\EndCase
+			\Case{Księżniczka}
+				\State \textbf{return} $ 0 $
+			\EndCase
+		\EndSwitch
+	\EndFunction
+\end{algorithmic}
 
-\textbf{Funkcja kryterialna $F_{(Karta)}$:}
-
-Skróty: DK - druga karta w ręce, $W_{(n)}$ - wartość karty
-\begin{itemize}
-	\item $F_{(Strazniczka)} = 1 + Max_{(P_{(Zbior\_kart - \{Strazniczka\})})} +0.08$
-	\item $F_{(Kaplan)} = 1 + +0.07$
-	\item $F_{(Baron)} = 1 + \sum P_{Zbior\_kart\_o\_mniejszej\_sile} - \sum P_{Zbior\_kart\_o\_wiekszej\_sile} +0.06$
-	\item $F_{(Pokojowka)} = 1 + 0.05$
-	\item $F_{(Ksiaze)} = 1 + P_{(Ksiezniczka)} + 0.1*(W_{DK}<5)+0.04$ % TODO
-	\item $F_{(Krol)} = 1 + P_{(\{Ksiezniczka, Hrabina\})}+0.03$
-	\item $ F_{(Hrabina)} = \left\{ 
-								\begin{array}{ll}
-									10 & \mbox{if $DK = Ksiaze$}; \\
-									10 & \mbox{if $DK = Krol$}; \\
-									1.02 & $w innym wypadku$.
-								\end{array} 
-							\right.$	
-	\item $F_{(Ksiezniczka)} = 0$
-\end{itemize}
 		
 \section{Algorytm Monte Carlo Tree Search}
 \label{sec:algMCTS}
