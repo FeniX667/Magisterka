@@ -11,6 +11,18 @@ Jest to najprostszy algorytm podejmowania decyzji. Na wejściu otrzymuje listę 
 \subsection{Sposób wykorzystania}
 Z uwagi na prostotę tego algorytmu, używam go jako punktu odniesienia dla wszystkich pozostałych strategii. Dla każdej z nich algorytm losowy spełnia rolę drugiego gracza i w ten sposób można łatwo porównać je ze sobą. Dla tego algorytmu zastosowałem jedną drobną modyfikację: nigdy nie podejmie decyzji o zagraniu Księżniczki - oznacza to natychmiastową przegraną niezależnie od momentu gry, co mogłoby mocno wypaczyć wyniki innych algorytmów.
 
+\subsection{Zapis pseudokodem}
+\begin{algorithmic}[1]
+	\Function{$D_n$}{$X_n,s_{n-1}$}	
+		\ForAll{ $x_i$ } 
+			\If {$x_i ==$ Księżniczka}
+				\State $X_n \gets X_n - x_i$
+			\EndIf
+		\EndFor
+	\State \textbf{return} wylosujJeden($X_n$) 
+	\EndFunction
+\end{algorithmic}
+
 \section{Algorytm zachłanny}
 \label{sec:algZach}
 \subsection{Opis}
@@ -66,13 +78,12 @@ Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem kar
 \end{itemize}
 
 \subsection{Zapis pseudokodem}
-Strategię zachłanną $D_n$ najlepiej przedstawić za pomocą pseudokodu:
 \begin{algorithmic}[1]
 	\Function{$D_n$}{$X_n,s_{n-1}$}
-		\ForAll{ rodzajKarty } \Comment Tworzenie tablicy prawdopodobieństwa
+		\ForAll{ $rodzajKarty \in rodzajeKart$ } \Comment Tworzenie tablicy prawdopodobieństwa
 			\State $P[rodzajKarty] \gets$  prawdopodobieństwo wystąpienia karty danego rodzaju u przeciwnika	
 		\EndFor
-		\ForAll{ $x_i$ } \Comment Obliczenie funkcji kryterialnej dla każdego zagrania
+		\ForAll{ $x_i \in X_n$ } \Comment Obliczenie funkcji kryterialnej dla każdego zagrania
 				\State K[$x_i$] $\gets$ $F(x_i, P[])$
 		\EndFor
 		
@@ -141,6 +152,33 @@ Gdzie funkcja kryterialna wygląda następująco:
 	\EndFunction
 \end{algorithmic}
 
-		
+
+\section{Algorytm min-max}
+\label{sec:minmax}
+\subsection{Opis}
+Algorytm minimaksowy polega na ,,minimalizowaniu maksymalnych możliwych strat'' bądź alternatywnie na ,,maksymalizacji minimalnego zysku''$^{[\ref{bib:wiki_minMax}]}$. Zgodnie z [\ref{bib:wazniak_minMax}] często stosuje się go do gier o następujących zasadach:
+\begin{itemize}
+	\item występuje dwóch graczy
+	\item ruchy wykonywane są naprzemiennie
+	\item w każdym stanie istnieje skończona liczba decyzji do podjęcia
+	\item stan i podjęta decyzja jednoznacznie wyznaczają stan następny
+	\item każdy stan może zakwalifikować do jednej z następujących kategorii:
+	\begin{itemize}
+		\item wygrana pierwszego gracza
+		\item wygrana drugiego gracza
+		\item remis
+		\item sytuacja nierozstrzygnięta
+	\end{itemize}
+\end{itemize}
+Co więcej, model algorytmu minimaksowego dopuszcza liczbową ocenę skali wygranej, co wykorzystam we własnej implementacji.
+
+\subsection{Sposób wykorzystania}
+W podanym powyżej opisie, gra Love Letter niezgodna jest w punkcie czwartym. Ze względu na niepewność jaką kartę posiada przeciwnik, jaką pociągnie ze stosu w swojej turze, oraz jaki wykona ruch, podjęcie decyzji $x_i$ w stanie $s_{n-1}$ nie określa jednoznacznie stanu $s_n$. Mimo to, podobnie jak w algorytmie zachłannym, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować jego maksymalny zysk. Do tej pory jednak nie było potrzeby zdefiniowania zysku i straty w kontekście gry Love Letter, ponieważ strategia zachłanna analizuje decyzje głównie pod kątem możliwości natychmiastowej wygranej. W algorytmie minimaksowym musimy jeszcze wziąć pod uwagę możliwe zagranie przeciwnika, pojawia się więc kwestia określenia czym właściwie jest zysk i strata.
+
+Rozważmy ten sam przypadek co w poprzednim podrozdziale:
+$S_0: {G1:Strażniczka, Baron ; G2:nzn ; O: Król, Książe, Pokojówka, nzn} $
+
+\subsection{Zapis pseudokodem}
+
 \section{Algorytm Monte Carlo Tree Search}
 \label{sec:algMCTS}
