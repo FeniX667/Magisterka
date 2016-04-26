@@ -19,18 +19,18 @@
 \contentsline {section}{\numberline {3.3}Algorytm min-max}{23}
 \contentsline {subsection}{\numberline {3.3.1}Opis}{23}
 \contentsline {subsection}{\numberline {3.3.2}Spos\IeC {\'o}b wykorzystania}{24}
-\contentsline {subsection}{\numberline {3.3.3}Zapis pseudokodem}{24}
-\contentsline {section}{\numberline {3.4}Algorytm Monte Carlo Tree Search}{24}
-\contentsline {chapter}{\numberline {4}Implementacja}{25}
-\contentsline {section}{\numberline {4.1}Analiza wymaga\IeC {\'n}}{25}
-\contentsline {section}{\numberline {4.2}Koncepcja wykonania}{25}
-\contentsline {section}{\numberline {4.3}Wykorzystane technologie}{25}
-\contentsline {section}{\numberline {4.4}Diagramy}{25}
-\contentsline {section}{\numberline {4.5}Prezentacja systemu}{25}
-\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{25}
-\contentsline {chapter}{\numberline {5}Rezultaty}{27}
-\contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{27}
-\contentsline {section}{\numberline {5.2}Statystyki zwyci\IeC {\k e}stw}{27}
-\contentsline {section}{\numberline {5.3}Zbie\IeC {\.z}no\IeC {\'s}\IeC {\'c} algorytm\IeC {\'o}w podejmowania decyzji}{27}
-\contentsline {section}{\numberline {5.4}Wnioski}{27}
-\contentsline {chapter}{\numberline {6}Podsumowanie}{29}
+\contentsline {subsection}{\numberline {3.3.3}Zapis pseudokodem}{25}
+\contentsline {section}{\numberline {3.4}Algorytm Monte Carlo Tree Search}{25}
+\contentsline {chapter}{\numberline {4}Implementacja}{27}
+\contentsline {section}{\numberline {4.1}Analiza wymaga\IeC {\'n}}{27}
+\contentsline {section}{\numberline {4.2}Koncepcja wykonania}{27}
+\contentsline {section}{\numberline {4.3}Wykorzystane technologie}{27}
+\contentsline {section}{\numberline {4.4}Diagramy}{27}
+\contentsline {section}{\numberline {4.5}Prezentacja systemu}{27}
+\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{27}
+\contentsline {chapter}{\numberline {5}Rezultaty}{29}
+\contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{29}
+\contentsline {section}{\numberline {5.2}Statystyki zwyci\IeC {\k e}stw}{29}
+\contentsline {section}{\numberline {5.3}Zbie\IeC {\.z}no\IeC {\'s}\IeC {\'c} algorytm\IeC {\'o}w podejmowania decyzji}{29}
+\contentsline {section}{\numberline {5.4}Wnioski}{29}
+\contentsline {chapter}{\numberline {6}Podsumowanie}{31}
