@@ -13,7 +13,7 @@ Z uwagi na prostotę tego algorytmu, używam go jako punktu odniesienia dla wszy
 
 \subsection{Zapis pseudokodem}
 \begin{algorithmic}[1]
-	\Function{$D_n$}{$X_n,s_{n-1}$}	
+	\Function{$D_{losowa}$}{$X_n,s_{n-1}$}	
 		\ForAll{ $x_i$ } 
 			\If {$x_i ==$ Księżniczka}
 				\State $X_n \gets X_n - x_i$
@@ -54,14 +54,14 @@ Wobec powyższego, prawdopodobieństwo wystąpienia kart u przeciwnika rozkłada
 Zagranie karty Baron oznacza porównanie drugiej karty z kartą przeciwnika. Łatwo policzyć, że w 70\% przypadków skończyłoby to się porażką, a w 30\% nie było by żadnego efektu. Drugim dostępnym ruchem jest zagranie karty Strażniczki, a w jej przypadku najlepszym wyborem jest wytypowanie Kapłana, co daje 20\% szans na zwycięstwo i 80\% szans, że nie nastąpi żaden efekt. Zauważmy, że gdybyśmy wliczali posiadane karty do obliczenia prawdopodobieństwa, wystąpienie Barona i Kapłana byłoby tak samo możliwe. W takich przypadkach algorytm powinien zawsze celować w kartę z wyższym numerem. By formalnie stwierdzić, jaka decyzja powinna zostać podjęta, musimy obliczyć funkcję kryterialną dla dostępnych zagrań i wybrać to zagranie, dla której funkcja przyjmuje wyższy wynik. Przyjmijmy, że funkcja kryterialna wygląda następująco:
 
 \begin{center}
-	$F(karta) = 1 + prawdopodobienstwo\_wygranej - prawdopodobienstwo\_przegranej$
+	$F(Karta) = 1 + prawdopodobienstwo\_wygranej - prawdopodobienstwo\_przegranej$
 \end{center}
 Po podstawieniu otrzymujemy:
 \begin{center}
  $F(Strazniczka)=1.2$ i $F(Baron) = 0.3$
- \\
+ 
  $F(Strazniczka)>F(Baron) => Decyzja=Zagranie(Pokojowka + Kaplan)$ 
- \end{center} 
+\end{center} 
 
 Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem karty Kapłana. Jak jednak na podstawie powyższego wzoru ocenić zagranie karty Kapłana, Pokojówki lub Króla? Każda z nich wymaga unikalnej funkcji kryterialnej. Mając na uwadze, że w kontekście strategii zachłannej decyzja zawsze powinna być optymalna w ujęciu chwili, ustaliłem następujące warunki oceny zagrania karty:
 \begin{itemize}
@@ -78,21 +78,16 @@ Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem kar
 
 \subsection{Zapis pseudokodem}
 \begin{algorithmic}[1]
-	\Function{$D_n$}{$X_n,s_{n-1}$}
+	\Function{$D_{zachlanna}$}{$X_n,s_{n-1}$}
 		\ForAll{ $rodzajKarty \in rodzajeKart$ } \Comment Tworzenie tablicy prawdopodobieństwa
 			\State $P[rodzajKarty] \gets$  prawdopodobieństwo wystąpienia karty danego rodzaju u przeciwnika	
 		\EndFor
+		\State $ decyzja \gets NULL$ \Comment Szukanie zagrania o najwyższej wycenie
 		\ForAll{ $x_i \in X_n$ } \Comment Obliczenie funkcji kryterialnej dla każdego zagrania
-				\State K[$x_i$] $\gets$ $F(x_i, P[])$
-		\EndFor
-		
-		\State $ decyzja \gets x_0$ \Comment Szukanie zagrania o najwyższej wycenie
-		\ForAll{ $x_i$ } 
-			\If {$K[decyzja] < K[x_i]$}
-				\State $decyzja \gets x_i$
-			\EndIf
-		\EndFor
-
+				\If {$F(decyzja, P[] < F(x_i, P[]$}
+					\State $decyzja \gets x_i$
+				\EndIf
+		\EndFor		
 		\State \textbf{return} $decyzja$
 	\EndFunction
 \end{algorithmic}
@@ -173,31 +168,29 @@ Algorytm minimaksowy polega na ,,minimalizowaniu maksymalnych możliwych strat''
 		\item sytuacja nierozstrzygnięta
 	\end{itemize}
 \end{itemize}
-Co więcej, model algorytmu minimaksowego dopuszcza liczbową ocenę skali wygranej, co wykorzystam we własnej implementacji.
 
 \subsection{Sposób wykorzystania}
 W podanym powyżej opisie, gra Love Letter niezgodna jest w punkcie czwartym. Ze względu na niepewność jaką kartę posiada przeciwnik, jaką pociągnie ze stosu w swojej turze, oraz jaki wykona ruch, podjęcie decyzji $x_i$ w stanie $s_{n-1}$ nie określa jednoznacznie stanu $s_n$. Mimo to, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować naszą maksymalną stratę. Ponieważ zysk należy rozumieć jako zwiększenie szansy na wygraną (tak jak w strategii zachłannej), to strata oznacza zwiększenie szansy na przegraną. 
 
-Rozważmy scenariusz, w którym gracz pierwszy posiada kartę Księcia oraz Pokojówki. Na stosie pozostało 2 karty, 1 karta jest zakryta zgodnie z zasadami rozpoczęcia rundy i przeciwnik również posiada 1 kartę. Wśród tych 4 nieznanych graczowi kart są karty Strażniczki, Barona, Księcia oraz Księżniczki. Prawdopodobieństwo jaką kartę posiada przeciwnik jest równe dla każdego typu i wynosi 25\%. Zgodnie z funkcją kryterialną opisaną dla poprzedniej strategii, $F(Ksiaze) = 1.29$ i $F(Pokojowka) = 1.05$, więc zagranie Księcia maksymalizuje szansę na wygraną. Jeśli jednak weźmiemy pod uwagę, że w 75\% przypadków nie wygrywamy, wówczas musimy rozważyć odpowiedź przeciwnika. W tym wypadku jest 6 par kart które może posiadać przeciwnik, więc dla każdej z nich, zgodnie ze strategią zachłanną, należy obliczyć funkcję kryterialną oraz szansę na przegraną. Dodatkowo należy zauważyć, że z perspektywy przeciwnika w każdym przypadku gracz pierwszy ma inny rozkład prawdopodobieństwa wystąpienia karty. Pełne obliczenia znajdują się w tabeli poniżej.
+Rozważmy scenariusz, w którym gracz pierwszy posiada kartę Księcia oraz Pokojówki. Na stosie pozostało 2 karty, 1 karta jest zakryta zgodnie z zasadami rozpoczęcia rundy i przeciwnik również posiada 1 kartę. Wśród tych 4 nieznanych graczowi kart są karty Strażniczki, Barona, Księcia oraz Księżniczki. Prawdopodobieństwo wystąpienia każdej z nich u przeciwnika wynosi 25\% i razem stanowią one tablicę prawdopodobieństwa $P[]$. Przyjmijmy, że wykorzystywana w poprzedniej strategii funkcja kryterialna $F(Karta, P[])$ to maksymalizacja zysku i nazwijmy ją $F_{max}(Karta, P[])$  Zgodnie z jej definicją $F_{max}(Ksiaze, P[]) = 1.29$ i $F_{max}(Pokojowka, P[]) = 1.05$, więc zagranie Księcia maksymalizuje szansę na wygraną. Jeśli jednak weźmiemy pod uwagę, że w 75\% przypadków nie wygrywamy, wówczas musimy rozważyć odpowiedź przeciwnika. W tym wypadku jest 6 par kart które może posiadać przeciwnik, więc dla każdej z nich, zgodnie ze strategią zachłanną, należy obliczyć funkcję kryterialną oraz szansę na przegraną. Dodatkowo należy zauważyć, że z perspektywy przeciwnika w każdym przypadku gracz pierwszy ma inny rozkład prawdopodobieństwa wystąpienia karty. Pełne obliczenia znajdują się w tabeli poniżej.
 \begin{center}
-	Skróty : Str - Strażniczka; B - Baron; P-Pokojówka; K-e - Książę; K-a - Księżniczka
+	Skróty : \textit{Str} - Strażniczka; \textit{Bar} - Baron; \textit{Pok}-Pokojówka; \textit{K-e} - Książę; \textit{K-a} - Księżniczka
 	
 	
 	Gracz pierwszy po zagraniu Księcia posiada kartę Pokojówki.
 \end{center}
-
 \begin{table}[h]
-	\caption{Scenariusze reakcja przeciwnika}
+	\caption{Scenariusze reakcji przeciwnika na decyzję w stanie $s_{n-1}$}
 	\centering
 	\begin{tabular}{|l|c|r|r|r|}
 		\hline
 		\bf{Karty 1 i 2} & $P(Karta)$ pierwszego gracza  & $F(Karta_1)$ & $F(Karta_2)$ & Szanse przegranej	\\ \hline
-		Str ; B & P = K-e = K-a = 33.(3)\% & 1.41 & 0.6	& 33.(3)\% \\ \hline
-		Str ; K-e & P = B = K-a = 33.(3)\% & 1.41 & 1.37 & 33.(3)\%	\\ \hline
-		Str ; K-a & P = B = K-e = 33.(3)\% & 1.41 & 0 & 33.(3)\% \\ \hline
-		B ; K-e & Str = P = K-a = 33.(3)\% & 1.39 & 1.37 & 100\% \\ \hline
-		B ; K-a & Str = P = K-e = 33.(3)\% & 2.06 & 0 & 100\% \\ \hline
-		K-e ; K-a & Str = P = B = 33.(3)\% & 1.04 & 0 & 0\% \\ \hline
+		Str ; Bar & $P(\textit{Pok}) = P(\textit{K-e}) = P(\textit{K-a}) = 33.(3)\%$ & 1.41 & 0.6	& 33.(3)\% \\ \hline
+		Str ; K-e & $P(\textit{Pok}) = P(\textit{Bar}) = P(\textit{K-a}) = 33.(3)\%$ & 1.41 & 1.37 & 33.(3)\%	\\ \hline
+		Str ; K-a & $P(\textit{Str}) = P(\textit{Bar}) = P(\textit{K-e}) = 33.(3)\%$ & 1.41 & 0 & 33.(3)\% \\ \hline
+		Bar ; K-e & $P(\textit{Str}) = P(\textit{Pok}) = P(\textit{K-a}) = 33.(3)\%$ & 1.39 & 1.37 & 100\% \\ \hline
+		Bar ; K-a & $P(\textit{Str}) = P(\textit{Pok}) = P(\textit{K-e}) = 33.(3)\%$ & 2.06 & 0 & 100\% \\ \hline
+		K-e ; K-a & $P(\textit{Str}) = P(\textit{Pok}) = P(\textit{Bar}) = 33.(3)\%$ & 1.04 & 0 & 0\% \\ \hline
 	\end{tabular}
 \end{table}
 Każdy rozważany scenariusz ma taką samą szansę wystąpienia, czyli $\frac{1}{6}$. Statystycznie szansa na przegraną wynosi więc:
@@ -206,15 +199,117 @@ Każdy rozważany scenariusz ma taką samą szansę wystąpienia, czyli $\frac{1
 \end{center}
 Warunkiem wystąpienia możliwości przegrania, jest brak wygranej po zagraniu Księcia, czyli ostatecznie szanse na przegraną wynoszą:
 \begin{center}
-	$0.75 * 0.50 = 0.375$
+	$F_{min}(Ksiaze, P[]) = 0.75 * 0.50 = 0.375$
 \end{center}
 Modyfikując o tę wartość ocenę zagrania Księcia otrzymujemy finalnie:
 \begin{center}
-	$F(Ksiaze)=1.29 - 0.375 = 0.915$
+	$K(Ksiaze) =  F_{max}(Ksiaze, P[]) - F_{min}(Ksiaze, s_{n-1}) = 1.29 - 0.375 = 0.915$
 \end{center} 
-Analogicznie
+W przypadku zagrania Pokojówki szanse przegrania wynoszą 0\%, ponieważ zgodnie z zasadami gry jesteśmy odporni na działanie kart przeciwnika:
+\begin{center}
+	$K(Pokojowka) =  F_{max}(Pokojowka, P[]) - F_{min}(Pokojowka, s_{n-1}) = 1.05 - 0 = 1.05$
+\end{center} 
+Wynika z tego, że decyzją która minimalizuje maksymalną stratę jest $Zagranie(Pokojowka)$.
 
 \subsection{Zapis pseudokodem}
+\begin{algorithmic}[1]
+	\Function{$D_{minimaksowa}$}{$X_n,s_{n-1}$}
+		\ForAll{ $rodzajKarty \in rodzajeKart$ } \Comment Tworzenie tablicy prawdopodobieństwa
+			\State $P[rodzajKarty] \gets$  prawdopodobieństwo wystąpienia karty danego rodzaju u przeciwnika	
+		\EndFor
+		\ForAll{ $x_i \in X_n$ } \Comment Obliczenie funkcji kryterialnej dla każdego zagrania
+			\State $K[x_i] \gets F_{max}(x_i, P[]) - F_{min}(x_i, s_{n-1})$
+		\EndFor		
+		\State $ decyzja \gets x_0$ \Comment Szukanie zagrania o najwyższej wycenie
+		\ForAll{ $x_i$ } 
+			\If {$K[decyzja] < K[x_i]$}
+				\State $decyzja \gets x_i$
+			\EndIf
+		\EndFor		
+		\State \textbf{return} $decyzja$
+	\EndFunction
+\end{algorithmic}
 
+Funkcja $F_{max}(Karta)$ jest identyczna do $F(Karta)$ występującej w strategii zachłannej, w związku z czym zapiszę wyłącznie $F_{min}(Karta$).
+\begin{algorithmic}[1]
+	\Function{$F_{min}$}{$x_i, s_{n-1}$}	
+		\State $L[Y_n] \gets$ lista możliwych zbiorów decyzji przeciwnika 
+		\Switch{$x_i$}
+			\Case{Strażniczka + Kaplan} \Comment Szanse, że Strażniczka nie przyniesie zwycięstwa
+				\State \textbf{return} $ (1 - P[Kaplan]) * R(s_{n-1}, L[Y_n]) $
+			\EndCase
+			\Case{Strażniczka + Baron}
+				\State \textbf{return} $ (1 - P[Baron]) * R(s_{n-1}, L[Y_n]) $
+			\EndCase
+				\State ...
+			\Case{Strażniczka + Księżniczka}
+				\State \textbf{return} $ (1 - P[Ksiezniczka]) * R(s_{n-1}, L[Y_n]) $
+			\EndCase
+			\Case{Kapłan}
+				\State \textbf{return} $  R(s_{n-1}, L[Y_n]) $
+			\EndCase
+			\Case{Baron}	\Comment Szanse, że porównanie zakończy się remisem 
+				\State $ szanseRemisu \gets P[DK]$ 
+				\State \textbf{return} $ szanseRemisu * R(s_{n-1}, L[Y_n]) $
+			\EndCase
+			\Case{Pokojówka}
+				\State \textbf{return} $ 0 $
+			\EndCase
+			\Case{Książe na przeciwnika}
+				\State \textbf{return} $ (1 - P[Ksiezniczka]) * R(s_{n-1}, L[Y_n]) $
+			\EndCase
+			\Case{Książe na siebie} 
+				\If {$ DK == Ksiezniczka $}  
+					\State \textbf{return} $ 0 $
+				\Else
+					\State \textbf{return} $ R(s_{n-1}, L[Y_n]) $
+				\EndIf
+			\EndCase
+			\Case{Król}
+				\State \textbf{return} $ R(s_{n-1}, L[Y_n]) $
+			\EndCase
+			\Case{Hrabina, gdy druga posiadana karta to Król lub Książe}
+				\State \textbf{return} $ R(s_{n-1}, L[Y_n]) $
+			\EndCase
+			\Case{Hrabina}
+				\State \textbf{return} $ R(s_{n-1}, L[Y_n]) $
+			\EndCase
+				\Case{Księżniczka}
+			\State \textbf{return} $ 0 $
+			\EndCase
+		\EndSwitch
+	\EndFunction
+\end{algorithmic}
+
+Funkcja $R(s_{n-1}, L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
+\begin{algorithmic}[1]
+	\Function{$R$}{$s_{n-1}, L[Y_n]$}
+		\ForAll {$Y_n \in L[X_n]$}
+			\State $Z[] \gets D_{zachlanna}(Y_n, s_{n-1}) $	\Comment Lista potencjalnych reakcji
+		\EndFor
+		\ForAll {$x_i \in Z[]$}	\Comment Sprawdzenie szansy porażki
+			\Switch{$x_i$}
+				\Case{Strazniczka + DK}	\Comment DK - druga karta pierwszego gracza
+					\State $P_{porazki}[x_i] \gets (Z[x_i] - 1.08)$
+				\EndCase
+				\Case{Baron}
+					\If{$W(DK) < W(DK_{przeciwnika})$}
+						\State $P_{porazki}[x_i] \gets 1$
+					\Else
+						\State $P_{porazki}[x_i] \gets 0$
+					\EndIf
+				\EndCase
+				\Case{Książę}
+					\If{$DK == Ksiezniczka$}
+						\State $P_{porazki}[x_i] \gets 1$
+					\Else
+						\State $P_{porazki}[x_i] \gets 0$
+					\EndIf
+				\EndCase
+			\EndSwitch
+		\EndFor
+		\State \textbf{return} $ \sum_{i=0}^{Z[].size} \frac{1}{Z[].size} * P_{porazki}[i] $
+	\EndFunction
+\end{algorithmic}
 \section{Algorytm Monte Carlo Tree Search}
 \label{sec:algMCTS}
