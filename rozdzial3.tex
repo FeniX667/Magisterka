@@ -168,6 +168,7 @@ Algorytm minimaksowy polega na ,,minimalizowaniu maksymalnych możliwych strat''
 		\item sytuacja nierozstrzygnięta
 	\end{itemize}
 \end{itemize}
+Najczęstsze implementacje polegają na przeszukiwaniu drzewa dalszych przebiegów gry począwszy od zadanego stanu początkowego, tak jak na przykład w warcabach$^{[\ref{bib:minMax_warcaby}]}$. Istnieją także implementacje opierające się na liczbowej ocenie ruchu$^{[\ref{bib:wazniak_minMax}]}$ i na tej idei opieram swoją implementacje algorytmu minimaksowego.
 
 \subsection{Sposób wykorzystania}
 W podanym powyżej opisie, gra Love Letter niezgodna jest w punkcie czwartym. Ze względu na niepewność jaką kartę posiada przeciwnik, jaką pociągnie ze stosu w swojej turze, oraz jaki wykona ruch, podjęcie decyzji $x_i$ w stanie $s_{n-1}$ nie określa jednoznacznie stanu $s_n$. Mimo to, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować naszą maksymalną stratę. Ponieważ zysk należy rozumieć jako zwiększenie szansy na wygraną (tak jak w strategii zachłannej), to strata oznacza zwiększenie szansy na przegraną. 
@@ -312,4 +313,16 @@ Funkcja $R(s_{n-1}, L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
 	\EndFunction
 \end{algorithmic}
 \section{Algorytm Monte Carlo Tree Search}
-\label{sec:algMCTS}
+\label{sec:mcts}
+\subsection{Opis}
+
+W wielkim skrócie opis jest w [\ref{bib:mcts_wprowadzenie}]. Bardziej szczegółowo jest to opisane w [\ref{bib:mcts_opis}]. Przykładem zastosowania jest Hex [\ref{bib:mcts_hex}] czy Rome Total War [\ref{bib:mcts_totalWar}]. Co więcej, pokazano że da się zastosować ten algorytm w grach niedeterministycznych jak Osadnicy z Catanu [\ref{bib:mcts_osadnicy}]. 
+
+
+\subsection{Sposób wykorzystania}
+Brutalne symulacje z minimaksowym przeciwnikiem. Modyfikacja - nie zagrywa Księżniczki. 
+
+\subsection{Zapis pseudokodem}
+Zapis pseudoliryczny, bardzo ogólnikowy. Nie ma co się rozwalać na 4 strony.
+
+
