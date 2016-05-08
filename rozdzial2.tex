@@ -1,7 +1,7 @@
 \chapter{Gra karciana Love Letter}
 \label{cha:rozdz2}
 
-W tym rozdziale opisuję kontekst oraz zasady gry Love Letter. Tłumaczę działanie każdej karty oraz przedstawiam główny cel gry - wygranie określonej ilości rund. Następnie przedstawiam problem i analizuję jego złożoność. Wszystkie załączone zdjęcia oraz instrukcja zaczerpnięte są z [\ref{bib:loveLetterGame}] oraz [\ref{bib:loveLetterWebsite}].
+W tym rozdziale opisuję kontekst oraz zasady gry Love Letter. Opisuję działanie każdej karty oraz przedstawiam główny cel gry - wygranie określonej ilości rund. Następnie przedstawiam problem i analizuję jego złożoność. Wszystkie załączone zdjęcia oraz instrukcja zaczerpnięte są z [\ref{bib:loveLetterGame}] oraz [\ref{bib:loveLetterWebsite}].
 
 \begin{figure}[h]
 	\centering
@@ -14,7 +14,7 @@ W tym rozdziale opisuję kontekst oraz zasady gry Love Letter. Tłumaczę dział
 \label{sec:opisGry}
 W trakcie gry wcielamy się w rolę jednego z adoratorów księżniczki starającego się o zdobycie jej serca. W tym celu przygotowaliśmy list miłosny, który chcemy jej dostarczyć. Niestety, księżniczka pogrążona jest obecnie w żałobie i nie przyjmuje do siebie nikogo obcego, w związku z czym musimy znaleźć inny sposób na przekazanie jej naszego listu. Oprócz księżniczki, na dworze znajdują się inne postacie, z których każda ma mniejszy lub większy dostęp do komnat naszej wybranki i może oddać jej list. Przekazujemy więc naszą przesyłkę swojemu tajnemu posłańcowi, a na koniec gry księżniczka jako pierwszy przeczyta ten list, który został przekazany przez najbardziej zaufaną postać. Serce wybranki zdobywa gracz, który jako pierwszy przekaże w ten sposób od 4 do 7 listów, w zależności od liczby graczy.
 
-\section*{Cel i ustawienie początkowe}
+\section*{Cel i ustawienie początkowe rundy}
 \label{sec:celIUstawieniePoczatkowe}
 Love Letter rozgrywa się jako serię rund. Grę wygrywa gracz o następującej ilości wygranych rund:
 \begin{itemize}
@@ -30,12 +30,12 @@ Ustawienie początkowe każdej rundy wygląda następująco:
 	\item odrzuć 1 wierzchnią kartę nie odkrywając jej (nie bierze udziału w rundzie),
 	\item jeśli gra tylko 2 graczy, odrzuć 3 wierzchnie karty, odkryte,
 	\item rozdaj po 1 karcie wszystkim graczom,
-	\item jeśli jest to pierwsza runda, grę zaczyna gracz, który jako ostatni był na randce, w przeciwnym wypadku zwycięzca poprzedniej rundy.
+	\item jeśli jest to pierwsza runda, turę zaczyna gracz, który jako ostatni był na randce, w przeciwnym wypadku zaczyna zwycięzca poprzedniej rundy.
 \end{itemize}
 
 \section*{Tura gracza i opis kart}
 \label{sec:turaGracza}
-Podczas swojej tury gracz dociąga jedna kartę ze stosu. Następnie wybiera jedną z dwóch kart, które posiada już w ręce, kładzie ją przed sobą tak, by była widoczna dla wszystkich i zastosowuje opisany na niej efekt - nawet jeśli jest negatywny. Zagrana karta pozostaje odkryta przez całą rundę, a druga pozostaje w ręce. Następnie tura przechodzi na osobę po lewej stronie aktywnego gracza.
+Podczas swojej tury gracz dociąga jedną kartę ze stosu. Następnie wybiera jedną z dwóch kart, które posiada już w ręce, kładzie ją przed sobą tak, by była widoczna dla wszystkich i zastosowuje opisany na niej efekt - nawet jeśli jest negatywny. Zagrana karta pozostaje odkryta przez całą rundę, a druga pozostaje w ręce. Następnie tura przechodzi na osobę po lewej stronie aktywnego gracza.
 
 W grze znajduje się 16 kart, w 8 typach. Każda z typów kart posiada wartość od 1 do 8. Są to kolejno: 4 karty Strażniczki, po 2 karty Kapłana, Barona, Pokojówki i Księcia, oraz po jednej karcie Króla, Hrabiny i Księżniczki. Ich szczegółowy opis wraz z wyglądem znajduje się poniżej:
 
@@ -82,7 +82,7 @@ Na rysunku \ref{fig:Love_Letter_Card_Prince} przedstawiona jest karta typu Ksią
 	\includegraphics[scale=0.5]{Resources/Love_Letter_Card_King.png}
 	\caption{Król} \label{fig:Love_Letter_Card_King}
 \end{figure}
-Rysunek \ref{fig:Love_Letter_Card_King} przedstawia kartę typu Król. Po jej zagraniu należy wymienić się pozostałą kartą z innym graczem.
+Rysunek \ref{fig:Love_Letter_Card_King} przedstawia kartę typu Król. Po jej zagraniu należy wymienić się drugą kartą z innym graczem.
 
 \clearpage
 \begin{figure}[h]
@@ -107,9 +107,9 @@ Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem los
 Najprostszym sposobem na znalezienie takiej strategii, byłoby stworzenie drzew probabilistycznych dla wszystkich możliwych stanów początkowych gry a następnie opracowanie algorytmu podejmowania decyzji opartego na danych statystycznych. Jednakże ilość i rozmiar tych drzew może być zbyt duża by znaleźć rozwiązanie problemu w rozsądnym czasie. Z tego powodu postanowiłem najpierw oszacować ile jest wszystkich możliwych przebiegów gry. Nim przejdę do obliczeń, wprowadzę kilka definicji by ustandaryzować używane pojęcia:
 \begin{itemize}
 	\item \textit{Decyzja} - inaczej \textit{Zagranie}, jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
-	\item \textit{Podjęcie decyzji} - to wybór zagrania, które zostanie użyte jako ruch w grze. Podjęcie decyzji to inaczej zwrócenie zagrania przez algorytm.
-	\item \textit{Strategia} - algorytm, który podejmuje decyzje. 
-	\item \textit{Scenariusz} - inaczej przebieg gry, chronologiczny spis decyzji podjętych przez obu graczy od początku do końca rundy; Jedna ze ścieżek w drzewie probabilistycznym dla danego stanu początkowego rundy.
+	\item \textit{Podjęcie decyzji} - to wybór zagrania według zastosowanego algorytmu, które zostanie użyte jako ruch w grze.
+	\item \textit{Strategia} - ciąg decyzji podejmowanych według wybranego algorytmu. 
+	\item \textit{Scenariusz} - inaczej przebieg gry, chronologiczny ciąg decyzji podjętych przez obu graczy od początku do końca rundy; Jedna ze ścieżek w drzewie probabilistycznym dla danego stanu początkowego rundy.
 \end{itemize}
 
 \subsection*{Analiza złożoności}
@@ -124,26 +124,26 @@ Zacząłem od oszacowania ilości możliwych stanów początkowych. W każdej ru
 	$P_n = n!$ , gdzie $n\in N^+$
 \end{center}
 
-Dla  $n$ = 16, $n!=20 922 789 888 000$. Część kart się powtarza, więc tę liczbę należy jeszcze podzielić przez permutacje powtarzających się kart Strażniczki, Kapłana, Barona, Pokojówki oraz Księcia. Razem jest to $4! * 2! * 2! * 2! * 2! =  384$. Ostatecznie wynika, że liczba unikalnych kolejności kart wynosi: 
+Dla  $n$ = 16, $n!=20 922 789 888 000$. Część kart się powtarza, więc tę liczbę należy jeszcze podzielić przez permutacje powtarzających się kart Strażniczki, Kapłana, Barona, Pokojówki oraz Księcia. Razem jest to $4! * 2! * 2! * 2! * 2! =  384$. Tak więc liczba unikalnych kolejności kart wynosi: 
 
 \begin{center}
 	$20 922 789 888 000 / 32 = 54486432000$ - 54mld, 864mln i 432 tys.
 \end{center}
 
-Nie jest to jednak liczba wszystkich dostępnych scenariuszy. W każdej turze gracz ma do wyboru co najmniej dwa zagrania, ponieważ tyle ma dostępnych kart. Jednakże, w przypadku karty Strażniczki możliwości jest więcej, ponieważ można wytypować 7 typów kart, a w jednym przypadku może to pokonać przeciwnika i skończyć rundę. W związku z tym, by oszacować liczbę scenariuszy na zadanej kolejności kart, posłużyłem się następującą metodą:
+Nie jest to jednak ostateczne oszacowanie wszystkich możliwych scenariuszy. W każdej turze gracz ma do wyboru co najmniej dwa zagrania, ponieważ tyle ma dostępnych kart. Jednakże, w przypadku karty Strażniczki możliwości jest więcej, ponieważ można wytypować 7 typów kart, a w jednym przypadku może to pokonać przeciwnika i skończyć rundę. W związku z tym, by oszacować liczbę rozwiązań przy ustalonym stanie początkowym, należy uwzględnić następujące ograniczenia:
 \begin{itemize}
 	\item zgodnie z zasadami gry dla dwóch graczy, odrzucam łącznie 4 pierwsze karty (1 zakryta, 3 odkryte).
 	\item rozdaję po 1 karcie obu graczom. Pozostaje 10 kart w talii.
 	\item zakładając, że żadna decyzja nie spowoduje przerwania rundy, gracze łącznie 10 razy pociągną kartę, więc podejmą 10 decyzji.
 	\item każdą decyzję można przedstawić jako 0 (zagranie posiadanej karty) lub 1 (zagranie pociągniętej karty) - w tym miejscu jeśli istnieje możliwość zagrania karty w wieloraki sposób, upraszczam to do jednego zagrania niekończącego rundę.
 \end{itemize}
-Na podstawie powyższego można oszacować, że możliwych scenariuszy dla danej kolejności kart jest $2^{10}=1024$. Łącząc tę liczbę z ilością możliwych kolejności kart, utrzymujemy przybliżoną liczbę scenariuszy:
+Na podstawie powyższego można oszacować, że możliwych rozwiązań dla danego stanu początkowego jest $2^{10}=1024$. Łącząc to z ilością stanów początkowych, utrzymujemy przybliżoną liczbę scenariuszy:
 
 \begin{center}
-	$54486432000 * 1024 = 55794106368000 \approx  5.8*10^{12}$
+	$54486432000 * 1024 = 55794106368000 \approx  5.6*10^{13}$
 \end{center}
 
-Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystycznej wszystkich dostępnych scenariuszy jest problemem \textit{NP-trudnym}. Z tego powodu, zamiast odpowiadać na pytanie ,,Jaka jest najlepsza strategia podejmowania decyzji?'', dużo łatwiej będzie odpowiedzieć na pytanie ,,która z podanych strategii jest najlepsza?'', gdyż jest to charakterystyczna cecha problemów klasy \textit{NP}. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji. Pozostaje jeszcze sformalizować przedstawiony problem za pomocą modelu matematycznego.
+Z uwagi na rząd wielkości, stworzenie strategii na podstawie analizy statystycznej wszystkich dostępnych rozwiązań jest problemem \textit{NP-trudnym}. Z tego powodu, zamiast odpowiadać na pytanie ,,Jaka jest najlepsza strategia podejmowania decyzji?'', dużo łatwiej będzie odpowiedzieć na pytanie ,,która z podanych strategii jest najlepsza?'', gdyż jest to charakterystyczna cecha problemów klasy \textit{NP}. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji. Pozostaje jeszcze sformalizować przedstawiony problem za pomocą modelu matematycznego.
 
 
 \section{Model matematyczny problemu}

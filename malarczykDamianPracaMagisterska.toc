@@ -15,22 +15,20 @@
 \contentsline {section}{\numberline {3.2}Algorytm zach\IeC {\l }anny}{20}
 \contentsline {subsection}{\numberline {3.2.1}Opis}{20}
 \contentsline {subsection}{\numberline {3.2.2}Spos\IeC {\'o}b wykorzystania}{20}
-\contentsline {subsection}{\numberline {3.2.3}Zapis pseudokodem}{21}
+\contentsline {subsection}{\numberline {3.2.3}Zapis pseudokodem}{22}
 \contentsline {section}{\numberline {3.3}Algorytm min-max}{23}
 \contentsline {subsection}{\numberline {3.3.1}Opis}{23}
 \contentsline {subsection}{\numberline {3.3.2}Spos\IeC {\'o}b wykorzystania}{24}
 \contentsline {subsection}{\numberline {3.3.3}Zapis pseudokodem}{25}
 \contentsline {section}{\numberline {3.4}Algorytm Monte Carlo Tree Search}{27}
 \contentsline {subsection}{\numberline {3.4.1}Opis}{27}
-\contentsline {subsection}{\numberline {3.4.2}Spos\IeC {\'o}b wykorzystania}{27}
-\contentsline {subsection}{\numberline {3.4.3}Zapis pseudokodem}{27}
+\contentsline {subsection}{\numberline {3.4.2}Spos\IeC {\'o}b wykorzystania}{28}
 \contentsline {chapter}{\numberline {4}Implementacja}{29}
 \contentsline {section}{\numberline {4.1}Analiza wymaga\IeC {\'n}}{29}
-\contentsline {section}{\numberline {4.2}Koncepcja wykonania}{29}
-\contentsline {section}{\numberline {4.3}Wykorzystane technologie}{29}
-\contentsline {section}{\numberline {4.4}Diagramy}{29}
-\contentsline {section}{\numberline {4.5}Prezentacja systemu}{29}
-\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{29}
+\contentsline {section}{\numberline {4.2}Koncepcja wykonania i wykorzystane technologie}{30}
+\contentsline {section}{\numberline {4.3}Diagramy}{30}
+\contentsline {section}{\numberline {4.4}Prezentacja systemu}{30}
+\contentsline {section}{\numberline {4.5}Problemy napotkane w trakcie realizacji}{30}
 \contentsline {chapter}{\numberline {5}Rezultaty}{31}
 \contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{31}
 \contentsline {section}{\numberline {5.2}Statystyki zwyci\IeC {\k e}stw}{31}

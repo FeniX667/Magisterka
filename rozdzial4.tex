@@ -1,13 +1,34 @@
 \chapter{Implementacja}
 \label{cha:rozdz4}
 
-\section{Analiza wymagań}
-Implementacja zasad i modelu przedstawionego w w rozdziale 2. Use case'y - wybór dwóch S.I. które będą przeciwko sobie grać, ustalanie ilości partii, parametryzacja MCTS (przeciwnik, czas na ruch). Program ma zwracać statystyki zwycięstw.
-\section{Koncepcja wykonania}
-Java w konsoli. Albo Python. Się zobaczy.
+W tym rozdziale opisuję wymagania wobec projektu, który zawiera implementację gry ,,Love Letter'' i opisanych algorytmów. Następnie przedstawiam koncepcję wykonania wraz z diagramami UML, a na końcu prezentuję system i opisuję problemy napotkane w trakcie realizacji.
 
-\section{Wykorzystane technologie}
-j. w.
+\section{Analiza wymagań}
+Ponieważ celem pracy jest porównanie działania algorytmów gry karcianej, pierwszym krokiem potrzebnym do jego realizacji jest zaimplementowanie samej gry. Jak zostało to napisane w [\ref{bib:analiza_wymagan}], przed właściwą implementacją programu należy określić jego wymagania funkcjonalne i niefunkcjonalne. Większość wymagań jest już udokumentowana w postaci zasad gry opisanych w rozdziale \ref{cha:rozdz2}, należy jednak wyszczególnić pewne dodatkowe wymogi:
+\begin{itemize}
+	\item program musi udostępniać interfejs do którego można podłączyć różne algorytmy podejmujące decyzje,
+	\item interfejs musi udostępniać aktualny stan gry oraz zbiór decyzji możliwych do podjęcia,
+	\item interfejs musi zawierać funkcjonalność pozwalającą na utworzenie nowej instancji gry z zadanym stanem początkowym i podjętą decyzją. W nowej instancji wszystkie nieznane elementy gry są losowane na nowo (np. talia karta jest przetasowywana),
+	\item program musi umożliwiać wybranie dwóch dowolnych algorytmów, które będą ze sobą grać, oraz ustawienie liczby gier które rozegrają,
+	\item algorytm MCTS powinien mieć możliwość ustawienia dwóch parametrów: czasu wykonania, oraz algorytmu przeciwnika wykorzystywanego w symulacjach
+	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek.
+\end{itemize}
+Do zwracanych statystyk powinny należeć:
+\begin{itemize}
+	\item procentowa liczba zwycięstw każdego algorytmu z wyszczególnieniem na tury w których została zakończona runda,
+	\item rozkład procentowy zakończeń gry - ile rund skończyło się zagraniem karty Barona, Strażniczki, Księcia lub w ostatniej turze po wyczerpaniu talii,
+	\item wyszczególnienie procentowej liczby zwycięstw w zależności od tego który algorytm wykonuje ruch jako pierwszy.
+\end{itemize}
+
+
+\section{Koncepcja wykonania i wykorzystane technologie}
+By skupić się wyłączne na merytorycznym działaniu projektu, postanowiłem zaimplementować program w postaci aplikacji konsolowej, gdzie komunikacja odbywa się za pomocą wiersza poleceń$^{[\ref{bib:wiki_wierszPolecen}]}$. Wprowadzenie warstwy graficznej jest zbędne wobec postawionych wymagań.
+
+Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt zostanie wykonany zgodnie z metodyką zwinną (ang. agile methodology)$^{[\ref{bib:wiki_waterfall}]}$, która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane stare. 
+
+// Tu będzie obrazek ze schematem isteracji
+
+Ze względu na osobiste umiejętności, do implementacji wybrałem język programowania Java SE w wersji 8$^{[\ref{bib:java}]}$. Jest to język obiektowy, o ścisłym typowaniu, działający na maszynie wirtualnej Javy, co zapewnia kompatybilność ze wszystkimi systemami operacyjnymi. Całość projektu wykonałem w środowisku programistycznym IntelliJ IDEA w darmowej wersji Community$^{[\ref{bib:intellij}]}$.
 
 \section{Diagramy}
 Wrzucić use case'y, UML klas,
