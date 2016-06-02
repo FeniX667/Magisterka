@@ -1,7 +1,7 @@
 \chapter{Przegląd wybranych algorytmów i innych rozwiązań}
 \label{cha:rozdz3}
 
-W tym rozdziale przedstawiam algorytmy których zadaniem jest podejmowanie decyzji w grze. Są to kolejno: losowy, zachłanny, minimaksowy oraz Monte Carlo Tree Search. Dla każdego z nich opisuję jego użycie w odniesieniu do gry 'Love Letter'.
+W tym rozdziale przedstawiam algorytmy których zadaniem jest podejmowanie decyzji w grze. Są to kolejno: losowy, zachłanny, minimaksowy oraz Monte Carlo Tree Search. Dla każdego z nich opisuję jego użycie w odniesieniu do gry 'Love Letter'. Ponieważ wszystkie algorytmy będą implementowane w aplikacji komputerowej, przedstawiłem je również w postaci pseudokodu.
 
 \section{Algorytm losowy}
 \label{sec:algLos}
@@ -75,7 +75,7 @@ Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem kar
 	\item Księżniczka - nie może być nigdy wyrzucona.
 	\item Dodatkowo, jeśli oba zagrania mają taką samą wartość, powinna być podjęta decyzja o zagraniu karty o niższej wartości.
 \end{itemize}
-
+Opierając się na powyższych wytycznych, zapisałem algorytm w formie pseudokodu.
 \subsection{Zapis pseudokodem}
 \begin{algorithmic}[1]
 	\Function{$D_{zachlanna}$}{$X_n,s_{n-1}$}
@@ -212,6 +212,7 @@ W przypadku zagrania Pokojówki szanse przegrania wynoszą 0\%, ponieważ zgodni
 \end{center} 
 Wynika z tego, że decyzją która minimalizuje maksymalną stratę jest $Zagranie(Pokojowka)$.
 
+Na podstawie powyższych rozważań zapisałem implementację algorytmu zachłannego w postaci pseudokodu.
 \subsection{Zapis pseudokodem}
 \begin{algorithmic}[1]
 	\Function{$D_{minimaksowa}$}{$X_n,s_{n-1}$}
@@ -291,7 +292,7 @@ Funkcja $R(s_{n-1}, L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
 		\ForAll {$x_i \in Z[]$}	\Comment Sprawdzenie szansy porażki
 			\Switch{$x_i$}
 				\Case{Strazniczka + DK}	\Comment DK - druga karta pierwszego gracza
-					\State $P_{porazki}[x_i] \gets (Z[x_i] - 1.08)$
+					\State $P_{porazki}[x_i] \gets (Z[x_i] - 1.08)$ \Comment Wynika z oceny zagrania Strazniczki przez algorytm zachłanny
 				\EndCase
 				\Case{Baron}
 					\If{$W(DK) < W(DK_{przeciwnika})$}
@@ -312,6 +313,8 @@ Funkcja $R(s_{n-1}, L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
 		\State \textbf{return} $ \sum_{i=0}^{Z[].size} \frac{1}{Z[].size} * P_{porazki}[i] $
 	\EndFunction
 \end{algorithmic}
+
+
 \section{Algorytm Monte Carlo Tree Search}
 \label{sec:mcts}
 
@@ -350,3 +353,29 @@ Szczególnym elementem jest selekcja. Eksploatacja oznacza wybieranie ruchów o 
 	\item $N$ - ilość odwiedzin węzła-rodzica
 	\item $n_i$ - ilość odwiedzin w danym węźle
 \end{itemize}
+Ważne jest, że każdy węzeł posiada informację o szacunkowej wartości opartej na wynikach symulacji, oraz o liczbie przeprowadzonych symulacji.
+
+Ze względu na fakt, że algorytm do działania wymaga wyłącznie listy dostępnych ruchów oraz możliwości przeprowadzenia symulacji, jego implementacja do gry ,,Love Letter'' nie wymaga specjalnych modyfikacji. Powyższa wiedza w pełni pozwala na wykorzystanie algorytmu w grze.
+\subsection{Zapis pseudokodem}
+\begin{algorithmic}[1]
+	\Function{$D_{mcts}$}{$X_n,s_{n-1}$}
+		\State $R \gets $ utwórz korzeń R z obecnego stanu $s_{n-1}$
+		\ForAll{ $x_i \in X_n$ }
+			\State $R \gets$ dodajDziecko($x_i, s_{n-1}$)  
+		\EndFor
+		\Repeat
+			\State $L \gets $ selekcja($R$)
+			\If {$T_n(L, s_{n-i})$ nie kończy gry} \Comment $T$ -  funkcja przejścia z modelu matematycznego
+				\State $Children[] \gets T_n(L, s_{n-i}) $ \Comment utwórz węzły potomne dla każdego $x_i \in X_{n+1}$
+				\State $C \gets wylosujJeden(Children[])$
+				\State $wynik \gets symuluj(C)$	\Comment Symulacja
+				\Repeat	\Comment Propagacja wsteczna
+					\State $C \gets $ aktualizuj($wynik$)
+					\State $C \gets $ rodzic($C$)
+				\Until {$C==R$}
+			\EndIf 
+		\Until{koniec czasu}
+		\State $decyzja \gets$ najwięcejSymulacji($R$) \Comment ruch z najbardziej obiecującego węzła 
+		\State \textbf{return} $decyzja$
+	\EndFunction
+\end{algorithmic}
