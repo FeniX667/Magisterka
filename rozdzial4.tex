@@ -10,13 +10,19 @@ Ponieważ celem pracy jest porównanie działania algorytmów gry karcianej, pie
 	\item interfejs musi udostępniać aktualny stan gry oraz zbiór decyzji możliwych do podjęcia,
 	\item interfejs musi zawierać funkcjonalność pozwalającą na utworzenie nowej instancji gry z zadanym stanem początkowym i podjętą decyzją. W nowej instancji wszystkie nieznane elementy gry są losowane na nowo (np. talia karta jest przetasowywana),
 	\item program musi umożliwiać wybranie dwóch dowolnych algorytmów, które będą ze sobą grać, oraz ustawienie liczby gier które rozegrają,
-	\item algorytm MCTS powinien mieć możliwość ustawienia dwóch parametrów: czasu wykonania, oraz algorytmu przeciwnika wykorzystywanego w symulacjach
-	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek.
+	\item algorytm MCTS powinien mieć możliwość ustawienia dwóch parametrów: czasu wykonania, oraz algorytmu przeciwnika wykorzystywanego w symulacjach,
+	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek w formie wykresu i zapisywać dane do pliku.
+\end{itemize}
+Wymagania niefunkcjonalne:
+\begin{itemize}
+	\item program powinien uruchamiać się bez względu na środowisko.
+	\item program nie powinien wymagać od użytkownika znajomości szczegółów implementacji.
+	\item program powinien udostępniać instrukcje pomocy.
 \end{itemize}
 Do zwracanych statystyk powinny należeć:
 \begin{itemize}
-	\item procentowa liczba zwycięstw każdego algorytmu z wyszczególnieniem na tury w których została zakończona runda,
-	\item rozkład procentowy zakończeń gry - ile rund skończyło się zagraniem karty Barona, Strażniczki, Księcia lub w ostatniej turze po wyczerpaniu talii,
+	\item procentowa liczba zwycięstw każdego algorytmu z wyszczególnieniem na tury w których została zakończona runda.
+	\item rozkład procentowy zakończeń gry - ile rund skończyło się zagraniem karty Barona, Strażniczki, Księcia lub w ostatniej turze po wyczerpaniu talii.
 	\item wyszczególnienie procentowej liczby zwycięstw w zależności od tego który algorytm wykonuje ruch jako pierwszy.
 \end{itemize}
 

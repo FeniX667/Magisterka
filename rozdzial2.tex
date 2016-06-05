@@ -162,10 +162,19 @@ W celu ujednolicenia używanych pojęć i skrótów, przedstawię je następują
 		Pokojówka & Pok & Zagranie pokojówki & Pok\_Z \\ \hline
 		Książe & K-e & Książe na siebie; Książe na przeciwnika & K-e\_S, K-e\_P  \\ \hline
 		Król & Krl & Zagranie Króla & Krl\_Z \\ \hline
-		Hrabina & Hra & Hrabina, gdy druga karta w ręce to Król lub Książe; Zagranie Hrabiny & Hra\_K-e\_Kr, Hra\_Z \\ \hline
+		Hrabina & Hra & Hrabina, gdy druga karta w ręce to Król lub Książe; Zagranie Hrabiny & Hra\_K-e\_Krl, Hra\_Z \\ \hline
 		Księżniczka & K-a & Zagranie Księżniczki & K-a\_Z \\ \hline
 	\end{tabular}
 \end{table}
+Inne:
+\begin{itemize}
+	\item ,,ręka'' - karty, które gracz aktualnie posiada.
+	\item $Z$ - zbiór zagrań (ruchów), oznaczanych jako $z$.
+	\item $DK$ - druga karta, którą gracz posiada w ręce.
+	\item Karta, $typKarty$ - jeden z ośmiu rodzajów kart.
+	\item Karty, $typyKart$ - zbiór typów kart.
+	\item $W(Karta)$ - wartość karty od 1 do 8.
+\end{itemize}
 
 Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapów(tur), gdzie w każdym etapie gracz podejmuje decyzje, a stan początkowy następnego etapu jest wynikiem dwóch akcji: podjętej decyzji (której efekt możemy przewidzieć z pewnym prawdopodobieństwem) i reakcji gracza drugiego, której prawdopodobieństwo jest nieokreślone. Dodatkowo, rzeczywisty stan każdego etapu nie jest w pełni znany graczowi. Z tych cech wynika, że grę ,,Love Letter'' możemy sklasyfikować jako \textbf{dynamiczny(wieloetapowy) proces podejmowania decyzji w warunkach niepewności}$^{[\ref{bib:matematyczneModeleKonfliktu_klasyfikacja}]}$. Jej zapis formalny można przedstawić jako grę w postaci ekstensywnej$^{[\ref{bib:matematyczneModeleKonfliktu_graEkstensywna}]}$:
 \begin{center}
@@ -177,42 +186,30 @@ Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapó
 	\end{itemize}
 \end{center}
 
-Przypisując każdemu wierzchołkowi $s \in S$ jeden ze stanów rundy, a każdemu łukowi $r \in R$ ruch danego gracza lub udział losu, otrzymamy zapis pozwalający jednoznacznie określić możliwe przebiegi konkretnej gry, podjęte przez graczy decyzje, ich stan wiedzy na każdym etapie oraz wypłaty graczy (wynik gry).
+Przypisując każdemu wierzchołkowi $s \in S$ jeden ze stanów rundy, a każdemu łukowi $r \in R$ ruch danego gracza ze zbioru $Z$ lub udział losu, otrzymamy zapis pozwalający jednoznacznie określić możliwe przebiegi konkretnej gry, podjęte przez graczy decyzje, ich stan wiedzy na każdym etapie oraz wypłaty graczy (wynik gry).
 
 Ponieważ w każdej rundzie bierze udział dwóch graczy, oznaczmy ich jako $P_1$ i $P_2$. Dodatkowo, część w której losowana jest karta oznaczmy jako $Los$. Zauważmy, że skoro korzeń $s_0$ to stan początkowy rundy przed losowaniem kart z talii, to wszystkie łuki wychodzące z $s_0$ są efektem losowania, a łuki z następnych poziomów należą kolejno do gracza $P_1$, $Losu$, gracza $P_2$ itd. Poglądowo zilustrowałem to w następujący sposób:
 
-\clearpage
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{Resources/drzewo.png}
+	\includegraphics[scale=0.5]{Resources/drzewo2.png}
 	\caption{Pogląd gry w postaci ekstensywnej} \label{fig:drzewo}
 \end{figure}
 Ważne wnioski:
 \begin{itemize}
 	\item wszystkie łuki wychodzące z węzłów należących do $Losu$ oznaczone są prawdopodobieństwem sumującym się do 1.
 	\item węzły $s_6$ i $s_9$ są liśćmi drzewa i zawierają wypłaty graczy (wynik gry) - 1 oznacza zwycięstwo, 0 oznacza przegraną. Przykładowo w węźle $s_6$ wygrał gracz $P_1$
-	\item gracze nie wiedzą w jakim węźle danego poziomu się znajdują. Załóżmy, że łuki $r_4$ i $r_5$ są takim samym ruchem dostępnym dla gracza $P_2$. Ze względu na udział losu, gracz nie wie czy gra znajduje się w stanie $s_7$ czy $s_8$. Każda grupa takich stanów tworzy \textbf{zbiór informacyjny}. W dalszej części pracy takie zbiory będziemy określać jako $Inf$.
+	\item zdarza się, że gracze nie wiedzą w jakim węźle danego poziomu drzewa się znajdują. Załóżmy, że łuki $r_4$ i $r_5$ są takim samym ruchem dostępnym dla gracza $P_2$. Gracz nie wie czy gra znajduje się w stanie $s_7$ czy $s_8$, ponieważ oba stany udostępniają ten sam zbiór zagrań, co odzwierciedla niepełną wiedzę gracza $P2$. Grupa takich stanów, które udostępniają ten sam zbiór zagrań, tworzy \textbf{zbiór informacyjny}. W dalszej części pracy takie zbiory będziemy określać jako $I_n$, a zbiór udostępnianych zagrań jako $X_n$ (zauważmy, że $X_n \subset Z$). Zbiór węzłów, które następują po węzłach z $I_n$ nazywamy \textbf{loterią}.
 \end{itemize}
 
 Przedstawiony model jednoznacznie określa stan gry i graczy. Dla uwzględnienia decyzyjności, do takiego modelu należy dodać jeszcze funkcję wyboru (decyzji). Oznaczmy ją jako $d$:
 \begin{center}
-	$d(Inf) = r$, gdzie $r$ jest dowolnym łukiem wychodzącym z
+	$d(s) \rightarrow r$, gdzie $r$ jest dowolnym łukiem wychodzącym ze stanu $s$
 \end{center}
-\clearpage
-\begin{figure}[h]  % TODO poprawić by xn było xi na obrazku, bo i to |X|
-	\centering
-	\includegraphics[]{Resources/Schemat_Modelu.png}
-	\caption{Schemat modelu} \label{fig:Schemat_Modelu}
-\end{figure}
-\begin{itemize}
-	\item n - etap gry
-	\item $s_{n-1} \in S_{n-1}$ - stan wejściowy
-	\item $x_i \in X_n$ - podjęta decyzja
-	\item $s_{n} \in S_n$ - stan wyjściowy
-	\item $X_n$ - zbiór dopuszczalnych decyzji dla etapu n-tego
-	\item $S_n$ - zbiór dopuszczalnych stanów dla etapu n-tego
-	\item $T_n: \{x_i, s_{n-1} \} \rightarrow \{s_n, X_n\}$ - funkcja przejścia
-	\item $Q = max(P_w)$ - funkcja celu, gdzie $P_w$ oznacza prawdopodobieństwo wygranej
-	\item $D: \{X_n, s_{n-1}\} \rightarrow x_n$ - strategia podejmowania decyzji
-\end{itemize}
-Funkcja przejścia $T_n$ wynika bezpośrednio z opisanych wcześniej zasad oraz zawiera reakcję gracza przeciwnego, w efekcie zwracając jeden z możliwych stanów należących do $S_n$ oraz zbiór dopuszczalnych decyzji $X_n$. Również wszystkie $S_0 .. S_n$ oraz $X_0 .. X_n$ wynikają z zasad gry. Jedynym nieokreślonym elementem pozostaje $D$, a moje propozycje na jego zdefiniowanie przedstawiam w następnym rozdziale.
+
+Jest to deklaracja ogólna. Zdecydowanie ważniejsze są funkcje wyboru należące do graczy $P_1$ i $P_2$, które uwzględniają zbiór informacyjny. Oznaczmy je odpowiednio jako $d_1$ i $d_2$. Ich postać będzie następująca:
+
+\begin{center}
+	$d_{1,2}(I_n, X_n) \rightarrow z$, gdzie $z$ jest dowolnym zagraniem należącym do $X_n$
+\end{center}
+W takiej postaci widać, że gracze podejmą decyzję mając niepełną informację na temat stanu gry. W następnym rozdziale przedstawiam algorytmy, które będą dokładnie definiować funkcję wyboru gracza.

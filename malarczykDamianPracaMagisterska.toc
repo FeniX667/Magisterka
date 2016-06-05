@@ -20,8 +20,8 @@
 \contentsline {subsection}{\numberline {3.3.1}Opis}{25}
 \contentsline {subsection}{\numberline {3.3.2}Spos\IeC {\'o}b wykorzystania}{26}
 \contentsline {subsection}{\numberline {3.3.3}Zapis pseudokodem}{27}
-\contentsline {section}{\numberline {3.4}Algorytm Monte Carlo Tree Search}{29}
-\contentsline {subsection}{\numberline {3.4.1}Opis}{29}
+\contentsline {section}{\numberline {3.4}Algorytm Monte Carlo Tree Search}{30}
+\contentsline {subsection}{\numberline {3.4.1}Opis}{30}
 \contentsline {subsection}{\numberline {3.4.2}Spos\IeC {\'o}b wykorzystania}{30}
 \contentsline {subsection}{\numberline {3.4.3}Zapis pseudokodem}{31}
 \contentsline {chapter}{\numberline {4}Implementacja}{33}
