@@ -100,17 +100,17 @@ Gdzie funkcja kryterialna wygląda następująco:
 	\Function{$F$}{$z,P[]$}	
 		\Switch{$z$}
 			\Case{Str\_Kap} \Comment Zagranie Strażniczki na dany typ karty
-				\State \textbf{return} $ 1 + P[Kaplan] + 0.08 $
+				\State \textbf{return} $ 1 + P[Kaplan] + 0.008 $
 			\EndCase
 			\Case{Str\_Bar}
-				\State \textbf{return} $ 1 + P[Baron]  + 0.08 $
+				\State \textbf{return} $ 1 + P[Baron]  + 0.008 $
 			\EndCase
 			\State ...
 			\Case{Str\_K-a}
-				\State \textbf{return} $ 1 + P[Ksiezniczka]  + 0.08 $
+				\State \textbf{return} $ 1 + P[Ksiezniczka]  + 0.008 $
 			\EndCase
 			\Case{Kap\_Z}
-				\State \textbf{return} $ 1 + 0.07 $
+				\State \textbf{return} $ 1 + 0.007 $
 			\EndCase
 			\Case{Bar\_Z}	\Comment Kryterium zależy od wartości $W(DK)$
 				\State $ szansePrzegranej \gets 0$ 
@@ -122,29 +122,29 @@ Gdzie funkcja kryterialna wygląda następująco:
 						\State $szanseWygranej \gets szanseWygranej + P[typKarty]$ 
 					\EndIf
 				\EndFor
-				\State \textbf{return} $ 1 - szansePrzegranej + szanseWygranej + 0.06 $
+				\State \textbf{return} $ 1 - szansePrzegranej + szanseWygranej + 0.006 $
 			\EndCase
 			\Case{Pok\_Z}
-				\State \textbf{return} $ 1 + 0.05 $
+				\State \textbf{return} $ 1 + 0.005 $
 			\EndCase
 			\Case{K-e\_S}
-				\State \textbf{return} $ 1 + P[\textit{K-a}] + 0.04 $
+				\State \textbf{return} $ 1 + P[\textit{K-a}] + 0.004 $
 			\EndCase
 			\Case{K-e\_P} 
 				\If {$ DK == $ K-a}  
 					\State \textbf{return} $ 0 $
 				\Else
-					\State \textbf{return} $ 1 + 0.04 $
+					\State \textbf{return} $ 1 + 0.004 $
 				\EndIf
 			\EndCase
 			\Case{Krl\_Z}
-				\State \textbf{return} $ 1 + P[\textit{K-a}] + P[Hra] + 0.03 $
+				\State \textbf{return} $ 1 + P[\textit{K-a}] + P[Hra] + 0.003 $
 			\EndCase
 			\Case{Hra\_K-e\_Kr}
-				\State \textbf{return} $ 10 + 0.02 $
+				\State \textbf{return} $ 10 + 0.002 $
 			\EndCase
 			\Case{Hra\_Z}
-				\State \textbf{return} $ 1 + 0.02 $
+				\State \textbf{return} $ 1 + 0.002 $
 			\EndCase
 			\Case{K-a\_Z}
 				\State \textbf{return} $ 0 $
@@ -289,7 +289,7 @@ Funkcja $F_{max}(z, P[])$ jest identyczna do $F(z, P[])$ występującej w strate
 				\State \textbf{return} $ R(L[Y_n]) $
 			\EndCase
 				\Case{K-a}
-			\State \textbf{return} $ 0 $
+			\State \textbf{return} $ 10 $
 			\EndCase
 		\EndSwitch
 	\EndFunction
@@ -305,21 +305,24 @@ Funkcja $R(L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
 		\ForAll {$z_i \in RK$}	\Comment Sprawdzenie szansy porażki, $i=|RK|$
 			\Switch{$z_i$}
 				\Case{Str\_DK}
-					\State $P_{porazki}[z_i] \gets F_{max}(z_i) - 1.08$ \Comment Wynika z oceny zagrania Strazniczki przez algorytm zachłanny
+					\State $P_{porazki}[z_i] \gets 1$
 				\EndCase
-				\Case{Bar}
+				\Case{Bar\_Z}
 					\If{$W(DK) < W(DK_{przeciwnika})$}
 						\State $P_{porazki}[z_i] \gets 1$
 					\Else
 						\State $P_{porazki}[z_i] \gets 0$
 					\EndIf
 				\EndCase
-				\Case{K-e}
+				\Case{K-e\_Z}
 					\If{$DK == \textit{K-a}$}
 						\State $P_{porazki}[z_i] \gets 1$
 					\Else
 						\State $P_{porazki}[z_i] \gets 0$
 					\EndIf
+				\EndCase
+				\Case{default}
+					$P_{porazki}[z_i] \gets 0$
 				\EndCase
 			\EndSwitch
 		\EndFor
@@ -356,7 +359,7 @@ Jak opisali autorzy artykułu \textit{Monte-Carlo Tree Search: A New Framework f
 	\caption{Schemat działania algorytmu MCTS$^{[\ref{bib:mcts_opis}]}$} 
 	\label{fig:llMainImage}
 \end{figure}
-Szczególnym elementem jest selekcja. Eksploatacja oznacza wybieranie ruchów o wysokiej częstości wygranych, a eksploracja to badanie ruchów o niskiej liczbie przeprowadzonych symulacji. Brak równowagi pomiędzy tymi dwoma strategiami próbkowania doprowadzi do zakłamań, na przykład poprzez pułapkę optimum lokalnego. W związku z tym w 2006 roku Kocsis i Szepervari opracowali wzór równoważący selekcję nazwany Upper Confidence Bound (górna granica ufności)$^{[\ref{bib:mcts_ucb}]}$:
+Szczególnym elementem jest selekcja. Eksploatacja oznacza wybieranie ruchów o wysokiej częstości wygranych, a eksploracja to badanie ruchów o niskiej liczbie przeprowadzonych symulacji. Brak równowagi pomiędzy tymi dwoma strategiami próbkowania doprowadzi do zakłamań, na przykład poprzez pułapkę optimum lokalnego. W związku z tym w 2006 roku Kocsis i Szepervari opracowali wzór równoważący selekcję nazwany Upper Confidence bound applied to Trees(UCT) (górna granica ufności)$^{[\ref{bib:mcts_uct}]}$:
 \begin{center}
 	${v_i} + C*\sqrt{\frac{\ln{N}}{n_i}}$
 \end{center}
@@ -379,9 +382,6 @@ Wykorzystane zmienne pomocnicze:
 \begin{algorithmic}[1]
 	\Function{$d_{mcts}$}{$I_n, X_n$}
 		\State $T \gets $ utwórz korzeń T z obecnego zbioru informacyjnego $I_n$
-		\ForAll{ $z_i \in X_n$ } \Comment $i=|X_n|$
-			\State $T \gets$ dodajDziecko($Nast(T, z_i)$)
-		\EndFor
 		\Repeat
 			\State $L \gets $ selekcja($T$)
 			\If {$L$ nie jest końcem gry}
