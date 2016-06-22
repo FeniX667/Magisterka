@@ -32,7 +32,8 @@
 \contentsline {subsection}{\numberline {4.3.2}Diagram klas pakietu player}{37}
 \contentsline {subsection}{\numberline {4.3.3}Diagram klas pakietu engine}{38}
 \contentsline {section}{\numberline {4.4}Listingi}{39}
-\contentsline {subsection}{\numberline {4.4.1}}{39}
+\contentsline {subsection}{\numberline {4.4.1}Listing cz\IeC {\k e}\IeC {\'s}ci metod klasy Engine}{39}
+\contentsline {subsection}{\numberline {4.4.2}(Listing algorytmu MCTS)}{40}
 \contentsline {section}{\numberline {4.5}Prezentacja systemu}{40}
 \contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{40}
 \contentsline {chapter}{\numberline {5}Rezultaty}{41}
