@@ -27,12 +27,17 @@
 \contentsline {chapter}{\numberline {4}Implementacja}{33}
 \contentsline {section}{\numberline {4.1}Analiza wymaga\IeC {\'n}}{33}
 \contentsline {section}{\numberline {4.2}Koncepcja wykonania i wykorzystane technologie}{34}
-\contentsline {section}{\numberline {4.3}Diagramy}{34}
-\contentsline {section}{\numberline {4.4}Prezentacja systemu}{34}
-\contentsline {section}{\numberline {4.5}Problemy napotkane w trakcie realizacji}{34}
-\contentsline {chapter}{\numberline {5}Rezultaty}{35}
-\contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{35}
-\contentsline {section}{\numberline {5.2}Statystyki zwyci\IeC {\k e}stw}{35}
-\contentsline {section}{\numberline {5.3}Zbie\IeC {\.z}no\IeC {\'s}\IeC {\'c} algorytm\IeC {\'o}w podejmowania decyzji}{35}
-\contentsline {section}{\numberline {5.4}Wnioski}{35}
-\contentsline {chapter}{\numberline {6}Podsumowanie}{37}
+\contentsline {section}{\numberline {4.3}Diagramy}{36}
+\contentsline {subsection}{\numberline {4.3.1}Diagram klas pakietu model}{36}
+\contentsline {subsection}{\numberline {4.3.2}Diagram klas pakietu player}{37}
+\contentsline {subsection}{\numberline {4.3.3}Diagram klas pakietu engine}{38}
+\contentsline {section}{\numberline {4.4}Listingi}{39}
+\contentsline {subsection}{\numberline {4.4.1}}{39}
+\contentsline {section}{\numberline {4.5}Prezentacja systemu}{40}
+\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{40}
+\contentsline {chapter}{\numberline {5}Rezultaty}{41}
+\contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{41}
+\contentsline {section}{\numberline {5.2}Statystyki zwyci\IeC {\k e}stw}{41}
+\contentsline {section}{\numberline {5.3}Zbie\IeC {\.z}no\IeC {\'s}\IeC {\'c} algorytm\IeC {\'o}w podejmowania decyzji}{41}
+\contentsline {section}{\numberline {5.4}Wnioski}{41}
+\contentsline {chapter}{\numberline {6}Podsumowanie}{43}
