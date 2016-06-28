@@ -77,9 +77,9 @@ Ten pakiet realizuje zasady gry w sensie mechaniki działania kart. Klasa \texti
 
 
 \section{Listingi}
-Pisząc kod aplikacji, oprócz kierowania się paradygmatami programowania obiektowego, bardzo ważne jest również by dbać o czytelność kodu. W \\ TODO przypis do wujka Boba kod powinien być:
-\\TODO uzupełnić cytatem z książki
-Kolejną metodologią wspomagającą tworzenie czystego kodu, również autorstwa Boba jest SOLID. Jest to mnemonik opisujący pięć podstawowych założeń programownia obiektowego [\\ TODO przypis wiki]. SOLID oznacza:
+Pisząc kod aplikacji, oprócz kierowania się paradygmatami programowania obiektowego, bardzo ważne jest również by dbać o czytelność kodu. W [TODO przypis do wujka Boba] kod powinien być:
+[TODO uzupełnić cytatem z książki]
+Kolejną metodologią wspomagającą tworzenie czystego kodu, również autorstwa Roberta C. Martina, jest SOLID. Jest to mnemonik opisujący pięć podstawowych założeń programownia obiektowego$^{[\ref{bib:wiki_SOLID}]}$. SOLID oznacza:
 \begin{itemize}
 	\item S (Single responsibility principle) - Klasa powinna posiadać jedną odpowiedzialność
 	\item O (Open/closed principle) - Zmiana wymagań wobec aplikacji nie powinna w konsekwencji zmieniać kodu, lecz dodawać nowe funkcjonalności bez usuwania starych.
@@ -89,7 +89,7 @@ Kolejną metodologią wspomagającą tworzenie czystego kodu, również autorstw
 \end{itemize}
 
 \subsection{Listing części metod klasy Engine}
-\begin{lstlisting}[language=java,label=lst:harris_module,caption=Deklaracja modułu detekcji narożników na obrazie metodą Harrisa]
+\begin{lstlisting}[language=java,label=lst:engine,caption=Część metod klasy Engine, breaklines=true]
 public void run(){
     do{
 	    iterate();
@@ -123,11 +123,156 @@ public DecisionType getDecisionFromCurrentPlayer(){
 
 \subsection{Listing algorytmu MCTS}
 
+\begin{lstlisting}[language=java,label=lst:node,caption=Klasa Node, breaklines=true]
+class Node{
+	DecisionType decision;
+	RoundState roundState;
+	double wins;
+	double value;
+	double visits;
+	double utc;
+	Node parent;
+	List<Node> children;
+	
+	Node(RoundState roundState, DecisionType decision){
+		this.decision = decision;
+		this.roundState = roundState;
+		wins = 0;
+		value = 0.0;
+		visits = 0;
+		parent = null;
+		children = new ArrayList<>();
+	}
+	
+	public void addChild(Node child){
+		children.add(child);
+		child.parent=this;
+	}
+	
+	public void update(double result){
+		visits++;
+		wins +=result;
+		value = wins/visits;
+		if( visits == 0 || parent == null )
+			utc = -1;
+		else
+			utc =  value/visits + explorationParameter * Math.sqrt( Math.log( parent.visits ) / visits);
+	}
+	
+	public DecisionType getMostProvenDecision(){
+		Node mostProvenChild = children.get(0);
+		for( Node child : children ){
+			if( child.visits > mostProvenChild.visits)
+				mostProvenChild = child;
+		}
+		
+		return mostProvenChild.decision;
+	}
+	
+	private double getUCT() {
+		if( visits == 0 )
+			return 1000 + rnd.nextInt(20);
+		return value/visits + explorationParameter * Math.sqrt( Math.log( parent.visits ) / visits);
+	}
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=java,label=lst:mcts,caption=Wybrane metody klasy MctsAlgorithm, breaklines=true]
+@Override
+public DecisionType makeDecision(RoundState roundState, List<DecisionType> decisionList) {
+	Node root = new Node( new RoundState(roundState, playerSpace), null );
+	
+	long startTime = System.currentTimeMillis();
+	long elapsedTime;
+	int iteration = 0;
+	boolean shouldContinue = true;
+	do{
+		Node selectedNode = select(root);
+		if( selectedNode.roundState.turnState != RoundState.TurnState.ended ) {
+			List<DecisionType> selectionDecisionList = DecisionType.getDecisions(selectedNode.roundState.spaceOfFirstPlayer.hand);
+			for (DecisionType decision : selectionDecisionList) {
+				selectedNode.addChild(new Node(new RoundState(roundState, roundState.spaceOfFirstPlayer), decision));
+			}
+			Node child = selectedNode.children.get(rnd.nextInt(selectedNode.children.size()));
+			double result = simulate(child);
+			do {
+				child.update(result);
+				child = child.parent;
+			} while (child != null);
+		}
+		elapsedTime = System.currentTimeMillis() - startTime;
+		iteration++;
+	}while (timePredicate(elapsedTime));
+	
+	DecisionType mostProvenDecision = root.getMostProvenDecision();
+	return mostProvenDecision;
+}
+    
+private Node select(Node node) {
+	if( node.children.size() == 0  ){
+		return node;
+	}
+	
+	Node selection = node.children.get(0);
+	Map<DecisionType, Double> utcMap = new HashMap<>();
+	for( Node child : node.children ){
+		if( child.getUCT() > selection.getUCT() || selection.getUCT() == 0 )
+			selection = child;
+		utcMap.put(child.decision, child.getUCT());
+	}
+	return select(selection);
+}
+
+\end{lstlisting}
+
 \section{Prezentacja systemu}
-screeny cli z ustawionymi parametrami
-screeny z wykresow - w ktorej rundzie sie skonczyla, jakie zagranie najczesciej konczy gre, jaki jest procent zwyciestw (3 wykresy)
+Poniższe zrzuty ekranu prezentują trzy widoki aplikacji: widok główny (początkowy), przebieg pojedynczej gry oraz podczas prezentacji wyników symulacji.
+\subsection*{Widok główny}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Resources/cli.PNG}
+	\caption{Widok główny aplikacji} 
+	\label{fig:cli}
+\end{figure}
+Powyższy zrzut prezentuje menu aplikacji, w którym można wpisywać odpowiednie komendy.
+
+\subsection*{Widok ustawień i gry}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Resources/cli2.PNG}
+	\caption{Widok główny aplikacji} 
+	\label{fig:cli2}
+\end{figure}
+
+Na powyższym zrzucie można zauważyć ustawianie algorytmu dla gracza pierwszego i drugiego oraz przebieg pojedynczej gry. Na początku znajduje się informacja które algorytmy ze sobą grają, następnie jakie karty zostały odrzucone w układzie początkowym, a potem przebieg w następującej postaci:
+\begin{center}
+	[numer rundy] [karty pierwszego gracza] ; [karty drugiego gracza] ; [czyj ruch]: [podjęta decyzja]
+\end{center}
+Na końcu wskazany jest zwycięski algorytm, ruch kończący, oraz stosy kart odrzuconych.
+
+\subsection*{Wykresy symulacji}
+\begin{figure}[H]
+	\centering
+	\includegraphics[]{Resources/winCharts.PNG}
+	\caption{Widok główny aplikacji} 
+	\label{fig:winChart}
+\end{figure}
+
+Na powyższym wykresie wskazany jest stosunek zwycięstw na wykresie kołowym, oraz ilość zwycięstw każdego z algorytmów w danej rundzie, z uwzględnieniem średniej.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Resources/decisionWinsPerRoundChart.PNG}
+	\caption{Widok główny aplikacji} 
+	\label{fig:decisionChart}
+\end{figure}
+
+Powyższe wykresy słupkowe prezentują rozkład wygrywających decyzji danego gracza w zależności od rundy.
 
 \section{Problemy napotkane w trakcie realizacji}
-unit testy podczas gdy wiele parametrow jest losowanych
-interfejs copy javy - kopiowanie wymaga duzo testow
-zle zaplanowany model, gdzie decyzje nie maja dodatkowej klasy. doprowadza to do bardzo duzych switchy
+Jednym z problemów w aplikacji jest bardzo duża ilość instrukcji \textit{switch}. Wynika to z błędnie przyjętego modelu odwzorowania dostępnych decyzji w postaci klasy \textit{Enum}. Zdecydowanie lepszym rozwiązaniem byłoby utworzenie hierarchii klas odpowiadających każdej decyzji, które dziedziczyłyby po jednej wspólnej klasie, np. \textit{Play}. Takie podejście znacznie zredukowałoby ilość niepotrzebnego kodu i zwiększyło jego czytelność.
+
+Kolejną rzeczą sprawiającą wiele problemów jest kwestia interfejsu \textit{Copy} w Javie. Podczas testów przesyłania kopii stanu rundy do algorytmu podejmującego decyzje powstawało wiele problemów z kopiowaniem referencji, wobec czego postanowiłem ręcznie napisać metodę kopiującą.
+
+Ze względu na dużą ilość losowanych parametrów, trudność sprawiło napisanie odpowiednich testów pokrywających wszystkie przypadki. W związku z tym testy sprawdzające fragmenty związane z losowaniem uruchamiana są wielokrotnie. Co prawda takie podejście sprawia, że nigdy nie mamy 100\% pewności przejścia wszystkich testów bez zmiany kodu, natomiast pozwala wykryć znacznie większą ilość przypadków brzegowych, które normalnie nie były by pokryte testem.
