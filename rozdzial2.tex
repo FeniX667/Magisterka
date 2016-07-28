@@ -100,16 +100,16 @@ Rysunek \ref{fig:Love_Letter_Card_Countess} przedstawia kartę typu Hrabina. Ta 
 Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Księżniczka. Zagranie tej karty oznacza natychmiastową przegraną w rundzie. Ta zasada działa również, gdy gracz został zmuszony do zagrania tej karty, np. przez efekt karty Książe.
 \clearpage
 
-\section{Definicja i analiza problemu}
+\section{Analiza problemu}
 \label{sec:opisProblemu}
 Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna, więc można ją przedstawić jako problem optymalizacyjny$^{[\ref{bib:wiki_ProblemOptymalizacyjny}]}$. W związku z tym powstaje również pytanie, jaka jest najlepsza strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ maksymalizująca prawdopodobieństwo wygrania gry. Dla dalszych rozważań zakładam, że w gra toczy się pomiędzy dwoma graczami.
 
-Najprostszym sposobem na znalezienie takiej strategii, byłoby stworzenie drzew probabilistycznych dla wszystkich możliwych stanów początkowych gry a następnie opracowanie algorytmu podejmowania decyzji opartego na danych statystycznych. Jednakże ilość i rozmiar tych drzew może być zbyt duża by znaleźć rozwiązanie problemu w rozsądnym czasie. Z tego powodu postanowiłem najpierw oszacować ile jest wszystkich możliwych przebiegów gry. Nim przejdę do obliczeń, wprowadzę kilka definicji by ustandaryzować używane pojęcia:
+Najprostszym sposobem na znalezienie takiej strategii, byłoby stworzenie drzew probabilistycznych dla wszystkich możliwych stanów początkowych gry a następnie opracowanie algorytmu podejmowania decyzji opartego na danych statystycznych. Jednakże, ilość i rozmiar tych drzew może być zbyt duża by znaleźć rozwiązanie problemu w rozsądnym czasie. Z tego powodu postanowiłem najpierw oszacować ile jest wszystkich możliwych przebiegów gry. Nim przejdę do obliczeń, wprowadzę kilka definicji by ustandaryzować używane pojęcia:
 \begin{itemize}
 	\item \textit{Decyzja} - inaczej \textit{Zagranie}, jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
 	\item \textit{Podjęcie decyzji} - to wybór zagrania według zastosowanego algorytmu, które zostanie użyte jako ruch w grze.
-	\item \textit{Strategia} - ciąg decyzji podejmowanych przez danych algorytm
-	\item \textit{Scenariusz} - inaczej przebieg gry, chronologiczny ciąg decyzji podjętych przez obu graczy od początku do końca rundy; Jedna ze ścieżek w drzewie probabilistycznym dla danego stanu początkowego rundy.
+	\item \textit{Strategia} - ciąg decyzji podejmowanych według reguł określonych przez algorytm
+	\item \textit{Scenariusz} - inaczej przebieg gry, chronologiczny ciąg decyzji podjętych przez obu graczy od początku do końca rundy; Jedna ze ścieżek w drzewie probabilistycznym dla danego stanu początkowego rundy, czyli pojedyncze rozwiązanie.
 \end{itemize}
 
 \subsection*{Oszacowanie ilości rozwiązań}
@@ -118,7 +118,7 @@ Na przebieg każdej rundy wpływ mają następujące czynniki:
 	\item Kolejność kart w talii na początku rundy
 	\item Zagrywanie kart przez graczy
 \end{itemize}
-Zacząłem od oszacowania ilości możliwych stanów początkowych. W każdej rundzie bierze udział wszystkie 16 kart. Zakładając, że każda z nich jest unikalna, to  liczba wszystkich możliwych kolejności kart to permutacja, którą obliczam wzorem podanym w [\ref{bib:tabliceMatematyczne}]:
+Zacząłem od oszacowania ilości możliwych rozwiązań. W każdej rundzie bierze udział wszystkie 16 kart. Zakładając, że każda z nich jest unikalna, to  liczba wszystkich możliwych kolejności kart to permutacja, którą obliczam wzorem podanym w [\ref{bib:tabliceMatematyczne}]:
 
 \begin{center}
 	$P_n = n!$ , gdzie $n\in N^+$
@@ -130,23 +130,12 @@ Dla  $n$ = 16, $n!=20 922 789 888 000$. Część kart się powtarza, więc tę l
 	$20 922 789 888 000 / 32 = 54486432000$ - 54mld, 864mln i 432 tys.
 \end{center}
 
-Nie jest to jednak ostateczne oszacowanie możliwych rozwiązań. W każdej turze gracz ma do wyboru co najmniej dwa zagrania, ponieważ tyle ma dostępnych kart. Jednakże, w przypadku karty Strażniczki możliwości jest więcej, ponieważ można wytypować 7 typów kart, a w jednym przypadku może to pokonać przeciwnika i skończyć rundę. W związku z tym, by oszacować liczbę rozwiązań przy ustalonym stanie początkowym, zastosowałem następujące ograniczenia:
-\begin{itemize}
-	\item zgodnie z zasadami gry dla dwóch graczy, odrzucam łącznie 4 pierwsze karty (1 zakryta, 3 odkryte).
-	\item rozdaję po 1 karcie obu graczom. Pozostaje 10 kart w talii.
-	\item zakładając, że żadna decyzja nie spowoduje zakończenia rundy, gracze łącznie 10 razy pociągną kartę, więc podejmą 10 decyzji.
-	\item każdą decyzję można przedstawić jako 0 (zagranie posiadanej karty) lub 1 (zagranie pociągniętej karty) - w tym miejscu jeśli istnieje możliwość zagrania karty w wieloraki sposób, upraszczam to do jednego zagrania niekończącego rundę.
-\end{itemize}
-Na podstawie powyższego można oszacować, że możliwych rozwiązań dla danego stanu początkowego jest $2^{10}=1024$. Łącząc to z ilością stanów początkowych, utrzymujemy przybliżoną liczbę rozwiązań:
-
-\begin{center}
-	$54486432000 * 1024 = 55794106368000 \approx  5.6*10^{13}$
-\end{center}
+Należy zwrócić uwagę, że jest to górne oszacowanie. Może to się wydawać nieintuicyjne, bo przecież jeśli przetasujemy w zadany sposób talię to określimy tylko kolejność w jakiej gracze będą dociągać karty nie biorąc pod uwagę decyzji podjętych przez graczy, ale należy zauważyć, że te podjęte decyzje doprowadzą ewentualnie do innego stanu talii, który już został wzięty pod uwagę w obliczeniach. Co więcej, istnieją warunki zmniejszające zadane oszacowanie, ponieważ część kolejności kart może prowadzić do tego samego rozwiązania. Za przykład niech posłuży sytuacja, w której pierwszy gracz ma w ręce dwie karty typu Książę. O ile zagranie Księcia na przeciwnika nie skończy gry, to doprowadzi do zmiany układu talii na inny, który jest już wzięty pod uwagę w obliczeniach. W tym miejscu należałoby wskazać dolne oszacowanie, niemniej jednak te wyliczenia byłyby zbyt obszerne, a nie są głównym celem pracy.
 
 Z uwagi na rząd wielkości, stworzenie optymalnej strategii na podstawie analizy statystycznej wszystkich dostępnych rozwiązań byłoby czasochłonne. Z tego powodu, zamiast odpowiadać na pytanie ,,Jaka jest najlepsza strategia podejmowania decyzji?'', dużo łatwiej będzie odpowiedzieć na pytanie ,,która z podanych strategii jest najlepsza?''. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji. Pozostaje jeszcze sformalizować przedstawiony problem za pomocą modelu matematycznego.
 
 
-\section{Model matematyczny problemu}
+\section{Opis formalny problemu}
 W celu ujednolicenia używanych pojęć i skrótów, przedstawię je następująco:
 
 \clearpage
@@ -157,7 +146,7 @@ W celu ujednolicenia używanych pojęć i skrótów, przedstawię je następują
 		\hline
 		\bf{Nazwa karty} & \bf{Skrót nazwy}  & \bf{Możliwe zagrania} & \bf{Skrót zagrania} \\ \hline
 		Strażniczka & Str & Strażniczka z wyborem na [Nazwa karty] & Str\_Kap, Str\_Bar, ... , Str\_K-a  \\ \hline
-		Kaplan & Kap & Zagranie kapłana & Kap\_Z \\ \hline
+		Kapłan & Kap & Zagranie kapłana & Kap\_Z \\ \hline
 		Baron & Bar & Zagranie barona & Bar\_Z  \\ \hline
 		Pokojówka & Pok & Zagranie pokojówki & Pok\_Z \\ \hline
 		Książe & K-e & Książe na siebie; Książe na przeciwnika & K-e\_S, K-e\_P  \\ \hline
@@ -169,14 +158,15 @@ W celu ujednolicenia używanych pojęć i skrótów, przedstawię je następują
 Inne:
 \begin{itemize}
 	\item ,,ręka'' - karty, które gracz aktualnie posiada.
-	\item $Z$ - zbiór zagrań (ruchów), oznaczanych jako $z$.
+	\item $Z$ - zbiór zagrań (decyzji), oznaczanych jako $z$. Jest to zbiór wszystkich dostępnych decyzji w grze.
+	\item $Z_i$ - zbiór zagrań (decyzji) dostępnych w danym stanie(węźle) $i$
 	\item $DK$ - druga karta, którą gracz posiada w ręce.
 	\item Karta, $typKarty$ - jeden z ośmiu rodzajów kart.
 	\item Karty, $typyKart$ - zbiór typów kart.
 	\item $W(Karta)$ - wartość karty od 1 do 8.
 \end{itemize}
 
-Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapów(tur), gdzie w każdym etapie gracz podejmuje decyzje, a stan początkowy następnego etapu jest wynikiem dwóch akcji: podjętej decyzji (której efekt możemy przewidzieć z pewnym prawdopodobieństwem) i reakcji gracza drugiego, której prawdopodobieństwo jest nieokreślone. Dodatkowo, rzeczywisty stan każdego etapu nie jest w pełni znany graczowi. Z tych cech wynika, że grę ,,Love Letter'' możemy sklasyfikować jako \textbf{dynamiczny(wieloetapowy) proces podejmowania decyzji w warunkach niepewności}$^{[\ref{bib:matematyczneModeleKonfliktu_klasyfikacja}]}$. Jej zapis formalny można przedstawić jako grę w postaci ekstensywnej$^{[\ref{bib:matematyczneModeleKonfliktu_graEkstensywna}]}$:
+Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapów (tur), gdzie w każdym etapie gracz podejmuje decyzje, a stan początkowy następnego etapu jest wynikiem dwóch akcji: podjętej decyzji (której efekt możemy przewidzieć z pewnym prawdopodobieństwem) i reakcji gracza drugiego, której prawdopodobieństwo jest nieokreślone. Dodatkowo, rzeczywisty stan każdego etapu nie jest w pełni znany graczowi. Z tych cech wynika, że grę ,,Love Letter'' możemy sklasyfikować jako \textbf{dynamiczny(wieloetapowy) proces podejmowania decyzji w warunkach niepewności}$^{[\ref{bib:matematyczneModeleKonfliktu_klasyfikacja}]}$. Jej zapis formalny można przedstawić jako grę w postaci ekstensywnej$^{[\ref{bib:matematyczneModeleKonfliktu_graEkstensywna}]}$:
 \begin{center}
 	$T = (S,R)$, gdzie
 	\begin{itemize}
@@ -186,21 +176,24 @@ Patrząc z perspektywy jednego z graczy, cała gra składa się z szeregu etapó
 	\end{itemize}
 \end{center}
 
-Przypisując każdemu wierzchołkowi $s \in S$ jeden ze stanów rundy, a każdemu łukowi $r \in R$ ruch danego gracza ze zbioru $Z$ lub udział losu, otrzymamy zapis pozwalający jednoznacznie określić możliwe przebiegi konkretnej gry, podjęte przez graczy decyzje, ich stan wiedzy na każdym etapie oraz wypłaty graczy (wynik gry).
+Przypisując każdemu wierzchołkowi $s \in S$ jeden ze stanów rundy, a każdemu łukowi $r \in R$ decyzję danego gracza ze zbioru $Z$ lub udział losu, otrzymamy zapis pozwalający jednoznacznie określić możliwe przebiegi konkretnej gry, podjęte przez graczy decyzje, ich stan wiedzy na każdym etapie oraz wypłaty graczy (wynik gry).
 
-Ponieważ w każdej rundzie bierze udział dwóch graczy, oznaczmy ich jako $P_1$ i $P_2$. Dodatkowo, część w której losowana jest karta oznaczmy jako $Los$. Zauważmy, że skoro korzeń $s_0$ to stan początkowy rundy przed losowaniem kart z talii, to wszystkie łuki wychodzące z $s_0$ są efektem losowania, a łuki z następnych poziomów należą kolejno do gracza $P_1$, $Losu$, gracza $P_2$ itd. Poglądowo zilustrowałem to w następujący sposób:
+Ponieważ w każdej rundzie bierze udział dwóch graczy, oznaczmy ich jako $P_1$ i $P_2$. Dodatkowo, część w której losowana jest karta oznaczmy jako $Los$. Zauważmy, że skoro korzeń $s_0$ to stan początkowy rundy przed losowaniem kart z talii, to wszystkie łuki wychodzące z $s_0$ są efektem losowania, a łuki z następnych poziomów należą kolejno do gracza $P_1$, $Losu$, gracza $P_2$ itd. Poglądowo zilustrowałem to w następujący sposób (Rys. \ref{fig:drzewo}):
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Resources/drzewo2.png}
-	\caption{Pogląd gry w postaci ekstensywnej} \label{fig:drzewo}
+	\caption{Przykład drzewa gry w postaci ekstensywnej} 
+	\label{fig:drzewo}
 \end{figure}
-Ważne wnioski:
+Ogólne wnioski:
 \begin{itemize}
 	\item wszystkie łuki wychodzące z węzłów należących do $Losu$ oznaczone są prawdopodobieństwem sumującym się do 1.
-	\item węzły $s_6$ i $s_9$ są liśćmi drzewa i zawierają wypłaty graczy (wynik gry) - 1 oznacza zwycięstwo, 0 oznacza przegraną. Przykładowo w węźle $s_6$ wygrał gracz $P_1$
-	\item zdarza się, że gracze nie wiedzą w jakim węźle danego poziomu drzewa się znajdują. Załóżmy, że łuki $r_4$ i $r_5$ są takim samym ruchem dostępnym dla gracza $P_2$. Gracz nie wie czy gra znajduje się w stanie $s_7$ czy $s_8$, ponieważ oba stany udostępniają ten sam zbiór zagrań, co odzwierciedla niepełną wiedzę gracza $P2$. Grupa takich stanów, które udostępniają ten sam zbiór zagrań, tworzy \textbf{zbiór informacyjny}. W dalszej części pracy takie zbiory będziemy określać jako $I_n$, a zbiór udostępnianych zagrań jako $X_n$ (zauważmy, że $X_n \subset Z$). Zbiór węzłów, które następują po węzłach z $I_n$ nazywamy \textbf{loterią}.
+	\item węzły $s_6$ i $s_9$ są liśćmi drzewa i zawierają wypłaty graczy (wynik gry) - 1 oznacza zwycięstwo, 0 oznacza przegraną. Przykładowo, w prezentowanym drzewie, w węźle $s_6$ wygrał gracz $P_1$.
+	\item należy zauważyć, że węzły $r$ są ponumerowane i nie są wzajemnie jednoznaczne z zagraniami ze zbioru $Z$. Jak najbardziej wiele różnych węzłów może oznaczać to samo zagranie.
 \end{itemize}
+
+Zdarza się, że gracze nie wiedzą w jakim węźle danego poziomu drzewa się znajdują. Wracając do powyższego przykładu (Rys. \ref{fig:drzewo}) załóżmy, że łuki $r_4$ i $r_5$ są takim samym zagraniem dostępnym dla gracza $P_2$. Gracz nie wie czy gra znajduje się w stanie $s_7$ czy $s_8$, ponieważ oba stany udostępniają ten sam zbiór zagrań, co odzwierciedla niepełną wiedzę gracza $P_2$. Grupa takich stanów, które udostępniają ten sam zbiór zagrań, tworzy \textbf{zbiór informacyjny}. W dalszej części pracy takie zbiory będziemy określać jako $I_n$, a zbiór udostępnianych zagrań jako $X_n$ (zauważmy, że $X_n \subset Z$), gdzie $n$ oznacza poziom drzewa. Zbiór węzłów, które następują po węzłach z $I_n$ nazywamy \textbf{loterią}.
 
 Przedstawiony model jednoznacznie określa stan gry i graczy. Dla uwzględnienia decyzyjności, do takiego modelu należy dodać jeszcze funkcję wyboru (decyzji). Oznaczmy ją jako $d$:
 \begin{center}
@@ -210,6 +203,6 @@ Przedstawiony model jednoznacznie określa stan gry i graczy. Dla uwzględnienia
 Jest to deklaracja ogólna. Zdecydowanie ważniejsze są funkcje wyboru należące do graczy $P_1$ i $P_2$, które uwzględniają zbiór informacyjny. Oznaczmy je odpowiednio jako $d_1$ i $d_2$. Ich postać będzie następująca:
 
 \begin{center}
-	$d_{1,2}(I_n, X_n) \rightarrow z$, gdzie $z$ jest dowolnym zagraniem należącym do $X_n$
+	$d_i(I_n, X_n) \rightarrow z$, gdzie $z$ jest dowolnym zagraniem należącym do $X_n$ i $i = \{1, 2\}$
 \end{center}
 W takiej postaci widać, że gracze podejmą decyzję mając niepełną informację na temat stanu gry. W następnym rozdziale przedstawiam algorytmy, które będą dokładnie definiować funkcję wyboru gracza.

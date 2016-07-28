@@ -13,12 +13,6 @@ Ponieważ celem pracy jest porównanie działania algorytmów gry karcianej, pie
 	\item algorytm MCTS powinien mieć możliwość ustawienia dwóch parametrów: czasu wykonania, oraz algorytmu przeciwnika wykorzystywanego w symulacjach,
 	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek w formie wykresu i zapisywać dane do pliku.
 \end{itemize}
-Wymagania niefunkcjonalne:
-\begin{itemize}
-	\item program powinien uruchamiać się bez względu na środowisko.
-	\item program nie powinien wymagać od użytkownika znajomości szczegółów implementacji.
-	\item program powinien udostępniać instrukcje pomocy.
-\end{itemize}
 Do zwracanych statystyk powinny należeć:
 \begin{itemize}
 	\item procentowa liczba zwycięstw każdego algorytmu z wyszczególnieniem na tury w których została zakończona runda.
@@ -26,33 +20,41 @@ Do zwracanych statystyk powinny należeć:
 	\item wyszczególnienie procentowej liczby zwycięstw w zależności od tego który algorytm wykonuje ruch jako pierwszy.
 \end{itemize}
 
-
+Wymagania niefunkcjonalne:
+\begin{itemize}
+	\item program powinien uruchamiać się bez względu na środowisko.
+	\item program nie powinien wymagać od użytkownika znajomości szczegółów implementacji.
+	\item program powinien udostępniać instrukcje pomocy.
+	\item aplikacja powinna zostać zaprojektowana w taki sposób, żeby można było dodawać kolejne algorytmy do aplikacji bez konieczności modyfikacji kodu
+\end{itemize}
+\clearpage
+1	
 \section{Koncepcja wykonania i wykorzystane technologie}
 By skupić się wyłączne na merytorycznym działaniu projektu, postanowiłem zaimplementować program w postaci aplikacji konsolowej, gdzie komunikacja odbywa się za pomocą wiersza poleceń$^{[\ref{bib:wiki_wierszPolecen}]}$. Wprowadzenie warstwy graficznej jest zbędne wobec postawionych wymagań.
 
-Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt zostanie wykonany zgodnie z metodyką zwinną (ang. agile methodology)$^{[\ref{bib:wiki_waterfall}]}$, która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane stare. Poniżej zaplanowane przeze mnie iteracje tworzenia projektu:
+Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt zostanie wykonany zgodnie z metodyką zwinną (ang. agile methodology)$^{[\ref{bib:wiki_waterfall}]}$, która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane wcześniejsze. Poniżej prezentuję zaplanowane przeze mnie iteracje tworzenia projektu(Rys. \ref{fig:diagramIteracji}.):
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/DiagramIteracji.png}
 	\caption{Zaplanowane iteracje} 
-	\label{fig:llMainImage}
+	\label{fig:diagramIteracji}
 \end{figure}
 
 Ze względu na osobiste umiejętności, do implementacji wybrałem język programowania Java SE w wersji 8$^{[\ref{bib:java}]}$. Jest to język obiektowy, o ścisłym typowaniu, działający na maszynie wirtualnej Javy, co zapewnia kompatybilność ze wszystkimi systemami operacyjnymi. Całość projektu wykonałem w środowisku programistycznym IntelliJ IDEA w darmowej wersji Community$^{[\ref{bib:intellij}]}$.
 
 \section{Diagramy}
-
+Poniżej prezentuję diagramy klas UML, dokumentujące obecną strukturę kodu. 
 \subsection{Diagram klas pakietu model}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/diagramKlas_model.eps}
 	\caption{Diagram klas pakietu \textit{model}} 
-	\label{fig:llMainImage}
+	\label{fig:diagramKlasModel}
 \end{figure}
 
-W danym pakiecie znajdują się wszystkie elementy składające się na samą grę. Głównym element jest klasa RoundState, odpowiadająca wierzchołkom $s_i$ należącym do zbioru $S$ modelu matematycznego. Karty oraz wynikające z nich decyzje utworzone reprezentoawne są wpostaci klas typu enum.
+W danym pakiecie znajdują się wszystkie elementy składające się na samą grę. Głównym element jest klasa RoundState, odpowiadająca wierzchołkom $s_i$ należącym do zbioru $S$. Karty oraz wynikające z nich decyzje utworzone reprezentowane są w postaci klas typu enum.
 
 \subsection{Diagram klas pakietu player}
 
@@ -60,7 +62,7 @@ W danym pakiecie znajdują się wszystkie elementy składające się na samą gr
 	\centering
 	\includegraphics[width=\textwidth]{Resources/diagramKlas_player.eps}
 	\caption{Diagram klas pakietu \textit{player}} 
-	\label{fig:llMainImage}
+	\label{fig:diagramKlasPlayer}
 \end{figure}
 
 W tym pakiecie głównym elementem jest klasa abstrakcyjna Player, po której dziedziczą implementowane przeze mnie algorytmy. Warto zauważyć, że wykorzystuje również pakiet \textit{model}. Takie polimorficzne rozwiązanie znacznie ułatwia dodawanie kolejnych algorytmów do aplikacji, bez konieczności modyfikowania jej.
@@ -71,7 +73,7 @@ W tym pakiecie głównym elementem jest klasa abstrakcyjna Player, po której dz
 	\centering
 	\includegraphics[width=\textwidth]{Resources/diagramKlas_engine.eps}
 	\caption{Diagram klas pakietu \textit{gameEngine}} 
-	\label{fig:llMainImage}
+	\label{fig:diagramKlasEngine}
 \end{figure}
 Ten pakiet realizuje zasady gry w sensie mechaniki działania kart. Klasa \textit{Engine} jest menadżerem i zarządza stanem gry na podstawie decyzji otrzymanej z klasy \textit{Player}. Metoda \textit{giveSpaceToPlayer} przekazuje obiektom klasy \textit{Player} referencję do \textit{PlayerSpace} i kopię obiektu \textit{RoundState}. 
 
