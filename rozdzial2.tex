@@ -102,7 +102,7 @@ Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Ksi
 
 \section{Analiza problemu}
 \label{sec:opisProblemu}
-Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna, więc można ją przedstawić jako problem optymalizacyjny$^{[\ref{bib:wiki_ProblemOptymalizacyjny}]}$. W związku z tym powstaje również pytanie, jaka jest najlepsza strategia mieszana$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ maksymalizująca prawdopodobieństwo wygrania gry. Dla dalszych rozważań zakładam, że w gra toczy się pomiędzy dwoma graczami.
+Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna, więc można ją przedstawić jako problem optymalizacyjny$^{[\ref{bib:wiki_ProblemOptymalizacyjny}]}$. W związku z tym powstaje również pytanie, jaka jest najlepsza strategia mieszana bądź czysta$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ maksymalizująca prawdopodobieństwo wygrania gry. Dla dalszych rozważań zakładam, że w gra toczy się pomiędzy dwoma graczami.
 
 Najprostszym sposobem na znalezienie takiej strategii, byłoby stworzenie drzew probabilistycznych dla wszystkich możliwych stanów początkowych gry a następnie opracowanie algorytmu podejmowania decyzji opartego na danych statystycznych. Jednakże, ilość i rozmiar tych drzew może być zbyt duża by znaleźć rozwiązanie problemu w rozsądnym czasie. Z tego powodu postanowiłem najpierw oszacować ile jest wszystkich możliwych przebiegów gry. Nim przejdę do obliczeń, wprowadzę kilka definicji by ustandaryzować używane pojęcia:
 \begin{itemize}
@@ -144,7 +144,7 @@ W celu ujednolicenia używanych pojęć i skrótów, przedstawię je następują
 	\centering
 	\begin{tabular}{|l|c|p{4cm}|c|}
 		\hline
-		\bf{Nazwa karty} & \bf{Skrót nazwy}  & \bf{Możliwe zagrania} & \bf{Skrót zagrania} \\ \hline
+		\bf{Nazwa (typ) karty} & \bf{Skrót nazwy}  & \bf{Możliwe zagrania} & \bf{Skrót zagrania} \\ \hline
 		Strażniczka & Str & Strażniczka z wyborem na [Nazwa karty] & Str\_Kap, Str\_Bar, ... , Str\_K-a  \\ \hline
 		Kapłan & Kap & Zagranie kapłana & Kap\_Z \\ \hline
 		Baron & Bar & Zagranie barona & Bar\_Z  \\ \hline
@@ -161,8 +161,7 @@ Inne:
 	\item $Z$ - zbiór zagrań (decyzji), oznaczanych jako $z$. Jest to zbiór wszystkich dostępnych decyzji w grze.
 	\item $Z_i$ - zbiór zagrań (decyzji) dostępnych w danym stanie(węźle) $i$
 	\item $DK$ - druga karta, którą gracz posiada w ręce.
-	\item Karta, $typKarty$ - jeden z ośmiu rodzajów kart.
-	\item Karty, $typyKart$ - zbiór typów kart.
+	\item \textit{Typ Karty} - jeden z ośmiu rodzajów kart.
 	\item $W(Karta)$ - wartość karty od 1 do 8.
 \end{itemize}
 

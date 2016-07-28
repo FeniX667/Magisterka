@@ -13,7 +13,7 @@ Ponieważ celem pracy jest porównanie działania algorytmów gry karcianej, pie
 	\item algorytm MCTS powinien mieć możliwość ustawienia dwóch parametrów: czasu wykonania, oraz algorytmu przeciwnika wykorzystywanego w symulacjach,
 	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek w formie wykresu i zapisywać dane do pliku.
 \end{itemize}
-Do zwracanych statystyk powinny należeć:
+Zwracane statystyki powinny zawierać informację o:
 \begin{itemize}
 	\item procentowa liczba zwycięstw każdego algorytmu z wyszczególnieniem na tury w których została zakończona runda.
 	\item rozkład procentowy zakończeń gry - ile rund skończyło się zagraniem karty Barona, Strażniczki, Księcia lub w ostatniej turze po wyczerpaniu talii.
@@ -92,6 +92,7 @@ Najpopularniejszą metodologią wspomagającą tworzenie czystego kodu jest SOLI
 	\item D (Dependency inversion principle) - Funkcjonalność wysokopoziomowych modułów nie może zależeć od sposobu działania modułów niskopoziomowych.
 \end{itemize}
 
+Poniżej przedstawiam najistotniejsze listingi.
 \subsection{Listing części metod klasy Engine}
 \begin{lstlisting}[language=java,label=lst:engine,caption=Część metod klasy Engine, breaklines=true]
 public void run(){
@@ -229,6 +230,7 @@ private Node select(Node node) {
 }
 
 \end{lstlisting}
+\clearpage
 
 \section{Prezentacja systemu}
 Poniższe zrzuty ekranu prezentują trzy widoki aplikacji: widok główny (początkowy), przebieg pojedynczej gry oraz podczas prezentacji wyników symulacji.
@@ -239,7 +241,7 @@ Poniższe zrzuty ekranu prezentują trzy widoki aplikacji: widok główny (pocz�
 	\caption{Widok główny aplikacji} 
 	\label{fig:cli}
 \end{figure}
-Powyższy zrzut prezentuje menu aplikacji, w którym można wpisywać odpowiednie komendy.
+Rys. \ref{fig:cli} prezentuje menu aplikacji, w którym można wpisywać odpowiednie komendy.
 
 \subsection*{Widok ustawień i gry}
 \begin{figure}[H]
@@ -272,7 +274,7 @@ Na powyższym wykresie wskazany jest stosunek zwycięstw na wykresie kołowym, o
 	\label{fig:decisionChart}
 \end{figure}
 
-Powyższe wykresy słupkowe prezentują rozkład wygrywających decyzji danego gracza w zależności od rundy.
+Powyższe wykresy słupkowe na rys. \ref{fig:decisionChart} prezentują rozkład wygrywających decyzji danego gracza w zależności od rundy.
 
 \section{Problemy napotkane w trakcie realizacji}
 Jednym z problemów w aplikacji jest bardzo duża ilość instrukcji \textit{switch}. Wynika to z błędnie przyjętego modelu odwzorowania dostępnych decyzji w postaci klasy \textit{Enum}. Zdecydowanie lepszym rozwiązaniem byłoby utworzenie hierarchii klas odpowiadających każdej decyzji, które dziedziczyłyby po jednej wspólnej klasie, np. \textit{Play}. Takie podejście znacznie zredukowałoby ilość niepotrzebnego kodu i zwiększyło jego czytelność.

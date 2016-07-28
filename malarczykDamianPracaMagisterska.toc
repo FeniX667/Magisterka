@@ -34,7 +34,7 @@
 \contentsline {section}{\numberline {4.4}Listingi}{39}
 \contentsline {subsection}{\numberline {4.4.1}Listing cz\IeC {\k e}\IeC {\'s}ci metod klasy Engine}{39}
 \contentsline {subsection}{\numberline {4.4.2}Listing algorytmu MCTS}{40}
-\contentsline {section}{\numberline {4.5}Prezentacja systemu}{43}
+\contentsline {section}{\numberline {4.5}Prezentacja systemu}{44}
 \contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{48}
 \contentsline {chapter}{\numberline {5}Rezultaty}{49}
 \contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{49}
