@@ -140,9 +140,6 @@ Gdzie funkcja kryterialna wygląda następująco:
 			\Case{Krl\_Z}
 				\State \textbf{return} $ 1 + P[\textit{K-a}] + P[Hra] + 0.003 $
 			\EndCase
-			\Case{Hra\_K-e\_Kr}
-				\State \textbf{return} $ 10 + 0.002 $
-			\EndCase
 			\Case{Hra\_Z}
 				\State \textbf{return} $ 1 + 0.002 $
 			\EndCase
@@ -280,9 +277,6 @@ Funkcja $F_{max}(z, P[])$ jest identyczna do $F(z, P[])$ występującej w strate
 				\EndIf
 			\EndCase
 			\Case{Krl\_Z}
-				\State \textbf{return} $ R(L[Y_n]) $
-			\EndCase
-			\Case{Hra\_K-e\_Krl}
 				\State \textbf{return} $ R(L[Y_n]) $
 			\EndCase
 			\Case{Hra\_Z}

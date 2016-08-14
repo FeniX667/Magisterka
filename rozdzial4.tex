@@ -247,30 +247,42 @@ Rys. \ref{fig:cli} prezentuje menu aplikacji, w którym można wpisywać odpowie
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/cli2.PNG}
-	\caption{Widok główny aplikacji} 
+	\caption{Widok ustawień i gry} 
 	\label{fig:cli2}
 \end{figure}
 
-Na powyższym zrzucie można zauważyć ustawianie algorytmu dla gracza pierwszego i drugiego oraz przebieg pojedynczej gry. Na początku znajduje się informacja które algorytmy ze sobą grają, następnie jakie karty zostały odrzucone w układzie początkowym, a potem przebieg w następującej postaci:
+Na rys. \ref{fig:cli2} można zauważyć ustawianie algorytmu dla gracza pierwszego i drugiego oraz przebieg pojedynczej gry. Na początku znajduje się informacja które algorytmy ze sobą grają, następnie jakie karty zostały odrzucone w układzie początkowym, a potem przebieg w następującej postaci:
 \begin{center}
 	[numer rundy] [karty pierwszego gracza] ; [karty drugiego gracza] ; [czyj ruch]: [podjęta decyzja]
 \end{center}
 Na końcu wskazany jest zwycięski algorytm, ruch kończący, oraz stosy kart odrzuconych.
 
+
+\subsection*{Widok gry człowieka przeciwnikiem}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Resources/cli3.png}
+	\caption{Widok gry człowieka z przeciwnikiem} 
+	\label{fig:cli3}
+\end{figure}
+
+Na rys. \ref{fig:cli3} przedstawiony został przebieg gry człowieka z przeciwnikiem. Na początku należy ustawić jedno z graczy jako \textit{Human}, korzystając z komend \textit{set player 1} lub \textit{set player 2}. Następnie należy włączyć pojedynczą grę komendą \textit{start single game}. Warto zwrócić uwagę, że informacje wypisywane w konsoli są ograniczone w porównaniu do pełnego zapisu i zawierają tylko te dane, które są znane graczowi ludzkiemu.
+
+
 \subsection*{Wykresy symulacji}
 \begin{figure}[H]
 	\centering
 	\includegraphics[]{Resources/winCharts.PNG}
-	\caption{Widok główny aplikacji} 
+	\caption{Wykresy zwycięstw} 
 	\label{fig:winChart}
 \end{figure}
 
-Na powyższym wykresie wskazany jest stosunek zwycięstw na wykresie kołowym, oraz ilość zwycięstw każdego z algorytmów w danej rundzie, z uwzględnieniem średniej.
+Na powyższym wykresie (Rys. \ref{fig:winChart}) wskazany jest stosunek zwycięstw na wykresie kołowym, oraz ilość zwycięstw każdego z algorytmów w danej rundzie, z uwzględnieniem średniej.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/decisionWinsPerRoundChart.PNG}
-	\caption{Widok główny aplikacji} 
+	\caption{Wykresy zwycięskich decyzji} 
 	\label{fig:decisionChart}
 \end{figure}
 

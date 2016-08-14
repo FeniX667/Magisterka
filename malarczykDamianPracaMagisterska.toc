@@ -35,10 +35,13 @@
 \contentsline {subsection}{\numberline {4.4.1}Listing cz\IeC {\k e}\IeC {\'s}ci metod klasy Engine}{39}
 \contentsline {subsection}{\numberline {4.4.2}Listing algorytmu MCTS}{40}
 \contentsline {section}{\numberline {4.5}Prezentacja systemu}{44}
-\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{48}
-\contentsline {chapter}{\numberline {5}Rezultaty}{49}
-\contentsline {section}{\numberline {5.1}Czas dzia\IeC {\l }ania na 1000 partii}{49}
-\contentsline {section}{\numberline {5.2}Statystyki zwyci\IeC {\k e}stw}{49}
-\contentsline {section}{\numberline {5.3}Zbie\IeC {\.z}no\IeC {\'s}\IeC {\'c} algorytm\IeC {\'o}w podejmowania decyzji}{49}
-\contentsline {section}{\numberline {5.4}Wnioski}{49}
-\contentsline {chapter}{\numberline {6}Podsumowanie}{51}
+\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{49}
+\contentsline {chapter}{\numberline {5}Rezultaty}{51}
+\contentsline {section}{\numberline {5.1}Losowy versus Losowy}{51}
+\contentsline {section}{\numberline {5.2}Zach\IeC {\l }anny versus Losowy}{54}
+\contentsline {section}{\numberline {5.3}Minimaksowy versus Losowy}{57}
+\contentsline {section}{\numberline {5.4}MCTS versus Losowy}{59}
+\contentsline {section}{\numberline {5.5}Minimaksowy versus Zach\IeC {\l }anny}{61}
+\contentsline {section}{\numberline {5.6}Zach\IeC {\l }anny versus MCTS}{65}
+\contentsline {section}{\numberline {5.7}Wnioski}{68}
+\contentsline {chapter}{\numberline {6}Podsumowanie}{69}
