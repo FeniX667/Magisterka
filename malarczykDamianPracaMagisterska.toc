@@ -43,5 +43,6 @@
 \contentsline {section}{\numberline {5.4}MCTS versus Losowy}{59}
 \contentsline {section}{\numberline {5.5}Minimaksowy versus Zach\IeC {\l }anny}{61}
 \contentsline {section}{\numberline {5.6}Zach\IeC {\l }anny versus MCTS}{65}
-\contentsline {section}{\numberline {5.7}Wnioski}{68}
-\contentsline {chapter}{\numberline {6}Podsumowanie}{69}
+\contentsline {section}{\numberline {5.7}Minimaksowy versus MCTS}{68}
+\contentsline {section}{\numberline {5.8}Wnioski}{71}
+\contentsline {chapter}{\numberline {6}Podsumowanie}{73}
