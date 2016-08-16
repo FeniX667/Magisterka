@@ -1,2 +1,14 @@
 \chapter{Podsumowanie}
 \label{cha:rozdz6}
+
+Celem mojej pracy była analiza i porównanie efektywności wybranych algorytmów w podejmowaniu decyzji w grze ,,Love Letter''. Podstawowym założeniem było nie przeszukiwanie całego drzewa rozwiązań, lecz jedynie najbliższy poziom, bądź posłużenie się heurystyką.
+
+Opisałem zasady gry ,,Love Letter'', a następnie oszacowałem ilość możliwych rozwiązań. Na tej podstawie przedstawiłem ją jako problem optymalizacyjny, który stał się podstawą do porównania efektywności algorytmów. Model gry zapisałem w postaci gry ekstensywnej opierając się na Teorii Gier.
+
+Do analizy i porównania wybrałem następujące algorytmy: losowy, zachłanny, minimaksowy oraz Monte Carlo Tree Search, który jest algorytmem heurystycznym. Sposób działania każdego z nich został opisany i podałem przykłady ich wykorzystania w praktyce. Następnie zaprezentowałem pomysł ich użycia do podejmowania decyzji w grze ,,Love Letter''.
+
+Kolejno zaprezentowałem założenia programu, w którym zaimplementowane zostały zasady gry oraz wspomniane algorytmy. Przedstawiłem analizę wymagań oraz diagramy objaśniające strukturę programu. W analizie post implementacyjnej wskazałem główny problem związany z napisaniem programu, jakim okazał się niedostateczny poziom abstrakcji, znacznie zwiększający objętość kodu i tym samym ryzyko popełnienia błędu.
+
+Następnie zaprezentowałem wyniki przeprowadzonych przeze mnie symulacji gier. W analizie skupiłem się na ilości zwycięstw danego algorytmu oraz najczęściej wygrywających zagraniach. Ważnym wnioskiem było wskazanie najskuteczniejszego z analizowanych algorytmów, jakim okazała się moja implementacja algorytmu minimaksowego. Z pewnością jego skuteczność mogłaby być wyższa, jednak z racji charakteru gry, który preferuje szybkie kończenie rund ponad zagrywki przedłużające grę, czas działania algorytmu rósł by zdecydowanie szybciej niż jego efektywność. 
+
+Moim największym zaskoczeniem były wyniki algorytmu MCTS, które były gorsze nawet od wyników algorytmu losowego. Taki stan rzeczy wynika z błędnie przyjętych na początku założeń, że podstawowa wersja tego algorytmu będzie w stanie osiągać dobre wyniki w tej grze. Mimo to uważam, że po odpowiedniej modyfikacji polegającej na zamianie stanów znajdujących się w węzłach na zbiory informacyjne, byłby on w stanie osiągać wyniki równe, a nawet lepsze, od algorytmu minimaksowego.
