@@ -1,7 +1,7 @@
-\chapter{Przegląd wybranych algorytmów i innych rozwiązań}
+\chapter{Przegląd wybranych algorytmów}
 \label{cha:rozdz3}
 
-W tym rozdziale przedstawiam algorytmy definiujące funkcję wyboru decyzji. Są to kolejno: losowy, zachłanny, minimaksowy oraz Monte Carlo Tree Search. Dla każdego z nich opisuję jego użycie w odniesieniu do gry 'Love Letter'. Ponieważ wszystkie algorytmy będą implementowane w aplikacji komputerowej, przedstawiłem je również w postaci pseudokodu.
+W tym rozdziale przedstawiam algorytmy wyboru decyzji dla gry ,,Love Letter''	. Są to kolejno: losowy, zachłanny, minimaksowy oraz Monte Carlo Tree Search. Dla każdego z nich opisuję jego użycie w odniesieniu do gry 'Love Letter'. Ponieważ wszystkie algorytmy są implementowane w aplikacji komputerowej, przedstawiłem je również w postaci pseudokodu.
 
 \section{Algorytm losowy}
 \label{sec:algLos}
@@ -32,7 +32,7 @@ Algorytm zachłanny polega na wyborze najlepszego możliwego zagrania dostępneg
 
 W kontekście gry 'Love Letter', implementacja algorytmu zachłannego wymaga pewnego doprecyzowania. Najważniejszą częścią jest funkcja kryterialna oceniająca wartość zagrania, która w niektórych przypadkach (na przykład gdy zagranie może zakończyć grę) musi być oparta na prawdopodobieństwie wystąpienia kart u przeciwnika. Prawdopodobieństwo to uzależnione jest od stanu początkowego danej tury.
 
-Rozważmy przypadek, w którym algorytm musi podjąć decyzję o zagraniu karty Strażniczki, lub karty Barona. Jest to pierwszy ruch gracza, a w widocznych kartach odrzuconych na starcie są odrzucone karty Króla, Księcia i Pokojówki. Oznacza to, że w talii pozostało 9 kart, a jedna z odrzuconych jest niewidoczna, niemniej jednak ją też trzeba brać pod uwagę. Wyliczenie prawdopodobieństwa \textit{P[Karta]} jaką kartę ma przeciwnik jest tym momencie proste, jednak trzeba jeszcze wziąć pod uwagę drobny szczegół - czy do liczenia \textit{P[Karta]} wliczać karty posiadane w ręce. Z jednej strony wydaje się to nielogiczne i może prowadzić do wybierania nieoptymalnych decyzji (co przeczyłoby idei algorytmu zachłannego) w danym stanie, z drugiej strony można to potraktować jako element blefu, który jest nieodłączną częścią każdej gry towarzyskiej. W swojej implementacji założyłem absolutną zachłanność algorytmu i karty posiadane na ręce są pomijane w obliczeniach. 
+Rozważmy przypadek, w którym algorytm musi podjąć decyzję o zagraniu karty Strażniczki, lub karty Barona. Jest to pierwszy ruch gracza, a w widocznych kartach odrzuconych na starcie są karty Króla, Księcia i Pokojówki. Oznacza to, że w talii pozostało 9 kart, a jedna z odrzuconych jest niewidoczna, niemniej jednak ją też trzeba brać pod uwagę. Wyliczenie prawdopodobieństwa \textit{P[Karta]} jaką kartę ma przeciwnik jest tym momencie proste, jednak trzeba jeszcze wziąć pod uwagę drobny szczegół - czy do liczenia \textit{P[Karta]} wliczać karty posiadane w ręce. Z jednej strony wydaje się to nielogiczne i może prowadzić do wybierania niekorzystnych decyzji (co przeczyłoby idei algorytmu zachłannego) w danym stanie, z drugiej strony można to potraktować jako element blefu, który jest nieodłączną częścią każdej gry towarzyskiej. W swojej implementacji założyłem absolutną zachłanność algorytmu i karty posiadane na ręce są pomijane w obliczeniach. 
 Wobec powyższego, prawdopodobieństwa wystąpienia kart u przeciwnika wynikające z ustalonego stanu początkowego są następujące:
 
 \begin{table}[h]
@@ -51,7 +51,7 @@ Wobec powyższego, prawdopodobieństwa wystąpienia kart u przeciwnika wynikają
 		\end{tabular}
 \end{table}
 
-Zagranie karty Baron oznacza porównanie drugiej karty z kartą przeciwnika. Łatwo policzyć, że w 70\% przypadków skończyłoby to się porażką, a w 30\% nie było by żadnego efektu. Drugim dostępnym ruchem jest zagranie karty Strażniczki, a w jej przypadku najlepszym wyborem jest wytypowanie Kapłana, co daje 20\% szans na zwycięstwo i 80\% szans, że nie nastąpi żaden efekt. Zauważmy, że gdybyśmy wliczali posiadane karty do obliczenia prawdopodobieństwa, wystąpienie Barona i Kapłana byłoby tak samo możliwe. W takich przypadkach algorytm powinien zawsze celować w kartę z wyższym numerem. By formalnie stwierdzić, jaka decyzja $z$ powinna zostać podjęta, musimy obliczyć funkcję kryterialną dla dostępnych zagrań i wybrać to zagranie, dla której funkcja przyjmuje wyższą wartość. Przyjmijmy (póki co na podstawie własnej intuicji), że lokalna funkcja kryterialna wygląda następująco:
+Zagranie karty Baron oznacza porównanie drugiej karty z kartą przeciwnika. Łatwo policzyć, że w 70\% przypadków skończyłoby to się porażką, a w 30\% nie było by żadnego efektu. Drugim dostępnym ruchem jest zagranie karty Strażniczki, a w jej przypadku najlepszym wyborem jest wytypowanie Kapłana, co daje 20\% szans na zwycięstwo i 80\% szans, że nie nastąpi żaden efekt. Zauważmy, że gdybyśmy wliczali posiadane karty do obliczenia prawdopodobieństwa, wystąpienie Barona i Kapłana byłoby tak samo możliwe. W takich przypadkach algorytm powinien zawsze celować w kartę z wyższym numerem. By formalnie stwierdzić, jaka decyzja $z$ powinna zostać podjęta, musimy obliczyć funkcję kryterialną dla dostępnych zagrań i wybrać to zagranie, dla której funkcja przyjmuje wyższą wartość. Przyjmijmy, że lokalna funkcja kryterialna wygląda następująco:
 
 \begin{center}
 	$F(z) = 1 + prawdopodobienstwo\_wygranej - prawdopodobienstwo\_przegranej$
@@ -63,17 +63,17 @@ Po podstawieniu otrzymujemy:
  $F(Str\_Kap)>F(Bar) => z = Str\_Kap$ 
 \end{center} 
 
-Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem karty Kapłana. Jak jednak na podstawie powyższego wzoru ocenić zagranie karty Kapłana, Pokojówki lub Króla? Każda z nich wymaga indywidualnej oceny. Mając na uwadze, że w kontekście strategii zachłannej decyzja zawsze powinna być najlepsza w danym stanie, ustaliłem następujące warunki którymi się kierowałem przy tworzeniu funkcji kryterialnej dla zagrań każdej z kart:
+Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem karty Kapłana. Jak jednak na podstawie powyższego wzoru ocenić zagranie karty Kapłana, Pokojówki lub Króla? Każda z nich wymaga indywidualnej oceny. Mając na uwadze, że w kontekście strategii zachłannej decyzja zawsze powinna być najlepsza w danym stanie, ustaliłem następujące warunki, którymi kierowałem się przy tworzeniu funkcji kryterialnej dla zagrań każdej z kart:
 \begin{itemize}
-	\item Strażniczka - ocena zagrania(wartość funkcji kryterialnej) wzrasta gdy pozwala wyeliminować przeciwnika.
-	\item Kapłan - efekt karty jest neutralny i ocena jego zagrania będzie zawsze stała.
-	\item Baron - ocena zagrania wzrasta gdy mamy drugą kartę silniejszą niż może mieć przeciwnik i maleje gdy jest odwrotnie.
-	\item Pokojówka - podobnie jak w przypadku kapłana, ocena zagrania karty będzie stała.
-	\item Książę - ocena zagrania na przeciwnika wzrasta z prawdopodobieństwem Księżniczki u przeciwnika. Ocena zagrania na siebie jest stała, lecz 0 gdy druga karta to Księżniczka.
-	\item Król - jak w przypadku Kapłana i Pokojówki, ocena zagrania jest stała.
-	\item Hrabina - ocena stała, jednak musimy ją zagrać, gdy druga posiadana karta to Król lub Książę.
-	\item Księżniczka - nie może być nigdy wyrzucona.
-	\item Dodatkowo, jeśli oba zagrania mają taką samą wartość, powinna być podjęta decyzja o zagraniu karty o niższej wartości $W$, w związku z tym ocena zagrania spada wraz z wyższą wartością karty.
+	\item Strażniczka - ocena zagrania (wartość funkcji kryterialnej) wzrasta gdy pozwala wyeliminować przeciwnika,
+	\item Kapłan - efekt karty jest neutralny i ocena jego zagrania będzie zawsze stała,
+	\item Baron - ocena zagrania wzrasta, gdy mamy drugą kartę silniejszą niż może mieć przeciwnik i maleje, gdy jest odwrotnie,
+	\item Pokojówka - podobnie jak w przypadku kapłana, ocena zagrania karty będzie stała,
+	\item Książę - ocena zagrania na przeciwnika wzrasta z prawdopodobieństwem Księżniczki u przeciwnika. Ocena zagrania na siebie jest stała, lecz 0, gdy druga karta to Księżniczka,
+	\item Król - jak w przypadku Kapłana i Pokojówki, ocena zagrania jest stała,
+	\item Hrabina - ocena stała, jednak musimy ją zagrać, gdy druga posiadana karta to Król lub Książę,
+	\item Księżniczka - nie może być nigdy wyrzucona,
+	\item Dodatkowo, jeśli na podstawie powyższych przesłanek oba zagrania mają taką samą wartość, powinna być podjęta decyzja o zagraniu karty o niższej wartości $W$. By to osiągnąć, do oceny dodane są wartości od 0.008 do 0.002.
 \end{itemize}
 Opierając się na powyższych wytycznych, zapisałem algorytm w formie pseudokodu.
 \subsection{Zapis pseudokodem}
@@ -171,7 +171,7 @@ Algorytm minimaksowy polega na ,,minimalizowaniu maksymalnych możliwych strat''
 Najczęstsze implementacje polegają na przeszukiwaniu drzewa dalszych przebiegów gry począwszy od zadanego stanu początkowego, tak jak na przykład w warcabach$^{[\ref{bib:minMax_warcaby}]}$. Istnieją także implementacje opierające się na liczbowej ocenie ruchu$^{[\ref{bib:wazniak_minMax}]}$ i na tej idei opieram swoją implementację algorytmu minimaksowego.
 
 \subsection{Sposób wykorzystania}
-W podanym powyżej opisie, gra Love Letter niezgodna jest w punkcie czwartym. Jak ustaliliśmy wcześniej, gracz nie wie w jakim dokładnie stanie znajduje się gra, zna natomiast zbiór informacyjny $I_n$. Z tego względu, z perspektywy gracza $P_1$ podjęcie decyzji $z_i \in X_n$ nie określa jednoznacznie następnego węzła w drzewie, lecz loterię. Mimo to, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować naszą maksymalną stratę. Ponieważ zysk należy rozumieć jako zwiększenie szansy na wygraną (tak jak w strategii zachłannej), to strata oznacza zwiększenie szansy na przegraną. 
+Jak ustaliliśmy wcześniej, gracz nie wie w jakim dokładnie stanie znajduje się gra, zna natomiast zbiór informacyjny $I_n$. Z tego względu, z perspektywy gracza $P_1$ podjęcie decyzji $z_i \in X_n$ nie określa jednoznacznie następnego węzła w drzewie, lecz loterię. Mimo to, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować naszą maksymalną stratę. Ponieważ zysk należy rozumieć jako zwiększenie szansy na wygraną (tak jak w strategii zachłannej), to strata oznacza zwiększenie szansy na przegraną. 
 
 Rozważmy scenariusz, w którym gracz pierwszy posiada kartę Księcia oraz Pokojówki. Na stosie pozostało 2 karty, 1 karta jest zakryta zgodnie z zasadami rozpoczęcia rundy i przeciwnik również posiada 1 kartę. Wśród tych 4 nieznanych graczowi kart są karty Strażniczki, Barona, Księcia oraz Księżniczki. Prawdopodobieństwo wystąpienia każdej z nich u przeciwnika wynosi 25\% i razem stanowią one tablicę prawdopodobieństwa $P[]$. Przyjmijmy, że wykorzystywana w poprzedniej strategii funkcja kryterialna $F(z, P[])$ to maksymalizacja zysku i nazwijmy ją $F_{max}(z, P[])$  Zgodnie z jej definicją $F_{max}(\textit{K-e}, P[]) = 1.29$ i $F_{max}(Pokojowka, P[]) = 1.05$, więc zagranie Księcia maksymalizuje szansę na wygraną. Jeśli jednak weźmiemy pod uwagę, że w 75\% przypadków nie wygrywamy, wówczas musimy rozważyć odpowiedź przeciwnika. W tym wypadku jest 6 par kart które może posiadać przeciwnik, więc dla każdej z nich, zgodnie ze strategią zachłanną, należy obliczyć funkcję kryterialną oraz szansę na przegraną. Dodatkowo należy zauważyć, że z perspektywy przeciwnika w każdym przypadku gracz pierwszy ma inny rozkład prawdopodobieństwa wystąpienia karty. Pełne obliczenia znajdują się w tabeli poniżej.
 
@@ -217,7 +217,7 @@ Na podstawie powyższych rozważań zapisałem implementację algorytmu zachłan
 \subsection{Zapis pseudokodem}
 Wykorzystane zmienne pomocnicze:
 \begin{itemize}
-	\item $K(z)$ - oznacza wspomnianą wyżej funkcję wyceny zagrania. 
+	\item $K(z)$ - oznacza wspomnianą wyżej funkcję kryterialną zagrania. 
 	\item $L[Y_n]$ - zbiór możliwych zbiorów decyzji przeciwnika na danym poziomie drzewa.	
 	\item $Y_n$ - oznacza możliwy zbiór zagrań dostępnych dla przeciwnika na danym poziomie drzewa.
 	\item Funkcja $R(L[Y_n])$ oznacza prawdopodobieństwo przegranej po reakcji przeciwnika.
@@ -333,7 +333,7 @@ Funkcja $R(L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
 Drzewo Przeszukiwań Monte Carlo jest metodą heurystycznego podejmowania decyzji, często wykorzystywaną w grach typu Hex$^{[\ref{bib:mcts_hex}]}$ czy Go$^{[\ref{bib:wiki_mcts}]}$. W przeciwieństwie do deterministycznych algorytmów przeszukujących drzewo decyzyjne, MCTS buduje drzewo wariantów poprzez losowe próbkowanie najbardziej obiecujących ruchów. Dzięki temu jego dużą zaletą jest możliwość efektywnego wykorzystania w grach o wysokim rozgałęzieniu drzewa decyzyjnego$^{[\ref{bib:mcts_wprowadzenie}]}$. Popularność wykorzystania tego algorytmu stale rośnie, czego przykładem jest zastosowanie w niedeterministycznej grze planszowej Osadnicy z Catanu$^{[\ref{bib:mcts_osadnicy}]}$, czy w strategii turowej Total War: Rome II$^{[\ref{bib:mcts_totalWar}]}$. Główne cechy algorytmu:
 \begin{itemize}
 	\item przerywalność algorytmu w dowolnym momencie
-	\item zależność wydajności od czasu - im dłużej działa algorytm, tym lepsze osiąga wyniki
+	\item zależność wydajności od czasu - im dłużej działa algorytm, tym lepsze osiąga i
 	\item uniwersalność - algorytm do działania potrzebuje wyłącznie zbioru dostępnych ruchów oraz możliwości przeprowadzenia losowej rozgrywki od danego stanu
 	\item niezależność od wiedzy eksperckiej występującej w grze $^{[\ref{bib:mcts_wprowadzenie}]}$
 \end{itemize}
@@ -358,10 +358,10 @@ Szczególnym elementem jest selekcja, ponieważ ona odpowiada za kierunek rozras
 	${v_i} + E*\sqrt{\frac{\ln{N}}{n_i}}$
 \end{center}
 \begin{itemize}
-	\item $v_i$ - estymowana wartość węzła
-	\item $E$ - empirycznie dobierany parametr eksploracji, zazwyczaj $\sqrt{2}$
-	\item $N$ - ilość odwiedzin węzła-rodzica
-	\item $n_i$ - ilość odwiedzin w danym węźle
+	\item $v_i$ - estymowana wartość węzła,
+	\item $E$ - empirycznie dobierany parametr eksploracji, zazwyczaj $\sqrt{2}$,
+	\item $N$ - ilość odwiedzin węzła-rodzica,
+	\item $n_i$ - ilość odwiedzin w danym węźle.
 \end{itemize}
 Ważne jest, że każdy węzeł posiada informację o szacunkowej wartości opartej na wynikach symulacji, oraz o liczbie przeprowadzonych symulacji.
 
@@ -369,9 +369,9 @@ Ze względu na fakt, że algorytm do działania wymaga wyłącznie listy dostęp
 \subsection{Zapis pseudokodem}
 Wykorzystane zmienne pomocnicze:
 \begin{itemize}
-	\item $Nast(s, z)$ - funkcja wskazująca następnik węzła $u$ po wyborze zagrania (łuku) $z$.
-	\item $X_L$ - zbiór możliwych zagrań dostępnych w węźle $L$.
-	\item $wynik$ - wypłata gracza po symulacji.
+	\item $Nast(s, z)$ - funkcja wskazująca następnik węzła $u$ po wyborze zagrania (łuku) $z$,
+	\item $X_L$ - zbiór możliwych zagrań dostępnych w węźle $L$,
+	\item $wynik$ - wypłata gracza.
 \end{itemize}
 \begin{algorithmic}[1]
 	\Function{$d_{mcts}$}{$I_n, X_n$}

@@ -26,11 +26,11 @@ Każda runda dzieli się na tury, w których naprzemiennie jeden z graczy wykonu
 
 Ustawienie początkowe każdej rundy wygląda następująco:
 \begin{itemize}
-	\item przetasuj karty
+	\item przetasuj karty,
 	\item odrzuć 1 wierzchnią kartę nie odkrywając jej (nie bierze udziału w rundzie),
 	\item jeśli gra tylko 2 graczy, odrzuć 3 wierzchnie karty, odkryte,
 	\item rozdaj po 1 karcie wszystkim graczom,
-	\item jeśli jest to pierwsza runda, turę zaczyna gracz, który jako ostatni był na randce, w przeciwnym wypadku zaczyna zwycięzca poprzedniej rundy.
+	\item jeśli jest to pierwsza runda, turę zaczyna gracz, który jako ostatni był na randce, w przeciwnym wypadku zaczyna zwycięzca poprzedniej rundy (jest to zasada wprowadzająca ,,klimat'' do gry i  pierwszego gracza można wybrać wg uznania).
 \end{itemize}
 
 \section*{Tura gracza i opis kart}
@@ -102,13 +102,13 @@ Na rysunku \ref{fig:Love_Letter_Card_Princess} przedstawiona jest karta typu Ksi
 
 \section{Analiza problemu}
 \label{sec:opisProblemu}
-Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna, więc można ją przedstawić jako problem optymalizacyjny$^{[\ref{bib:wiki_ProblemOptymalizacyjny}]}$. W związku z tym powstaje również pytanie, jaka jest najlepsza strategia mieszana bądź czysta$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ maksymalizująca prawdopodobieństwo wygrania gry. Dla dalszych rozważań zakładam, że w gra toczy się pomiędzy dwoma graczami.
+Z wyżej przedstawionych zasad wynika, że gra cechuje się wysokim stopniem losowości i jest niedeterministyczna, więc można ją przedstawić jako problem optymalizacyjny$^{[\ref{bib:wiki_ProblemOptymalizacyjny}]}$. W związku z tym powstaje również pytanie, jaka jest najlepsza strategia mieszana bądź czysta$^{[\ref{bib:wiki_StrategiaTeoriaGier}]}$ maksymalizująca prawdopodobieństwo wygrania gry. Dla dalszych rozważań zakładam, że gra toczy się pomiędzy dwoma graczami.
 
-Najprostszym sposobem na znalezienie takiej strategii, byłoby stworzenie drzew probabilistycznych dla wszystkich możliwych stanów początkowych gry a następnie opracowanie algorytmu podejmowania decyzji opartego na danych statystycznych. Jednakże, ilość i rozmiar tych drzew może być zbyt duża by znaleźć rozwiązanie problemu w rozsądnym czasie. Z tego powodu postanowiłem najpierw oszacować ile jest wszystkich możliwych przebiegów gry. Nim przejdę do obliczeń, wprowadzę kilka definicji by ustandaryzować używane pojęcia:
+Najprostszym sposobem na znalezienie takiej strategii, byłoby stworzenie drzew probabilistycznych dla wszystkich możliwych stanów początkowych gry, a następnie opracowanie algorytmu podejmowania decyzji opartego na danych statystycznych. Jednakże, ilość i rozmiar tych drzew może być zbyt duża by znaleźć rozwiązanie problemu w rozsądnym czasie. Z tego powodu postanowiłem najpierw oszacować ile jest wszystkich możliwych przebiegów gry. Nim przejdę do obliczeń, wprowadzę kilka definicji by ustandaryzować używane pojęcia:
 \begin{itemize}
-	\item \textit{Decyzja} - inaczej \textit{Zagranie}, jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego.
-	\item \textit{Podjęcie decyzji} - to wybór zagrania według zastosowanego algorytmu, które zostanie użyte jako ruch w grze.
-	\item \textit{Strategia} - ciąg decyzji podejmowanych według reguł określonych przez algorytm
+	\item \textit{Decyzja} - inaczej \textit{Zagranie}, jest to typ karty wraz ze sposobem jej wykorzystania. Przykładowo: Zagranie karty typu Strażniczka z wyborem karty typu Król, lub zagranie karty typu Książę z wyborem na gracza przeciwnego,
+	\item \textit{Podjęcie decyzji} - to wybór zagrania według zastosowanego algorytmu, które zostanie użyte jako ruch w grze,
+	\item \textit{Strategia} - ciąg decyzji podejmowanych według reguł określonych przez algorytm,
 	\item \textit{Scenariusz} - inaczej przebieg gry, chronologiczny ciąg decyzji podjętych przez obu graczy od początku do końca rundy; Jedna ze ścieżek w drzewie probabilistycznym dla danego stanu początkowego rundy, czyli pojedyncze rozwiązanie.
 \end{itemize}
 
@@ -132,7 +132,7 @@ Dla  $n$ = 16, $n!=20 922 789 888 000$. Część kart się powtarza, więc tę l
 
 Należy zwrócić uwagę, że jest to górne oszacowanie. Może to się wydawać nieintuicyjne, bo przecież jeśli przetasujemy w zadany sposób talię to określimy tylko kolejność w jakiej gracze będą dociągać karty nie biorąc pod uwagę decyzji podjętych przez graczy, ale należy zauważyć, że te podjęte decyzje doprowadzą ewentualnie do innego stanu talii, który już został wzięty pod uwagę w obliczeniach. Co więcej, istnieją warunki zmniejszające zadane oszacowanie, ponieważ część kolejności kart może prowadzić do tego samego rozwiązania. Za przykład niech posłuży sytuacja, w której pierwszy gracz ma w ręce dwie karty typu Książę. O ile zagranie Księcia na przeciwnika nie skończy gry, to doprowadzi do zmiany układu talii na inny, który jest już wzięty pod uwagę w obliczeniach. W tym miejscu należałoby wskazać dolne oszacowanie, niemniej jednak te wyliczenia byłyby zbyt obszerne, a nie są głównym celem pracy.
 
-Z uwagi na rząd wielkości, stworzenie optymalnej strategii na podstawie analizy statystycznej wszystkich dostępnych rozwiązań byłoby czasochłonne. Z tego powodu, zamiast odpowiadać na pytanie ,,Jaka jest najlepsza strategia podejmowania decyzji?'', dużo łatwiej będzie odpowiedzieć na pytanie ,,która z podanych strategii jest najlepsza?''. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdzę implementując je w napisanej przeze mnie aplikacji. Pozostaje jeszcze sformalizować przedstawiony problem za pomocą modelu matematycznego.
+Z uwagi na rząd wielkości, stworzenie optymalnej strategii na podstawie analizy statystycznej wszystkich dostępnych rozwiązań byłoby czasochłonne. Z tego powodu, zamiast odpowiadać na pytanie ,,Jaka jest najlepsza strategia podejmowania decyzji?'', dużo łatwiej będzie odpowiedzieć na pytanie ,,która z podanych strategii jest najlepsza?''. Kierując się tą zasadą, w następnym rozdziale opisałem wybrane strategie, których skuteczność sprawdziłem implementując je w napisanej przeze mnie aplikacji. Pozostaje jeszcze sformalizować przedstawiony problem za pomocą modelu matematycznego.
 
 
 \section{Opis formalny problemu}
@@ -189,10 +189,10 @@ Ogólne wnioski:
 \begin{itemize}
 	\item wszystkie łuki wychodzące z węzłów należących do $Losu$ oznaczone są prawdopodobieństwem sumującym się do 1.
 	\item węzły $s_6$ i $s_9$ są liśćmi drzewa i zawierają wypłaty graczy (wynik gry) - 1 oznacza zwycięstwo, 0 oznacza przegraną. Przykładowo, w prezentowanym drzewie, w węźle $s_6$ wygrał gracz $P_1$.
-	\item należy zauważyć, że węzły $r$ są ponumerowane i nie są wzajemnie jednoznaczne z zagraniami ze zbioru $Z$. Jak najbardziej wiele różnych węzłów może oznaczać to samo zagranie.
+	\item należy zauważyć, że łuki $r$ są ponumerowane i nie są wzajemnie jednoznaczne z zagraniami ze zbioru $Z$. Jak najbardziej wiele różnych węzłów może oznaczać to samo zagranie.
 \end{itemize}
 
-Zdarza się, że gracze nie wiedzą w jakim węźle danego poziomu drzewa się znajdują. Wracając do powyższego przykładu (Rys. \ref{fig:drzewo}) załóżmy, że łuki $r_4$ i $r_5$ są takim samym zagraniem dostępnym dla gracza $P_2$. Gracz nie wie czy gra znajduje się w stanie $s_7$ czy $s_8$, ponieważ oba stany udostępniają ten sam zbiór zagrań, co odzwierciedla niepełną wiedzę gracza $P_2$. Grupa takich stanów, które udostępniają ten sam zbiór zagrań, tworzy \textbf{zbiór informacyjny}. W dalszej części pracy takie zbiory będziemy określać jako $I_n$, a zbiór udostępnianych zagrań jako $X_n$ (zauważmy, że $X_n \subset Z$), gdzie $n$ oznacza poziom drzewa. Zbiór węzłów, które następują po węzłach z $I_n$ nazywamy \textbf{loterią}.
+Zdarza się, że gracze nie wiedzą w jakim węźle danego poziomu drzewa się znajdują. Wracając do powyższego przykładu (Rys. \ref{fig:drzewo}) załóżmy, że łuki $r_4$ i $r_5$ są takim samym zagraniem dostępnym dla gracza $P_2$. Gracz nie wie czy gra znajduje się w stanie $s_7$ czy $s_8$, ponieważ oba stany udostępniają ten sam zbiór zagrań, co odzwierciedla niepełną wiedzę gracza $P_2$. Grupa takich stanów, które udostępniają ten sam zbiór zagrań, tworzy \textbf{zbiór informacyjny}. W całym drzewie występuje wiele zbiorów informacyjnych, ich zbiór określmy jako $I$. Ten zbiór, w którym znajduje się aktualnie gracz będziemy nazywać $I_k$, gdzie $I_k \subset I$ i $k \leq |I|$, a zbiór udostępnianych zagrań jako $X_k$ (zauważmy, że $X_k \subset Z$). Zbiór węzłów, które następują po węzłach z $I_k$ nazywamy \textbf{loterią}.
 
 Przedstawiony model jednoznacznie określa stan gry i graczy. Dla uwzględnienia decyzyjności, do takiego modelu należy dodać jeszcze funkcję wyboru (decyzji). Oznaczmy ją jako $d$:
 \begin{center}
@@ -202,6 +202,6 @@ Przedstawiony model jednoznacznie określa stan gry i graczy. Dla uwzględnienia
 Jest to deklaracja ogólna. Zdecydowanie ważniejsze są funkcje wyboru należące do graczy $P_1$ i $P_2$, które uwzględniają zbiór informacyjny. Oznaczmy je odpowiednio jako $d_1$ i $d_2$. Ich postać będzie następująca:
 
 \begin{center}
-	$d_i(I_n, X_n) \rightarrow z$, gdzie $z$ jest dowolnym zagraniem należącym do $X_n$ i $i = \{1, 2\}$
+	$d_n(I_k, X_k) \rightarrow z$, gdzie $z$ jest dowolnym zagraniem należącym do $X_k$ i $n = \{1, 2\}$
 \end{center}
 W takiej postaci widać, że gracze podejmą decyzję mając niepełną informację na temat stanu gry. W następnym rozdziale przedstawiam algorytmy, które będą dokładnie definiować funkcję wyboru gracza.

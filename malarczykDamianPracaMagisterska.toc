@@ -7,7 +7,7 @@
 \contentsline {section}{\numberline {2.1}Opis zasad gry}{9}
 \contentsline {section}{\numberline {2.2}Analiza problemu}{15}
 \contentsline {section}{\numberline {2.3}Opis formalny problemu}{16}
-\contentsline {chapter}{\numberline {3}Przegl\IeC {\k a}d wybranych algorytm\IeC {\'o}w i innych rozwi\IeC {\k a}za\IeC {\'n}}{21}
+\contentsline {chapter}{\numberline {3}Przegl\IeC {\k a}d wybranych algorytm\IeC {\'o}w}{21}
 \contentsline {section}{\numberline {3.1}Algorytm losowy}{21}
 \contentsline {subsection}{\numberline {3.1.1}Opis}{21}
 \contentsline {subsection}{\numberline {3.1.2}Spos\IeC {\'o}b wykorzystania}{21}
@@ -27,7 +27,7 @@
 \contentsline {chapter}{\numberline {4}Implementacja}{33}
 \contentsline {section}{\numberline {4.1}Analiza wymaga\IeC {\'n}}{33}
 \contentsline {section}{\numberline {4.2}Koncepcja wykonania i wykorzystane technologie}{35}
-\contentsline {section}{\numberline {4.3}Diagramy}{36}
+\contentsline {section}{\numberline {4.3}Diagramy}{35}
 \contentsline {subsection}{\numberline {4.3.1}Diagram klas pakietu model}{36}
 \contentsline {subsection}{\numberline {4.3.2}Diagram klas pakietu player}{37}
 \contentsline {subsection}{\numberline {4.3.3}Diagram klas pakietu engine}{38}
@@ -37,12 +37,12 @@
 \contentsline {section}{\numberline {4.5}Prezentacja systemu}{44}
 \contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{49}
 \contentsline {chapter}{\numberline {5}Rezultaty}{51}
-\contentsline {section}{\numberline {5.1}Losowy versus Losowy}{51}
-\contentsline {section}{\numberline {5.2}Zach\IeC {\l }anny versus Losowy}{54}
-\contentsline {section}{\numberline {5.3}Minimaksowy versus Losowy}{57}
-\contentsline {section}{\numberline {5.4}MCTS versus Losowy}{59}
-\contentsline {section}{\numberline {5.5}Minimaksowy versus Zach\IeC {\l }anny}{61}
-\contentsline {section}{\numberline {5.6}Zach\IeC {\l }anny versus MCTS}{65}
-\contentsline {section}{\numberline {5.7}Minimaksowy versus MCTS}{68}
+\contentsline {section}{\numberline {5.1}Algorytm losowy versus Algorytm Losowy}{51}
+\contentsline {section}{\numberline {5.2}Algorytm zach\IeC {\l }anny versus Algorytm losowy}{54}
+\contentsline {section}{\numberline {5.3}Algorytm minimaksowy versus Algorytm losowy}{57}
+\contentsline {section}{\numberline {5.4}Algorytm MCTS versus Algorytm Losowy}{59}
+\contentsline {section}{\numberline {5.5}Algorytm Minimaksowy versus Algorytm Zach\IeC {\l }anny}{61}
+\contentsline {section}{\numberline {5.6}Algorytm Zach\IeC {\l }anny versus Algorytm MCTS}{65}
+\contentsline {section}{\numberline {5.7}Algorytm Minimaksowy versus Algorytm MCTS}{68}
 \contentsline {section}{\numberline {5.8}Wnioski}{71}
 \contentsline {chapter}{\numberline {6}Podsumowanie}{73}

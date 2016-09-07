@@ -1,10 +1,10 @@
 \chapter{Rezultaty}
 \label{cha:rozdz5}
 
-W tym rozdziale zamieszczam rezultaty symulacji gier z użyciem opisanych wcześniej algorytmów. Dla każdego z nich przedstawiam średni procent zwycięstw oraz zagrania, które najczęściej kończyły grę. Na początku prezentuję statystyki każdego a algorytmów w grze z algorytmem losowym, który zawsze jest drugim graczem. Następnie porównuję pozostałe algorytmy względem siebie. W tych przypadkach symulacje ustawione są tak, by algorytmy były na przemian pierwszym i drugim graczem. Rozdział kończę opisaniem wniosków ogólnych oraz z działania poszczególnych algorytmów.
+W tym rozdziale zamieszczam rezultaty eksperymentów symulacyjnych z użyciem opisanych wcześniej algorytmów. Dla każdego z nich przedstawiam średni procent zwycięstw oraz zagrania, które najczęściej kończyły grę. Początkowo prezentuję statystyki z eksperymentów w których każdy z algorytmów gra z algorytmem losowym, będącym zawsze jest drugim graczem. Następne prezentuję wyniki z eksperymentów, w których biorą udział algorytm zachłanny, algorytm minimaksowy i algorytm MCTS. W tych przypadkach symulacje ustawione są tak, by każdy z algorytmów był naprzemiennie pierwszym i drugim graczem. Rozdział kończę opisaniem wniosków ogólnych oraz z działania poszczególnych algorytmów.
 W każdym porównaniu prezentuję statystyki oparte na próbie 100 tysięcy symulacji, z wyjątkiem tych, gdzie porównywany jest algorytm MCTS. Dla tych przypadków, ze względu na czas trwania jednej rozgrywki, ograniczyłem próbę do 1 tysiąca.
 
-\section{Losowy versus Losowy}
+\section{Algorytm losowy versus Algorytm Losowy}
 
 \begin{figure}[H]
 	\centering
@@ -22,7 +22,7 @@ Powyższy wykres na rys. \ref{fig:RVsRwin} wskazuje na pewną przewagę gracza r
 	\label{fig:RVsRroundwin}
 \end{figure}
 
-Na rys. \ref{fig:RVsRroundwin} widać wyraźną tendencję do spadku zakończeń gry wraz z kolejnymi rundami, za wyjątkiem przedostatniej gdzie następuje wzrost.
+Na rys. \ref{fig:RVsRroundwin} widać wyraźną tendencję do spadku zakończeń gry wraz z kolejnymi rundami, za wyjątkiem przedostatniej, gdzie następuje wzrost.
 
 \clearpage
 \begin{figure}[H]
@@ -41,7 +41,7 @@ Na rys. \ref{fig:RVsRroundwin} widać wyraźną tendencję do spadku zakończeń
 
 Z dwóch powyższych wykresów (rys. \ref{fig:RVsRwin} i rys. \ref{fig:RVsRguarddecision}) wynika, że zdecydowanie najczęstszym wygrywającym ruchem jest zagranie karty Baron. Około połowę mniej zwycięstw jest w wyniku zagrania karty Strażniczki. Warty uwagi jest fakt, że im bliżej końca gry tym częściej zwycięskim zagraniem jest zagranie karty Księcia na przeciwnika.
 
-\section{Zachłanny versus Losowy}
+\section{Algorytm zachłanny versus Algorytm losowy}
 
 \begin{figure}[H]
 	\centering
@@ -59,7 +59,7 @@ Powyżej (rys. \ref{fig:GVsRwin}) widać zauważalną przewagę algorytmu zachł
 	\label{fig:GVsRroundwin}
 \end{figure}
 
-Na rys. \ref{fig:GVsRroundwin} widać różnicę w porównaniu do symulacji gdzie obaj gracze grają losowo. Nie ma tak wyraźnego wzrostu gier skończonych w przedostatniej rundzie. Wynika to ze znacznie mniejszej ilości gier zakończonych remisem.
+Na rys. \ref{fig:GVsRroundwin} widać różnicę w porównaniu do eksperymentu poprzedniego, gdzie obaj gracze grają losowo. Nie ma tak wyraźnego wzrostu liczby gier skończonych w przedostatniej rundzie. Wynika to ze znacznie mniejszej ilości gier zakończonych remisem.
 
 \clearpage
 \begin{figure}[H]
@@ -78,7 +78,7 @@ Na rys. \ref{fig:GVsRroundwin} widać różnicę w porównaniu do symulacji gdzi
 
 Porównanie wykresów na rysunkach \ref{fig:RVsRguarddecision} oraz \ref{fig:GVsRguarddecision} pokazują ogromny wzrost znaczenia zagrania karty Strażniczki z wyborem karty Książę. Algorytm zachłanny osiąga zwycięstwo zagrywając Strażniczkę niemal tak samo często co przy zagraniu Barona.
 
-\section{Minimaksowy versus Losowy}
+\section{Algorytm minimaksowy versus Algorytm losowy}
 
 \begin{figure}[H]
 	\centering
@@ -96,7 +96,7 @@ Powyższy wykres (rys. \ref{fig:MmVsRwin}) pokazuje bardzo podobne wyniki jak w 
 	\label{fig:MmVsRroundwin}
 \end{figure}
 
-Również w przypadku wykresu na rys. \ref{fig:MmVsRroundwin} wyniki są bardzo do algorytmu zachłannego.
+Wykres na rys. \ref{fig:MmVsRroundwin} pokazuje wyraźną tendencję do spadku średniej liczby wygranych gier wraz z kolejnymi turami, co występuje również u algorytmu zachłannego.
 
 \begin{figure}[H]
 	\centering
@@ -105,7 +105,7 @@ Również w przypadku wykresu na rys. \ref{fig:MmVsRroundwin} wyniki są bardzo 
 	\label{fig:MmVsRdecision}
 \end{figure} 
 
-Wykres na rysunku \ref{fig:MmVsRdecision} również obrazuje zbliżone wyniki do algorytmu zachłannego.
+Wykres na rysunku \ref{fig:MmVsRdecision} również obrazuje zbliżone wyniki do algorytmu zachłannego - algorytm minimaksowy ma zdecydowaną przewagę nad algorytmem losowym.
 
 \begin{figure}[H]
 	\centering
@@ -114,11 +114,11 @@ Wykres na rysunku \ref{fig:MmVsRdecision} również obrazuje zbliżone wyniki do
 	\label{fig:MmVsRguarddecision}
 \end{figure}
 
-Na rys. \ref{fig:MmVsRguarddecision} widać, że statystyki zagrania karty Strażniczki są niemal takie same jak w przypadku algorytmu zachłannego.
+Na rys. \ref{fig:MmVsRguarddecision} widać, że najwięcej zwycięstw daje zagranie karty Strażniczki z wyborem na kartę Księcia. Zdecydowanie mniej korzystny jest wybór karty Pokojówki lub Barona.
 
-\section{MCTS versus Losowy}
+\section{Algorytm MCTS versus Algorytm Losowy}
 
-Dane z symulacji algorytmu MCTS opierają się na próbie 1000 gier, ponieważ większa próba znacząco zwiększa czas oczekiwania na wyniki. Wynika to z charakteru algorytmu, który działa przez zadany czas. W przeprowadzonych symulacjach czas działania algorytmu ustawiony był na 100ms.
+Dane z eksperymentów symulacyjnych, w których bierze udział algorytm MCTS, opierają się na próbie 1000 gier, ponieważ większa próba znacząco zwiększa czas oczekiwania na wyniki. Wynika to z charakteru algorytmu, który działa przez zadany czas. W przeprowadzonych symulacjach czas działania algorytmu ustawiony był na 100ms.
 
 \begin{figure}[H]
 	\centering
@@ -127,7 +127,7 @@ Dane z symulacji algorytmu MCTS opierają się na próbie 1000 gier, ponieważ w
 	\label{fig:MctsVsRwin}
 \end{figure}
 
-Powyższy wykres (rys. \ref{fig:MctsVsRwin}) pokazuje w tym wypadku wyraźną przewagę algorytmu losowego nad algorytmem Monte Carlo Tree Search, mimo, że był drugim graczem. Powody tego stanu rzeczy opisane są we wnioskach.
+Powyższy wykres (rys. \ref{fig:MctsVsRwin}) pokazuje w tym wypadku zauważalną przewagę algorytmu losowego nad algorytmem Monte Carlo Tree Search, mimo, że był drugim graczem. Spowodowane jest to między innymi błędnie przyjętym założeniem, że podstawowa forma algorytmu MCTS osiągnie dobre wyniki mimo czynnika losowego, o ile ilość symulacji na turę będzie odpowiednio duża.
 
 \begin{figure}[H]
 	\centering
@@ -136,7 +136,7 @@ Powyższy wykres (rys. \ref{fig:MctsVsRwin}) pokazuje w tym wypadku wyraźną pr
 	\label{fig:MctsVsRroundwin}
 \end{figure}
 
-Wykres na rys. \ref{fig:MctsVsRroundwin} pozwala zauważyć pewną charakterystykę podobną do symulacji Losowy versus Losowy - średnia liczba zwycięstw wzrasta w ostatnich rundach.
+Wykres na rys. \ref{fig:MctsVsRroundwin} pokazuje, że średnia liczba zwycięstw wzrasta w ostatnich turach, co jest charakterystyczne również dla eksperymentu z dwoma algorytmami losowymi.
 
 \begin{figure}[H]
 	\centering
@@ -154,7 +154,7 @@ Wykres na rys. \ref{fig:MctsVsRroundwin} pozwala zauważyć pewną charakterysty
 
 Wykresy na rysunkach \ref{fig:MctsVsRdecision} i \ref{fig:MctsVsRguarddecision} pokazują wyraźną tendecję algorytmu MCTS do zagrywania karty Strażniczki z wyborem na Kapłana.
 
-\section{Minimaksowy versus Zachłanny}
+\section{Algorytm Minimaksowy versus Algorytm Zachłanny}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/MirrorMmVsG/GVsMmWin.PNG}
@@ -200,9 +200,9 @@ Powyższe wykresy (rys. \ref{fig:MirrorGVsMmWin} i \ref{fig:MirrorGVsMmRoundWin}
 \end{figure}
 
 
-Oba algorytmy wykazują duże podobieństwa, a ewentualne różnice między nimi są takie same jak przy porównaniu z algorytmem losowym.
+Z wykresów na rysunkach \ref{fig:MirrorMmVsGDecision}, \ref{fig:MirrorGVsMmDecision}, \ref{fig:MmVsGGuardDecisionn} i \ref{fig:GVsMmGuardDecision} wynika, że oba algorytmy wykazują duże podobieństwa - najczęściej wygrywają poprzez zagranie karty Barona, a zagrywając kartę Strażniczki najczęściej wybierają kartę Księcia.
 \clearpage
-\section{Zachłanny versus MCTS}
+\section{Algorytm Zachłanny versus Algorytm MCTS}
 
 \begin{figure}[H]
 	\centering
@@ -252,7 +252,7 @@ Powyższe wykresy (rys. \ref{fig:MctsVsGDecision} i \ref{fig:GVsMctsDecision}) z
 
 Na powyższych wykresach (rys. \ref{fig:MctsVsGGuardDecision} i \ref{fig:GVsMctsGuardDecision}) można zauważyć zupełnie inne tendencje do zagrywania karty Strażniczki. Algorytm MCTS niemal zawsze wybiera kartę Kapłana, natomiast algorytm zachłanny mimo że preferuje wybór Księcia, to niemal równie często wybiera inne typy kart.
 
-\section{Minimaksowy versus MCTS}
+\section{Algorytm Minimaksowy versus Algorytm MCTS}
 
 \begin{figure}[H]
 	\centering
@@ -268,7 +268,7 @@ Na powyższych wykresach (rys. \ref{fig:MctsVsGGuardDecision} i \ref{fig:GVsMcts
 	\label{fig:MmVsMctsRoundWin}
 \end{figure}
 
-Podobnie jak wcześniej, powyższe wykresy (rys. \ref{fig:MmVsMctsWin} i \ref{fig:MmVsMctsRoundWin}) pokazują przewagę algorytmu minimaksowego nad algorytmem MCTS.
+Powyższe wykresy (rys. \ref{fig:MmVsMctsWin} i \ref{fig:MmVsMctsRoundWin}) pokazują przewagę algorytmu minimaksowego nad algorytmem MCTS.
 
 \begin{figure}[H]
 	\centering
@@ -303,12 +303,13 @@ Na powyższych wykresach (rys. \ref{fig:MctsVsMmDecision} warto zwrócić uwagę
 Na powyższych wykresach (rys. \ref{fig:MctsVsMmGuardDecision} i \ref{fig:MmVsMctsGuardDecision}) widać, że algorytm MCTS zachowuje się podobnie jak wcześniej. Natomiast algorytm minimaksowy zdecydowanie częściej zagrywa kartę Strażniczki z wyborem Księżniczki niż w było to w przypadku algorytmu zachłannego.
 
 \section{Wnioski}
-Zdecydowana większość gier kończy się w pierwszych 3 rundach, głównie poprzez zagranie kart Strażniczki i Barona. Wynika z tego również, że gracz rozpoczynający ma znaczną przewagę nad drugim graczem. W kolejnych rundach średnia ilość zwycięstw maleje, i następnie rośnie w dwóch ostatnich. Wynika to z dwóch zjawisk: po pierwsze, przy końcu gry gracze wyzbyli się już kart ofensywnych, czyli Strażniczki, Barona i Księcia, wobec czego dochodzi do porównania sił kart. Po drugie, jeśli karty ofensywne pozostały grze, znacznie wzrasta skuteczność ich użycia, co widać po częstości zagrań Strażniczki ze wskazaniem na Księżniczkę, bądź Księcia ze wskazaniem na przeciwnika (spodziewając się, że ma Księżniczkę). Ze statystyk można wywnioskować, że gra zdecydowanie sprzyja ofensywnym zagraniom.
-
-Algorytm losowy nie wymaga głębokiej analizy - niemniej jednak warty uwagi jest fakt, że jest bardziej skuteczny niż algorytm MCTS.
-
-Algorytm zachłanny osiąga wysokie wyniki w porównaniu z innymi algorytmami i niewiele niższe niż algorytm minimaksowy. Wynika to ze wspomnianego faworyzowania przez grę zagrań, które jak najszybciej zakończą grę. 
-
-Algorytm minimaksowy osiąga wyniki tylko niewiele lepsze niż algorym zachłanny, pomimo znacznie dłuższego czasu działania. Warto pamiętać, że w przedstawionym wariancie dokonuje on tylko przeszukania drzewa rozwiązań do 1 ruchu w przód. Algorytm ten osiąga przewagę nad zachłannym w rundach środkowych, jednak różnica zwycięstw jest niewielka.
-
-Monte Carlo Tree Search okazał się być największym rozczarowaniem, szczególnie, że jest mniej efektywny od algorytmu losowego. Przyczyną tego stanu rzeczy jest moje błędne założenie, że negatywny wpływ elementu losowego na algorytm może zostać zniwelowany przez ilość symulacji przeprowadzanych przez MCTS. Niestety, implementacja algorytmu w formie podstawowej sprawia, że wpada on w pewną pułapkę już podczas pierwszego kroku. Wynika to z tego, że gracz w danym momencie gry nie zna całego jej stanu, lecz zbiór informacyjny \textit{I}, w związku z tym w korzeniu drzewa zawarty jest jeden wylosowany stan z tego zbioru informacyjnego. Biorąc pod uwagę ilość stanów w tym zbiorze, szansa, że zostanie wylosowany ten faktyczny, jest niewielka. Każda symulacja wykonana na błędnie założonym stanie początkowym w korzeniu drzewa algorytmu MCTS będzie prowadzić do błędnych wniosków. W efekcie MCTS osiąga gorsze wyniki niż algorytm losowy. Można by to podsumować potocznym stwierdzeniem, że "lepszy jest brak wiedzy niż wiedza nieprawdziwa".
+Na podstawie przeprowadzonych badań można sformułować następujące wnioski:
+\begin{enumerate}
+	\item Zdecydowana większość gier kończy się w pierwszych 3 rundach, głównie poprzez zagranie kart Strażniczki i Barona. Wynika z tego również, że gracz rozpoczynający ma znaczną przewagę nad drugim graczem.
+	\item W kolejnych rundach średnia ilość zwycięstw maleje, i następnie rośnie w dwóch ostatnich. Wynika to z dwóch zjawisk: po pierwsze, przy końcu gry gracze wyzbyli się już kart ofensywnych, czyli Strażniczki, Barona i Księcia, wobec czego dochodzi do porównania sił kart. Po drugie, jeśli karty ofensywne pozostały grze, znacznie wzrasta skuteczność ich użycia, co widać po częstości zagrań Strażniczki ze wskazaniem na Księżniczkę, bądź Księcia ze wskazaniem na przeciwnika (spodziewając się, że ma Księżniczkę).
+	\item Ze statystyk można wywnioskować, że gra zdecydowanie sprzyja ofensywnym zagraniom.
+	\item Algorytm losowy nie wymaga głębokiej analizy - niemniej jednak warty uwagi jest fakt, że jest bardziej skuteczny niż algorytm MCTS.
+	\item Algorytm zachłanny osiąga wysokie wyniki w porównaniu z innymi algorytmami i niewiele niższe niż algorytm minimaksowy. Wynika to ze wspomnianego faworyzowania przez grę zagrań, które jak najszybciej zakończą grę. 
+	\item Algorytm minimaksowy osiąga wyniki tylko niewiele lepsze niż algorym zachłanny, pomimo znacznie dłuższego czasu działania. Warto pamiętać, że w przedstawionym wariancie dokonuje on tylko przeszukania drzewa rozwiązań do 1 ruchu w przód. Algorytm ten osiąga przewagę nad zachłannym w rundach środkowych, jednak różnica zwycięstw jest niewielka.
+	\item Efektywność algorytmu Monte Carlo Tree Search jest zdecydowanie poniżej oczekiwań, co widać szczególnie po wynikach eksperymentu z algorytmem losowym. Przyczyną tego stanu rzeczy jest moje błędne założenie, że negatywny wpływ elementu losowego na algorytm może zostać zniwelowany przez ilość symulacji przeprowadzanych przez MCTS. Niestety, implementacja algorytmu w formie podstawowej sprawia, że wpada on w pewną pułapkę już podczas pierwszego kroku. Jest to spowodowane tym, że gracz w danym momencie gry nie zna całego jej stanu, lecz zbiór informacyjny \textit{I}, w związku z tym w korzeniu drzewa zawarty jest jeden wylosowany stan z tego zbioru informacyjnego. Biorąc pod uwagę ilość stanów w tym zbiorze, szansa, że zostanie wylosowany ten faktyczny, jest niewielka. Każda symulacja wykonana na błędnie założonym stanie początkowym w korzeniu drzewa algorytmu MCTS będzie prowadzić do błędnych wniosków. W efekcie MCTS osiąga gorsze wyniki niż algorytm losowy. Można by to podsumować potocznym stwierdzeniem, że ,,lepszy jest brak wiedzy niż wiedza nieprawdziwa".
+\end{enumerate}
