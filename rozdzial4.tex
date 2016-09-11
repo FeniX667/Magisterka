@@ -10,7 +10,7 @@ Ponieważ celem pracy jest porównanie działania algorytmów gry karcianej, pie
 	\item interfejs musi udostępniać aktualny stan gry oraz zbiór decyzji możliwych do podjęcia,
 	\item interfejs musi zawierać funkcjonalność pozwalającą na utworzenie nowej instancji gry z zadanym stanem początkowym i podjętą decyzją. W nowej instancji wszystkie nieznane elementy gry są losowane na nowo (np. talia karta jest przetasowywana),
 	\item program musi umożliwiać wybranie dwóch dowolnych algorytmów, które będą ze sobą grać, oraz ustawienie liczby gier które rozegrają,
-	\item algorytm MCTS powinien mieć możliwość ustawienia dwóch parametrów: czasu wykonania, oraz algorytmu przeciwnika wykorzystywanego w symulacjach,
+	\item algorytm MCTS powinien mieć możliwość czasu wykonania
 	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek w formie wykresu i zapisywać dane do pliku.
 \end{itemize}
 Zwracane statystyki powinny zawierać następujące:
@@ -27,22 +27,23 @@ Wymagania niefunkcjonalne:
 	\item program powinien udostępniać pomoc,
 	\item aplikacja powinna zostać zaprojektowana w taki sposób, żeby można było dodawać kolejne algorytmy do aplikacji bez konieczności modyfikacji kodu.
 \end{itemize}
-\clearpage
-	
+
 \section{Koncepcja wykonania i wykorzystane technologie}
 By skupić się wyłączne na merytorycznym działaniu projektu, postanowiłem zaimplementować program w postaci aplikacji konsolowej, gdzie komunikacja odbywa się za pomocą wiersza poleceń$^{[\ref{bib:wiki_wierszPolecen}]}$. Wprowadzenie warstwy graficznej jest zbędne wobec postawionych wymagań.
 
-Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt został wykonany zgodnie z metodyką zwinną (ang. agile methodology)$^{[\ref{bib:wiki_waterfall}]}$, która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane wcześniejsze. Poniżej prezentuję zaplanowane przeze mnie iteracje tworzenia projektu (Rys. \ref{fig:diagramIteracji}.):
+Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt został wykonany zgodnie z metodyką zwinną (ang. agile methodology)$^{[\ref{bib:metodyka_zwinna}]}$, która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane wcześniejsze. Poniżej prezentuję zaplanowane przeze mnie iteracje tworzenia projektu (Rys. \ref{fig:diagramIteracji}.):
 
+\clearpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Resources/DiagramIteracji.png}
-	\caption{Zaplanowane iteracje} 
+	\includegraphics[width=\textwidth]{Resources/diagramIteracje.eps}
+	\caption{Diagram klas pakietu \textit{model}} 
 	\label{fig:diagramIteracji}
 \end{figure}
 
 Ze względu na osobiste umiejętności, do implementacji wybrałem język programowania Java SE w wersji 8$^{[\ref{bib:java}]}$. Jest to język obiektowy, o ścisłym typowaniu, działający na maszynie wirtualnej Javy, co zapewnia kompatybilność ze wszystkimi systemami operacyjnymi. Całość projektu wykonałem w środowisku programistycznym IntelliJ IDEA w darmowej wersji Community$^{[\ref{bib:intellij}]}$.
 
+\clearpage
 \section{Diagramy}
 Poniżej prezentuję diagramy klas UML, dokumentujące obecną strukturę kodu. 
 \subsection{Diagram klas pakietu model}
@@ -233,7 +234,7 @@ private Node select(Node node) {
 \clearpage
 
 \section{Prezentacja systemu}
-Poniższe zrzuty ekranu prezentują trzy widoki aplikacji: widok główny (początkowy), przebieg pojedynczej gry oraz podczas prezentacji wyników symulacji.
+Poniższe zrzuty ekranu prezentują trzy widoki aplikacji: widok główny (początkowy), przebieg pojedynczej gry oraz podczas prezentacji wyników eksperymentu symulacyjnego.
 \subsection*{Widok główny}
 Widok główny pojawia się od razu po uruchomieniu aplikacji. Jest to konsola, w której pojawiają się dostępne informacje.
 \begin{figure}[H]
@@ -248,11 +249,12 @@ Rys. \ref{fig:cli} prezentuje menu aplikacji, w którym można wpisywać następ
 	\item \textit{set player 2} - ustawia drugiego gracza,
 	\item \textit{set round limit} - ustawia ilość rund w eksperymencie symulacyjnym,
 	\item \textit{start simulation} - rozpoczyna eksperyment symulacyjny,
-	\item \textit{start single game} - rozpoczyna pojedynczą grę,
+	\item \textit{start single game} - rozpoczyna pojedynczą symulację,
 	\item \textit{switch players} - zamienia miejscami gracza pierwszego i drugiego,
-	\item \textit{start mirror simulation} - rozpoczyna eksperyment symulacyjny, w którym gracze rozpoczynają rundy na zmianę.
+	\item \textit{start mirror simulation} - rozpoczyna eksperyment symulacyjny, w którym gracze zamiennie wykonują ruch jako pierwsi.
 \end{itemize}
 
+\clearpage
 \subsection*{Widok ustawień i gry}
 Każdorazowo, po wpisaniu komendy, w konsoli wyświetlają się dodatkowe informacje, szczególnie po rozpoczęciu eksperymentu symulacyjnego.
 \begin{figure}[H]
@@ -282,10 +284,10 @@ Na rys. \ref{fig:cli3} przedstawiony został przebieg gry człowieka z przeciwni
 
 
 \subsection*{Wykresy eksperymentu symulacyjnego}
-Na wykresach przedstawione są informacje o przebiegu eksperymentu symulacyjnego, między innymi średnia ilość zwycięstw obu algorytmów w danej turze, co pozwala zauważyć pewne trendy.
+Na wykresach przedstawione są informacje o przebiegu eksperymentu symulacyjnego, między innymi średnia ilość zwycięstw obu algorytmów w danej turze, co pozwala zauważyć pewne trendy. Po wykonaniu eksperymentu, wykresy zapisują się do plików w formacie PNG w folderze aplikacji.
 \begin{figure}[H]
 	\centering
-	\includegraphics[]{Resources/winCharts.PNG}
+	\includegraphics[width=\textwidth]{Resources/winCharts.PNG}
 	\caption{Wykresy zwycięstw} 
 	\label{fig:winChart}
 \end{figure}
