@@ -6,7 +6,7 @@
 \contentsline {chapter}{\numberline {2}Gra karciana Love Letter}{9}
 \contentsline {section}{\numberline {2.1}Opis zasad gry}{9}
 \contentsline {section}{\numberline {2.2}Analiza problemu}{15}
-\contentsline {section}{\numberline {2.3}Opis formalny problemu}{16}
+\contentsline {section}{\numberline {2.3}Opis formalny problemu}{17}
 \contentsline {chapter}{\numberline {3}Przegl\IeC {\k a}d wybranych algorytm\IeC {\'o}w}{21}
 \contentsline {section}{\numberline {3.1}Algorytm losowy}{21}
 \contentsline {subsection}{\numberline {3.1.1}Opis}{21}

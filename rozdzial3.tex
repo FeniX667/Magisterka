@@ -79,8 +79,8 @@ Opierając się na powyższych wytycznych, zapisałem algorytm w formie pseudoko
 \subsection{Zapis pseudokodem}
 Wykorzystane zmienne pomocnicze:
 \begin{itemize}
-	\item $P[]$ - tablica prawdopodobieństwa wystąpień kart u przeciwnika. ($P[Karta]$ oznacza prawdopodobieństwo dla konkretnej karty)
-	\item $decyzja$ - zagranie, które ma zostać zwrócone
+	\item $P[]$ - tablica prawdopodobieństwa wystąpień kart u przeciwnika ($P[Karta]$ oznacza prawdopodobieństwo dla konkretnej karty),
+	\item $decyzja$ - zagranie, które ma zostać zwrócone.
 \end{itemize}
 \begin{algorithmic}[1]
 	\Function{$d_{zachlanna}$}{$I_n, X_n$}
@@ -154,21 +154,21 @@ Gdzie funkcja kryterialna wygląda następująco:
 \section{Algorytm min-max}
 \label{sec:minmax}
 \subsection{Opis}
-Algorytm minimaksowy polega na ,,minimalizowaniu maksymalnych możliwych strat'' bądź alternatywnie na ,,maksymalizacji minimalnego zysku (wypłaty)''$^{[\ref{bib:wiki_minMax}]}$. Zgodnie z [\ref{bib:wazniak_minMax}] często stosuje się go do gier o następujących zasadach:
+Algorytm minimaksowy polega na ,,minimalizowaniu maksymalnych możliwych strat'' bądź alternatywnie na ,,maksymalizacji minimalnego zysku (wypłaty)''[\ref{bib:wiki_minMax}]. Zgodnie z [\ref{bib:wazniak_minMax}] często stosuje się go do gier o następujących zasadach:
 \begin{itemize}
-	\item występuje dwóch graczy
-	\item ruchy wykonywane są naprzemiennie
-	\item w każdym stanie istnieje skończona liczba decyzji do podjęcia
-	\item stan i podjęta decyzja jednoznacznie wyznaczają stan następny
+	\item występuje dwóch graczy,
+	\item ruchy wykonywane są naprzemiennie,
+	\item w każdym stanie istnieje skończona liczba decyzji do podjęcia,
+	\item stan i podjęta decyzja jednoznacznie wyznaczają stan następny,
 	\item każdy stan może zakwalifikować do jednej z następujących kategorii:
 	\begin{itemize}
-		\item wygrana pierwszego gracza
-		\item wygrana drugiego gracza
-		\item remis
-		\item sytuacja nierozstrzygnięta
+		\item wygrana pierwszego gracza,
+		\item wygrana drugiego gracza,
+		\item remis,
+		\item sytuacja nierozstrzygnięta.
 	\end{itemize}
 \end{itemize}
-Najczęstsze implementacje polegają na przeszukiwaniu drzewa dalszych przebiegów gry począwszy od zadanego stanu początkowego, tak jak na przykład w warcabach$^{[\ref{bib:minMax_warcaby}]}$. Istnieją także implementacje opierające się na liczbowej ocenie ruchu$^{[\ref{bib:wazniak_minMax}]}$ i na tej idei opieram swoją implementację algorytmu minimaksowego.
+Najczęstsze implementacje polegają na przeszukiwaniu drzewa dalszych przebiegów gry począwszy od zadanego stanu początkowego, tak jak na przykład w warcabach[\ref{bib:minMax_warcaby}]. Istnieją także implementacje opierające się na liczbowej ocenie ruchu[\ref{bib:wazniak_minMax}] i na tej idei opieram swoją implementację algorytmu minimaksowego.
 
 \subsection{Sposób wykorzystania}
 Jak ustaliliśmy wcześniej, gracz nie wie w jakim dokładnie stanie znajduje się gra, zna natomiast zbiór informacyjny $I_n$. Z tego względu, z perspektywy gracza $P_1$ podjęcie decyzji $z_i \in X_n$ nie określa jednoznacznie następnego węzła w drzewie, lecz loterię. Mimo to, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować naszą maksymalną stratę. Ponieważ zysk należy rozumieć jako zwiększenie szansy na wygraną (tak jak w strategii zachłannej), to strata oznacza zwiększenie szansy na przegraną. 
@@ -217,12 +217,12 @@ Na podstawie powyższych rozważań zapisałem implementację algorytmu zachłan
 \subsection{Zapis pseudokodem}
 Wykorzystane zmienne pomocnicze:
 \begin{itemize}
-	\item $K(z)$ - oznacza wspomnianą wyżej funkcję kryterialną zagrania. 
-	\item $L[Y_n]$ - zbiór możliwych zbiorów decyzji przeciwnika na danym poziomie drzewa.	
-	\item $Y_n$ - oznacza możliwy zbiór zagrań dostępnych dla przeciwnika na danym poziomie drzewa.
-	\item Funkcja $R(L[Y_n])$ oznacza prawdopodobieństwo przegranej po reakcji przeciwnika.
-	\item $RK$ - zbiór zagrań będących reakcją przeciwnika.
-	\item $P_{porazki}[]$ - tablica zawierająca prawdopodobieństwo porażki po danym zagraniu
+	\item $K(z)$ - oznacza wspomnianą wyżej funkcję kryterialną zagrania, 
+	\item $L[Y_n]$ - zbiór możliwych zbiorów decyzji przeciwnika na danym poziomie drzewa,
+	\item $Y_n$ - oznacza możliwy zbiór zagrań dostępnych dla przeciwnika na danym poziomie drzewa,
+	\item Funkcja $R(L[Y_n])$ oznacza prawdopodobieństwo przegranej po reakcji przeciwnika,
+	\item $RK$ - zbiór zagrań będących reakcją przeciwnika,
+	\item $P_{porazki}[]$ - tablica zawierająca prawdopodobieństwo porażki po danym zagraniu.
 \end{itemize}
 
 \begin{algorithmic}[1]
@@ -330,17 +330,17 @@ Funkcja $R(L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
 
 \subsection{Opis}
 
-Drzewo Przeszukiwań Monte Carlo jest metodą heurystycznego podejmowania decyzji, często wykorzystywaną w grach typu Hex$^{[\ref{bib:mcts_hex}]}$ czy Go$^{[\ref{bib:wiki_mcts}]}$. W przeciwieństwie do deterministycznych algorytmów przeszukujących drzewo decyzyjne, MCTS buduje drzewo wariantów poprzez losowe próbkowanie najbardziej obiecujących ruchów. Dzięki temu jego dużą zaletą jest możliwość efektywnego wykorzystania w grach o wysokim rozgałęzieniu drzewa decyzyjnego$^{[\ref{bib:mcts_wprowadzenie}]}$. Popularność wykorzystania tego algorytmu stale rośnie, czego przykładem jest zastosowanie w niedeterministycznej grze planszowej Osadnicy z Catanu$^{[\ref{bib:mcts_osadnicy}]}$, czy w strategii turowej Total War: Rome II$^{[\ref{bib:mcts_totalWar}]}$. Główne cechy algorytmu:
+Drzewo Przeszukiwań Monte Carlo jest metodą heurystycznego podejmowania decyzji, często wykorzystywaną w grach typu Hex[\ref{bib:mcts_hex}] czy Go[\ref{bib:wiki_mcts}]. W przeciwieństwie do deterministycznych algorytmów przeszukujących drzewo decyzyjne, MCTS buduje drzewo wariantów poprzez losowe próbkowanie najbardziej obiecujących ruchów. Dzięki temu jego dużą zaletą jest możliwość efektywnego wykorzystania w grach o wysokim rozgałęzieniu drzewa decyzyjnego[\ref{bib:mcts_wprowadzenie}]. Popularność wykorzystania tego algorytmu stale rośnie, czego przykładem jest zastosowanie w niedeterministycznej grze planszowej Osadnicy z Catanu[\ref{bib:mcts_osadnicy}], czy w strategii turowej Total War: Rome II[\ref{bib:mcts_totalWar}]. Główne cechy algorytmu:
 \begin{itemize}
-	\item przerywalność algorytmu w dowolnym momencie
-	\item zależność wydajności od czasu - im dłużej działa algorytm, tym lepsze osiąga i
-	\item uniwersalność - algorytm do działania potrzebuje wyłącznie zbioru dostępnych ruchów oraz możliwości przeprowadzenia losowej rozgrywki od danego stanu
-	\item niezależność od wiedzy eksperckiej występującej w grze $^{[\ref{bib:mcts_wprowadzenie}]}$
+	\item przerywalność algorytmu w dowolnym momencie,
+	\item zależność wydajności od czasu - im dłużej działa algorytm, tym lepsze osiąga wyniki,
+	\item uniwersalność - algorytm do działania potrzebuje wyłącznie zbioru dostępnych ruchów oraz możliwości przeprowadzenia losowej rozgrywki od danego stanu,
+	\item niezależność od wiedzy eksperckiej występującej w grze [\ref{bib:mcts_wprowadzenie}].
 \end{itemize}
 
 \subsection{Sposób wykorzystania}
 
-Jak opisali autorzy artykułu \textit{Monte-Carlo Tree Search: A New Framework for Game AI}$^{[\ref{bib:mcts_opis}]}$, zasady działania algorytmu są następujące: otrzymując zbiór informacyjny $I_n$ oraz zbiór dopuszczalnych ruchów (decyzji) $X_n$, tworzony jest korzeń $T$, oraz węzły $s_0$ .. $s_i$ ($i=1..|X_n|$) odpowiadające stanom gry po wykonaniu dostępnych ruchów (decyzji). Następnie przez zadany czas $t$ powtarzane są następujące kroki:
+Jak opisali autorzy artykułu \textit{Monte-Carlo Tree Search: A New Framework for Game AI}[\ref{bib:mcts_opis}], zasady działania algorytmu są następujące: otrzymując zbiór informacyjny $I_n$ oraz zbiór dopuszczalnych ruchów (decyzji) $X_n$, tworzony jest korzeń $T$, oraz węzły $s_0$ .. $s_i$ ($i=1..|X_n|$) odpowiadające stanom gry po wykonaniu dostępnych ruchów (decyzji). Następnie przez zadany czas $t$ powtarzane są następujące kroki:
 \begin{enumerate}
 	\item \textbf{Selekcja} - zaczynając od korzenia $T$, wybieraj kolejne węzły balansując pomiędzy \textbf{eksploatacją} i \textbf{eksploracją}, aż dotrzesz do węzła-liścia $L$.
 	\item \textbf{Ekspansja} - jeśli wybór L nie kończy gry, utwórz węzły potomne i wśród nich wylosuj węzeł $C$
@@ -350,10 +350,10 @@ Jak opisali autorzy artykułu \textit{Monte-Carlo Tree Search: A New Framework f
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/mcts.png}
-	\caption{Schemat działania algorytmu MCTS$^{[\ref{bib:mcts_opis}]}$} 
+	\caption{Schemat działania algorytmu MCTS[\ref{bib:mcts_opis}]} 
 	\label{fig:llMainImage}
 \end{figure}
-Szczególnym elementem jest selekcja, ponieważ ona odpowiada za kierunek rozrastania się drzewa. Eksploatacja oznacza wybieranie ruchów o wysokiej częstości wygranych, a eksploracja to badanie ruchów o niskiej liczbie przeprowadzonych symulacji. Brak równowagi pomiędzy tymi dwoma strategiami próbkowania doprowadzi do zakłamań, na przykład poprzez pułapkę optimum lokalnego. W związku z tym w 2006 roku Kocsis i Szepervari opracowali wzór równoważący selekcję nazwany Upper Confidence bound applied to Trees(UCT) (górna granica ufności)$^{[\ref{bib:mcts_uct}]}$:
+Szczególnym elementem jest selekcja, ponieważ ona odpowiada za kierunek rozrastania się drzewa. Eksploatacja oznacza wybieranie ruchów o wysokiej częstości wygranych, a eksploracja to badanie ruchów o niskiej liczbie przeprowadzonych symulacji. Brak równowagi pomiędzy tymi dwoma strategiami próbkowania doprowadzi do zakłamań, na przykład poprzez pułapkę optimum lokalnego. W związku z tym w 2006 roku Kocsis i Szepervari opracowali wzór równoważący selekcję nazwany Upper Confidence bound applied to Trees (UCT - górna granica ufności)[\ref{bib:mcts_uct}]:
 \begin{center}
 	${v_i} + E*\sqrt{\frac{\ln{N}}{n_i}}$
 \end{center}

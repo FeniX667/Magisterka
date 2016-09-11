@@ -10,7 +10,7 @@ Ponieważ celem pracy jest porównanie działania algorytmów gry karcianej, pie
 	\item interfejs musi udostępniać aktualny stan gry oraz zbiór decyzji możliwych do podjęcia,
 	\item interfejs musi zawierać funkcjonalność pozwalającą na utworzenie nowej instancji gry z zadanym stanem początkowym i podjętą decyzją. W nowej instancji wszystkie nieznane elementy gry są losowane na nowo (np. talia karta jest przetasowywana),
 	\item program musi umożliwiać wybranie dwóch dowolnych algorytmów, które będą ze sobą grać, oraz ustawienie liczby gier które rozegrają,
-	\item algorytm MCTS powinien mieć możliwość czasu wykonania
+	\item algorytm MCTS powinien mieć możliwość ustawienia czasu wykonania,
 	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek w formie wykresu i zapisywać dane do pliku.
 \end{itemize}
 Zwracane statystyki powinny zawierać następujące:
@@ -29,9 +29,9 @@ Wymagania niefunkcjonalne:
 \end{itemize}
 
 \section{Koncepcja wykonania i wykorzystane technologie}
-By skupić się wyłączne na merytorycznym działaniu projektu, postanowiłem zaimplementować program w postaci aplikacji konsolowej, gdzie komunikacja odbywa się za pomocą wiersza poleceń$^{[\ref{bib:wiki_wierszPolecen}]}$. Wprowadzenie warstwy graficznej jest zbędne wobec postawionych wymagań.
+By skupić się wyłączne na merytorycznym działaniu projektu, postanowiłem zaimplementować program w postaci aplikacji konsolowej, gdzie komunikacja odbywa się za pomocą wiersza poleceń[\ref{bib:wiki_wierszPolecen}]. Wprowadzenie warstwy graficznej jest zbędne wobec postawionych wymagań.
 
-Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt został wykonany zgodnie z metodyką zwinną (ang. agile methodology)$^{[\ref{bib:metodyka_zwinna}]}$, która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane wcześniejsze. Poniżej prezentuję zaplanowane przeze mnie iteracje tworzenia projektu (Rys. \ref{fig:diagramIteracji}.):
+Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt został wykonany zgodnie z metodyką zwinną (ang. agile methodology)[\ref{bib:metodyka_zwinna}], która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane wcześniejsze. Poniżej prezentuję zaplanowane przeze mnie iteracje tworzenia projektu (Rys. \ref{fig:diagramIteracji}.):
 
 \clearpage
 \begin{figure}[H]
@@ -41,7 +41,7 @@ Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt został wykona
 	\label{fig:diagramIteracji}
 \end{figure}
 
-Ze względu na osobiste umiejętności, do implementacji wybrałem język programowania Java SE w wersji 8$^{[\ref{bib:java}]}$. Jest to język obiektowy, o ścisłym typowaniu, działający na maszynie wirtualnej Javy, co zapewnia kompatybilność ze wszystkimi systemami operacyjnymi. Całość projektu wykonałem w środowisku programistycznym IntelliJ IDEA w darmowej wersji Community$^{[\ref{bib:intellij}]}$.
+Ze względu na osobiste umiejętności, do implementacji wybrałem język programowania Java SE w wersji 8[\ref{bib:java}]. Jest to język obiektowy, o ścisłym typowaniu, działający na maszynie wirtualnej Javy, co zapewnia kompatybilność ze wszystkimi systemami operacyjnymi. Całość projektu wykonałem w środowisku programistycznym IntelliJ IDEA w darmowej wersji Community[\ref{bib:intellij}].
 
 \clearpage
 \section{Diagramy}
@@ -82,14 +82,14 @@ Pakiet \textit{gameEngine} realizuje zasady gry w sensie mechaniki działania ka
 \section{Listingi}
 Pisząc kod aplikacji, oprócz kierowania się paradygmatami programowania obiektowego, bardzo ważne jest również by dbać o czytelność kodu. W [\ref{bib:czysty_kod}] można znaleźć wiele porad i metod zwiększających jakość kodu. Jak taki kod powinien wyglądać bardzo dobrze opisuje Grady Booch:
 \begin{center}
-	,,Czysty kod jest prosty i bezpośredni. Czysty kod czyta się jak dobrze napisaną prozę. Czysty kod nigdy nie zaciemnia zamiarów projektanta; jest pełen abstrakcji i prostych ścieżek sterowania.''$^{[\ref{bib:czysty_kod_cytat_booch}]}$
+	,,Czysty kod jest prosty i bezpośredni. Czysty kod czyta się jak dobrze napisaną prozę. Czysty kod nigdy nie zaciemnia zamiarów projektanta; jest pełen abstrakcji i prostych ścieżek sterowania.''[\ref{bib:czysty_kod_cytat_booch}]
 \end{center}
-Najpopularniejszą metodologią wspomagającą tworzenie czystego kodu jest SOLID. Jest to mnemonik opisujący pięć podstawowych założeń programownia obiektowego$^{[\ref{bib:wiki_SOLID}]}$. SOLID oznacza:
+Najpopularniejszą metodologią wspomagającą tworzenie czystego kodu jest SOLID. Jest to mnemonik opisujący pięć podstawowych założeń programownia obiektowego[\ref{bib:wiki_SOLID}]. SOLID oznacza:
 \begin{itemize}
-	\item S (Single responsibility principle) - Klasa powinna posiadać jedną odpowiedzialność
-	\item O (Open/closed principle) - Zmiana wymagań wobec aplikacji nie powinna w konsekwencji zmieniać kodu, lecz dodawać nowe funkcjonalności bez usuwania starych.
-	\item L (Liskov substitution principle) - W przypadku dziedziczenia, klasy pochodne muszą mieć możliwość realizacji funkcji klasy bazowej.
-	\item I (Interface segregation principle) - Klient nie może być uzależniony od nieużywanego przez niego interfejsu.
+	\item S (Single responsibility principle) - Klasa powinna posiadać jedną odpowiedzialność,
+	\item O (Open/closed principle) - Zmiana wymagań wobec aplikacji nie powinna w konsekwencji zmieniać kodu, lecz dodawać nowe funkcjonalności bez usuwania starych,
+	\item L (Liskov substitution principle) - W przypadku dziedziczenia, klasy pochodne muszą mieć możliwość realizacji funkcji klasy bazowej,
+	\item I (Interface segregation principle) - Klient nie może być uzależniony od nieużywanego przez niego interfejsu,
 	\item D (Dependency inversion principle) - Funkcjonalność wysokopoziomowych modułów nie może zależeć od sposobu działania modułów niskopoziomowych.
 \end{itemize}
 
@@ -234,7 +234,7 @@ private Node select(Node node) {
 \clearpage
 
 \section{Prezentacja systemu}
-Poniższe zrzuty ekranu prezentują trzy widoki aplikacji: widok główny (początkowy), przebieg pojedynczej gry oraz podczas prezentacji wyników eksperymentu symulacyjnego.
+Poniższe zrzuty ekranu prezentują trzy widoki aplikacji: widok główny  (początkowy), przebieg pojedynczej gry oraz podczas prezentacji wyników eksperymentu symulacyjnego.
 \subsection*{Widok główny}
 Widok główny pojawia się od razu po uruchomieniu aplikacji. Jest to konsola, w której pojawiają się dostępne informacje.
 \begin{figure}[H]
