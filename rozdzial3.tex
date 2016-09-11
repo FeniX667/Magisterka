@@ -1,7 +1,7 @@
 \chapter{Przegląd wybranych algorytmów}
 \label{cha:rozdz3}
 
-W tym rozdziale przedstawiam algorytmy wyboru decyzji dla gry ,,Love Letter''	. Są to kolejno: losowy, zachłanny, minimaksowy oraz Monte Carlo Tree Search. Dla każdego z nich opisuję jego użycie w odniesieniu do gry 'Love Letter'. Ponieważ wszystkie algorytmy są implementowane w aplikacji komputerowej, przedstawiłem je również w postaci pseudokodu.
+W tym rozdziale przedstawiam algorytmy wyboru decyzji dla gry ,,Love Letter''. Są to kolejno: losowy, zachłanny, minimaksowy oraz Monte Carlo Tree Search. Dla każdego z nich opisuję jego użycie w odniesieniu do gry ,,Love Letter''. Ponieważ wszystkie algorytmy są implementowane w aplikacji komputerowej, przedstawiłem je również w postaci pseudokodu.
 
 \section{Algorytm losowy}
 \label{sec:algLos}
@@ -13,20 +13,20 @@ Z uwagi na prostotę algorytmu jest on wykorzystany głównie do przetestowania 
 
 \subsection{Zapis pseudokodem}
 \begin{algorithmic}[1]
-	\Function{$d_{losowa}$}{$I_n, X_n$}	
-		\ForAll{ $z_i \in X_n$ } \Comment $i =1..|X_n|$
-			\If {$z_i ==$ Księżniczka}
-				\State $X_n \gets X_n - z_i$
+	\Function{$d_{losowa}$}{$I_k, X_k$}	
+		\ForAll{ $z \in X_k$ }
+			\If {$z ==$ Księżniczka}
+				\State $X_k \gets X_k - z$
 			\EndIf
 		\EndFor
-	\State \textbf{return} wylosujJeden($X_n$) 
+	\State \textbf{return} wylosujJeden($X_k$) 
 	\EndFunction
 \end{algorithmic}
 
 \section{Algorytm zachłanny}
 \label{sec:algZach}
 \subsection{Opis}
-Algorytm zachłanny polega na wyborze najlepszego możliwego zagrania dostępnego w danej chwili, nie analizując jego konsekwencji w przyszłości. Pomimo, że takie podejmowanie decyzji jest krótkowzroczne, to jest też łatwe w implementacji i daje atrakcyjne wyniki w niektórych problemach, np. przy szukaniu minimalnego drzewa rozpinającego\textsuperscript{[\ref{bib:algorytmy_zachlanny}]}.
+Algorytm zachłanny polega na wyborze najlepszego możliwego zagrania dostępnego w danej chwili, nie analizując jego konsekwencji w przyszłości. Pomimo, że takie podejmowanie decyzji jest krótkowzroczne, to jest też łatwe w implementacji i daje atrakcyjne wyniki w niektórych problemach, np. przy szukaniu minimalnego drzewa rozpinającego[\ref{bib:algorytmy_zachlanny}].
 
 \subsection{Sposób wykorzystania}
 
@@ -51,7 +51,7 @@ Wobec powyższego, prawdopodobieństwa wystąpienia kart u przeciwnika wynikają
 		\end{tabular}
 \end{table}
 
-Zagranie karty Baron oznacza porównanie drugiej karty z kartą przeciwnika. Łatwo policzyć, że w 70\% przypadków skończyłoby to się porażką, a w 30\% nie było by żadnego efektu. Drugim dostępnym ruchem jest zagranie karty Strażniczki, a w jej przypadku najlepszym wyborem jest wytypowanie Kapłana, co daje 20\% szans na zwycięstwo i 80\% szans, że nie nastąpi żaden efekt. Zauważmy, że gdybyśmy wliczali posiadane karty do obliczenia prawdopodobieństwa, wystąpienie Barona i Kapłana byłoby tak samo możliwe. W takich przypadkach algorytm powinien zawsze celować w kartę z wyższym numerem. By formalnie stwierdzić, jaka decyzja $z$ powinna zostać podjęta, musimy obliczyć funkcję kryterialną dla dostępnych zagrań i wybrać to zagranie, dla której funkcja przyjmuje wyższą wartość. Przyjmijmy, że lokalna funkcja kryterialna wygląda następująco:
+Zagranie karty Baron oznacza porównanie drugiej karty z kartą przeciwnika. Łatwo policzyć, że w 70\% przypadków skończyłoby to się porażką, a w 30\% nie było by żadnego efektu. Drugim dostępnym ruchem jest zagranie karty Strażniczki, a w jej przypadku najlepszym wyborem jest wytypowanie Kapłana, co daje 20\% szans na zwycięstwo i 80\% szans, że nie nastąpi żaden efekt. Zauważmy, że gdybyśmy wliczyli posiadane karty do obliczenia prawdopodobieństwa, wystąpienie Barona i Kapłana byłoby tak samo możliwe. W takich przypadkach algorytm powinien zawsze celować w kartę z wyższym numerem. By formalnie stwierdzić, jaka decyzja $z$ powinna zostać podjęta, musimy obliczyć funkcję kryterialną dla dostępnych zagrań i wybrać to zagranie, dla której funkcja przyjmuje wyższą wartość. Przyjmijmy, że lokalna funkcja kryterialna wygląda następująco:
 
 \begin{center}
 	$F(z) = 1 + prawdopodobienstwo\_wygranej - prawdopodobienstwo\_przegranej$
@@ -69,7 +69,7 @@ Najlepszą decyzją w tym wypadku jest zagranie karty Strażniczki z wyborem kar
 	\item Kapłan - efekt karty jest neutralny i ocena jego zagrania będzie zawsze stała,
 	\item Baron - ocena zagrania wzrasta, gdy mamy drugą kartę silniejszą niż może mieć przeciwnik i maleje, gdy jest odwrotnie,
 	\item Pokojówka - podobnie jak w przypadku kapłana, ocena zagrania karty będzie stała,
-	\item Książę - ocena zagrania na przeciwnika wzrasta z prawdopodobieństwem Księżniczki u przeciwnika. Ocena zagrania na siebie jest stała, lecz 0, gdy druga karta to Księżniczka,
+	\item Książę - ocena zagrania na przeciwnika wzrasta z prawdopodobieństwem Księżniczki u przeciwnika. Ocena zagrania na siebie jest stała, z wyjątkiem sytuacji, gdy druga karta to Księżniczka. Wówczas ocena wynosi 0,
 	\item Król - jak w przypadku Kapłana i Pokojówki, ocena zagrania jest stała,
 	\item Hrabina - ocena stała, jednak musimy ją zagrać, gdy druga posiadana karta to Król lub Książę,
 	\item Księżniczka - nie może być nigdy wyrzucona,
@@ -83,12 +83,12 @@ Wykorzystane zmienne pomocnicze:
 	\item $decyzja$ - zagranie, które ma zostać zwrócone.
 \end{itemize}
 \begin{algorithmic}[1]
-	\Function{$d_{zachlanna}$}{$I_n, X_n$}
+	\Function{$d_{zachlanna}$}{$I_k, X_k$}
 		\State $P[] \gets$ obliczPrawdopodobienstwo()
-		\State $ decyzja \gets NULL$ \Comment Szukanie zagrania o najwyższej wycenie
-		\ForAll{ $z_i \in X_n$ } \Comment $i=1..|X_n|$
-				\If {$F(decyzja, P[]) < F(z_i, P[]$}
-					\State $decyzja \gets z_i$
+		\State $ decyzja \gets NULL$ \Comment Szukanie zagrania o najwyższej ocenie
+		\ForAll{ $z \in X_k$ }
+				\If {$F(decyzja, P[]) < F(z, P[]$}
+					\State $decyzja \gets z$
 				\EndIf
 		\EndFor		
 		\State \textbf{return} $decyzja$
@@ -127,10 +127,10 @@ Gdzie funkcja kryterialna wygląda następująco:
 			\Case{Pok\_Z}
 				\State \textbf{return} $ 1 + 0.005 $
 			\EndCase
-			\Case{K-e\_S}
+			\Case{K-e\_P}
 				\State \textbf{return} $ 1 + P[\textit{K-a}] + 0.004 $
 			\EndCase
-			\Case{K-e\_P} 
+			\Case{K-e\_S} 
 				\If {$ DK == $ K-a}  
 					\State \textbf{return} $ 0 $
 				\Else
@@ -171,7 +171,7 @@ Algorytm minimaksowy polega na ,,minimalizowaniu maksymalnych możliwych strat''
 Najczęstsze implementacje polegają na przeszukiwaniu drzewa dalszych przebiegów gry począwszy od zadanego stanu początkowego, tak jak na przykład w warcabach[\ref{bib:minMax_warcaby}]. Istnieją także implementacje opierające się na liczbowej ocenie ruchu[\ref{bib:wazniak_minMax}] i na tej idei opieram swoją implementację algorytmu minimaksowego.
 
 \subsection{Sposób wykorzystania}
-Jak ustaliliśmy wcześniej, gracz nie wie w jakim dokładnie stanie znajduje się gra, zna natomiast zbiór informacyjny $I_n$. Z tego względu, z perspektywy gracza $P_1$ podjęcie decyzji $z_i \in X_n$ nie określa jednoznacznie następnego węzła w drzewie, lecz loterię. Mimo to, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować naszą maksymalną stratę. Ponieważ zysk należy rozumieć jako zwiększenie szansy na wygraną (tak jak w strategii zachłannej), to strata oznacza zwiększenie szansy na przegraną. 
+Jak ustaliliśmy wcześniej, gracz nie wie w jakim dokładnie stanie znajduje się gra, zna natomiast zbiór informacyjny $I_k$. Z tego względu, z perspektywy gracza $P_1$ podjęcie decyzji $z \in X_k$ nie określa jednoznacznie następnego węzła w drzewie, lecz loterię. Mimo to, jesteśmy w stanie statystycznie ocenić możliwości przeciwnika, a tym samym zminimalizować naszą maksymalną stratę. Ponieważ zysk należy rozumieć jako zwiększenie szansy na wygraną (tak jak w strategii zachłannej), to strata oznacza zwiększenie szansy na przegraną. 
 
 Rozważmy scenariusz, w którym gracz pierwszy posiada kartę Księcia oraz Pokojówki. Na stosie pozostało 2 karty, 1 karta jest zakryta zgodnie z zasadami rozpoczęcia rundy i przeciwnik również posiada 1 kartę. Wśród tych 4 nieznanych graczowi kart są karty Strażniczki, Barona, Księcia oraz Księżniczki. Prawdopodobieństwo wystąpienia każdej z nich u przeciwnika wynosi 25\% i razem stanowią one tablicę prawdopodobieństwa $P[]$. Przyjmijmy, że wykorzystywana w poprzedniej strategii funkcja kryterialna $F(z, P[])$ to maksymalizacja zysku i nazwijmy ją $F_{max}(z, P[])$  Zgodnie z jej definicją $F_{max}(\textit{K-e}, P[]) = 1.29$ i $F_{max}(Pokojowka, P[]) = 1.05$, więc zagranie Księcia maksymalizuje szansę na wygraną. Jeśli jednak weźmiemy pod uwagę, że w 75\% przypadków nie wygrywamy, wówczas musimy rozważyć odpowiedź przeciwnika. W tym wypadku jest 6 par kart które może posiadać przeciwnik, więc dla każdej z nich, zgodnie ze strategią zachłanną, należy obliczyć funkcję kryterialną oraz szansę na przegraną. Dodatkowo należy zauważyć, że z perspektywy przeciwnika w każdym przypadku gracz pierwszy ma inny rozkład prawdopodobieństwa wystąpienia karty. Pełne obliczenia znajdują się w tabeli poniżej.
 
@@ -193,7 +193,7 @@ Rozważmy scenariusz, w którym gracz pierwszy posiada kartę Księcia oraz Poko
 		K-e ; K-a & $P[\textit{Str}] = P[\textit{Pok}] = P[\textit{Bar}] = 33.(3)\%$ & 1.04 & 0 & 0\% \\ \hline
 	\end{tabular}
 \end{table}
-Dodatkowo, wprowadźmy funkcję $K(z) = F_{max} - F_{min}$, która wyceni dane zagranie.
+Dodatkowo, wprowadźmy funkcję kryterialną $K(z) = F_{max} - F_{min}$, która oceni dane zagranie.
 
 Każdy rozważany scenariusz ma taką samą szansę wystąpienia, czyli $\frac{1}{6}$. Statystycznie szansa na przegraną wynosi więc:
 \begin{center}
@@ -218,23 +218,23 @@ Na podstawie powyższych rozważań zapisałem implementację algorytmu zachłan
 Wykorzystane zmienne pomocnicze:
 \begin{itemize}
 	\item $K(z)$ - oznacza wspomnianą wyżej funkcję kryterialną zagrania, 
-	\item $L[Y_n]$ - zbiór możliwych zbiorów decyzji przeciwnika na danym poziomie drzewa,
-	\item $Y_n$ - oznacza możliwy zbiór zagrań dostępnych dla przeciwnika na danym poziomie drzewa,
-	\item Funkcja $R(L[Y_n])$ oznacza prawdopodobieństwo przegranej po reakcji przeciwnika,
-	\item $RK$ - zbiór zagrań będących reakcją przeciwnika,
-	\item $P_{porazki}[]$ - tablica zawierająca prawdopodobieństwo porażki po danym zagraniu.
+	\item $L[Y]$ - lista możliwych zbiorów decyzji przeciwnika po podjęciu decyzji przez gracza pierwszego
+	\item $Y$ - oznacza jeden z możliwych zbiorów zagrań dostępnych dla przeciwnika po podjęciu decyzji przez gracza pierwszego
+	\item Funkcja $R(L[Y])$ oznacza prawdopodobieństwo przegranej po reakcji przeciwnika,
+	\item $RK$ - zbiór decyzji przeciwnika z każdego $Y \in L[Y]$,
+	\item $P_{porazki}[]$ - tablica zawierająca prawdopodobieństwo porażki po danym zagraniu przeciwnika.
 \end{itemize}
 
 \begin{algorithmic}[1]
-	\Function{$D_{minimaksowa}$}{$I_n, X_n$}
+	\Function{$D_{minimaksowa}$}{$I_k, X_k$}
 	\State $P[] \gets$ obliczPrawdopodobienstwo()
-		\ForAll{ $z_i \in X_n$ } \Comment $i=1..|X_n|$
-			\State $K(z_i) \gets F_{max}(z_i, P[]) - F_{min}(z_i, P[])$
+		\ForAll{ $z \in X_k$ }
+			\State $K(z) \gets F_{max}(z, P[]) - F_{min}(z, P[])$
 		\EndFor		
 		\State $ decyzja \gets z_0$ \Comment Szukanie zagrania o najwyższej wycenie
-		\ForAll{ $z_i \in X_n $ } 
-			\If {$K(decyzja) < K(z_i)$}
-				\State $decyzja \gets z_i$
+		\ForAll{ $z \in X_k $ } 
+			\If {$K(decyzja) < K(z)$}
+				\State $decyzja \gets z$
 			\EndIf
 		\EndFor		
 		\State \textbf{return} $decyzja$
@@ -244,43 +244,43 @@ Wykorzystane zmienne pomocnicze:
 Funkcja $F_{max}(z, P[])$ jest identyczna do $F(z, P[])$ występującej w strategii zachłannej, w związku z czym przedstawiam wyłącznie $F_{min}(z, P[]$).
 \begin{algorithmic}[1]
 	\Function{$F_{min}$}{$z, P[]$}	
-		\State $L[Y_n] \gets$ utwórz listę możliwych zbiorów decyzji u przeciwnika 
+		\State $L[Y] \gets$ utwórz listę możliwych zbiorów decyzji przeciwnika po podjęciu decyzji $z$
 		\Switch{$z$}
 			\Case{Str\_Kap} \Comment Szanse, że Strażniczka \textbf{nie} przyniesie zwycięstwa
-				\State \textbf{return} $ (1 - P[Kap]) * R(L[Y_n]) $
+				\State \textbf{return} $ (1 - P[Kap]) * R(L[Y]) $
 			\EndCase
 			\Case{Str\_Bar}
-				\State \textbf{return} $ (1 - P[Bar]) * R(L[Y_n]) $
+				\State \textbf{return} $ (1 - P[Bar]) * R(L[Y]) $
 			\EndCase
 				\State ...
 			\Case{Str\_K-a}
-				\State \textbf{return} $ (1 - P[\textit{K-a}]) * R(L[Y_n]) $
+				\State \textbf{return} $ (1 - P[\textit{K-a}]) * R(L[Y]) $
 			\EndCase
 			\Case{Kap\_Z}
-				\State \textbf{return} $  R(L[Y_n]) $
+				\State \textbf{return} $  R(L[Y]) $
 			\EndCase
 			\Case{Bar\_Z}	\Comment Szanse, że porównanie zakończy się remisem 
 				\State $ szanseRemisu \gets P[DK]$ 
-				\State \textbf{return} $ szanseRemisu * R(L[Y_n]) $
+				\State \textbf{return} $ szanseRemisu * R(L[Y]) $
 			\EndCase
 			\Case{Pok\_Z}
 				\State \textbf{return} $ 0 $
 			\EndCase
 			\Case{K-e\_P}
-				\State \textbf{return} $ (1 - P[\textit{K-a}]) * R(L[Y_n]) $
+				\State \textbf{return} $ (1 - P[\textit{K-a}]) * R(L[Y]) $
 			\EndCase
 			\Case{K-e\_S} 
 				\If {$ DK == \textit{K-a} $}  
 					\State \textbf{return} $ 0 $
 				\Else
-					\State \textbf{return} $ R(L[Y_n]) $
+					\State \textbf{return} $ R(L[Y]) $
 				\EndIf
 			\EndCase
 			\Case{Krl\_Z}
-				\State \textbf{return} $ R(L[Y_n]) $
+				\State \textbf{return} $ R(L[Y]) $
 			\EndCase
 			\Case{Hra\_Z}
-				\State \textbf{return} $ R(L[Y_n]) $
+				\State \textbf{return} $ R(L[Y]) $
 			\EndCase
 				\Case{K-a}
 			\State \textbf{return} $ 10 $
@@ -289,38 +289,38 @@ Funkcja $F_{max}(z, P[])$ jest identyczna do $F(z, P[])$ występującej w strate
 	\EndFunction
 \end{algorithmic}
 
-Funkcja $R(L[Y_n])$ oznacza szansę porażki po reakcji przeciwnika.
+Funkcja $R(L[Y])$ oznacza szansę porażki po reakcji przeciwnika.
 \begin{algorithmic}[1]
-	\Function{$R$}{$L[Y_n]$}
-		\ForAll {$Y_n \in L[Y_n]$}
+	\Function{$R$}{$L[Y]$}
+		\ForAll {$Y \in L[Y]$}
 			\State $P[] \gets$ obliczPrawdopodobienstwo()
-			\State $RK \gets RK \cup D_{zachlanna}(Y_n, P[]) $	\Comment RK to zbiór reakcji dla każdego ze zbiorów $Y_n$
+			\State $RK \gets RK \cup D_{zachlanna}(Y, P[]) $	\Comment RK to zbiór decyzji przeciwnika
 		\EndFor
-		\ForAll {$z_i \in RK$}	\Comment Sprawdzenie szansy porażki, $i=1..|RK|$
-			\Switch{$z_i$}
+		\ForAll {$z \in RK$}	\Comment Sprawdzenie szansy porażki dla każdej decyzji
+			\Switch{$z$}
 				\Case{Str\_DK}
-					\State $P_{porazki}[z_i] \gets 1$
+					\State $P_{porazki}[z] \gets 1$
 				\EndCase
 				\Case{Bar\_Z}
 					\If{$W(DK) < W(DK_{przeciwnika})$}
-						\State $P_{porazki}[z_i] \gets 1$
+						\State $P_{porazki}[z] \gets 1$
 					\Else
-						\State $P_{porazki}[z_i] \gets 0$
+						\State $P_{porazki}[z] \gets 0$
 					\EndIf
 				\EndCase
 				\Case{K-e\_Z}
 					\If{$DK == \textit{K-a}$}
-						\State $P_{porazki}[z_i] \gets 1$
+						\State $P_{porazki}[z] \gets 1$
 					\Else
-						\State $P_{porazki}[z_i] \gets 0$
+						\State $P_{porazki}[z] \gets 0$
 					\EndIf
 				\EndCase
 				\Case{default}
-					$P_{porazki}[z_i] \gets 0$
+					$P_{porazki}[z] \gets 0$
 				\EndCase
 			\EndSwitch
 		\EndFor
-		\State \textbf{return} $ \sum_{i=0}^{|RK|} \frac{1}{|RK|} * P_{porazki}[i] $
+		\State \textbf{return} $ \sum_{i=0}^{|RK|-1} \frac{1}{|RK|} * P_{porazki}[z_i] $
 	\EndFunction
 \end{algorithmic}
 
@@ -340,11 +340,11 @@ Drzewo Przeszukiwań Monte Carlo jest metodą heurystycznego podejmowania decyzj
 
 \subsection{Sposób wykorzystania}
 
-Jak opisali autorzy artykułu \textit{Monte-Carlo Tree Search: A New Framework for Game AI}[\ref{bib:mcts_opis}], zasady działania algorytmu są następujące: otrzymując zbiór informacyjny $I_n$ oraz zbiór dopuszczalnych ruchów (decyzji) $X_n$, tworzony jest korzeń $T$, oraz węzły $s_0$ .. $s_i$ ($i=1..|X_n|$) odpowiadające stanom gry po wykonaniu dostępnych ruchów (decyzji). Następnie przez zadany czas $t$ powtarzane są następujące kroki:
+Jak opisali autorzy artykułu \textit{Monte-Carlo Tree Search: A New Framework for Game AI}[\ref{bib:mcts_opis}], zasady działania algorytmu są następujące: otrzymując zbiór informacyjny $I_k$ oraz zbiór dopuszczalnych ruchów (decyzji) $X_k$, tworzony jest korzeń $T$, oraz węzły $p_0$ .. $p_q$ ($0 \leq q<|X_k|$) odpowiadające stanom gry po wykonaniu dostępnych ruchów (decyzji). Następnie przez zadany czas $t$ powtarzane są następujące kroki:
 \begin{enumerate}
 	\item \textbf{Selekcja} - zaczynając od korzenia $T$, wybieraj kolejne węzły balansując pomiędzy \textbf{eksploatacją} i \textbf{eksploracją}, aż dotrzesz do węzła-liścia $L$.
 	\item \textbf{Ekspansja} - jeśli wybór L nie kończy gry, utwórz węzły potomne i wśród nich wylosuj węzeł $C$
-	\item \textbf{Symulacja} - dla wybranego węzła przeprowadzać losową symulację, aż do osiągnięcia wyniku.
+	\item \textbf{Symulacja} - dla wybranego węzła symuluj grę losowo podejmując decyzje, aż do osiągnięcia wypłaty.
 	\item \textbf{Propagacja wsteczna} - każdy węzeł od $C$ do $L$ jest aktualizowany o wartość wyniku.
 \end{enumerate}
 \begin{figure}[h]
@@ -355,13 +355,13 @@ Jak opisali autorzy artykułu \textit{Monte-Carlo Tree Search: A New Framework f
 \end{figure}
 Szczególnym elementem jest selekcja, ponieważ ona odpowiada za kierunek rozrastania się drzewa. Eksploatacja oznacza wybieranie ruchów o wysokiej częstości wygranych, a eksploracja to badanie ruchów o niskiej liczbie przeprowadzonych symulacji. Brak równowagi pomiędzy tymi dwoma strategiami próbkowania doprowadzi do zakłamań, na przykład poprzez pułapkę optimum lokalnego. W związku z tym w 2006 roku Kocsis i Szepervari opracowali wzór równoważący selekcję nazwany Upper Confidence bound applied to Trees (UCT - górna granica ufności)[\ref{bib:mcts_uct}]:
 \begin{center}
-	${v_i} + E*\sqrt{\frac{\ln{N}}{n_i}}$
+	${v_q} + E*\sqrt{\frac{\ln{N}}{n_i}}$
 \end{center}
 \begin{itemize}
-	\item $v_i$ - estymowana wartość węzła,
+	\item $v_q$ - estymowana wartość węzła $p_q$,
 	\item $E$ - empirycznie dobierany parametr eksploracji, zazwyczaj $\sqrt{2}$,
 	\item $N$ - ilość odwiedzin węzła-rodzica,
-	\item $n_i$ - ilość odwiedzin w danym węźle.
+	\item $n_q$ - ilość odwiedzin w danym węźle $p_q$.
 \end{itemize}
 Ważne jest, że każdy węzeł posiada informację o szacunkowej wartości opartej na wynikach symulacji, oraz o liczbie przeprowadzonych symulacji.
 
@@ -369,18 +369,18 @@ Ze względu na fakt, że algorytm do działania wymaga wyłącznie listy dostęp
 \subsection{Zapis pseudokodem}
 Wykorzystane zmienne pomocnicze:
 \begin{itemize}
-	\item $Nast(s, z)$ - funkcja wskazująca następnik węzła $u$ po wyborze zagrania (łuku) $z$,
+	\item $Nast(p, z)$ - funkcja wskazująca następnik węzła $p$ po wyborze zagrania (łuku) $z$,
 	\item $X_L$ - zbiór możliwych zagrań dostępnych w węźle $L$,
 	\item $wynik$ - wypłata gracza.
 \end{itemize}
 \begin{algorithmic}[1]
-	\Function{$d_{mcts}$}{$I_n, X_n$}
-		\State $T \gets $ utwórz korzeń T z obecnego zbioru informacyjnego $I_n$
+	\Function{$d_{mcts}$}{$I_k, X_k$}
+		\State $T \gets $ utwórz korzeń T z obecnego zbioru informacyjnego $I_k$
 		\Repeat
 			\State $L \gets $ selekcja($T$)
 			\If {$L$ nie jest końcem gry}
-				\ForAll{ $z_i \in X_L$ } \Comment $i=1..|X_L|$, 
-					\State $L \gets$ dodajDziecko($Nast(L, z_i)$)
+				\ForAll{ $z \in X_L$ }
+					\State $L \gets$ dodajDziecko($Nast(L, z)$)
 				\EndFor
 				\State $C \gets$ wylosujDziecko($L$)
 				\State $wynik \gets$ symuluj($C$)	\Comment Symulacja
@@ -390,7 +390,7 @@ Wykorzystane zmienne pomocnicze:
 				\Until {$C==T$}
 			\EndIf 
 		\Until{koniec czasu}
-		\State $decyzja \gets$ najwięcejSymulacji($R$) \Comment ruch z najbardziej obiecującego węzła 
+		\State $decyzja \gets$ najwięcejSymulacji($T$) \Comment ruch z najbardziej obiecującego węzła 
 		\State \textbf{return} $decyzja$
 	\EndFunction
 \end{algorithmic}

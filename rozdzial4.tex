@@ -9,15 +9,15 @@ Ponieważ celem pracy jest porównanie działania algorytmów gry karcianej, pie
 	\item program musi udostępniać interfejs do którego można podłączyć różne algorytmy podejmujące decyzje,
 	\item interfejs musi udostępniać aktualny stan gry oraz zbiór decyzji możliwych do podjęcia,
 	\item interfejs musi zawierać funkcjonalność pozwalającą na utworzenie nowej instancji gry z zadanym stanem początkowym i podjętą decyzją. W nowej instancji wszystkie nieznane elementy gry są losowane na nowo (np. talia karta jest przetasowywana),
-	\item program musi umożliwiać wybranie dwóch dowolnych algorytmów, które będą ze sobą grać, oraz ustawienie liczby gier które rozegrają,
+	\item program musi umożliwiać wybranie dwóch dowolnych algorytmów, które będą ze sobą grać oraz ustawienie liczby gier które rozegrają,
 	\item algorytm MCTS powinien mieć możliwość ustawienia czasu wykonania,
 	\item po skończonej serii gier program powinien wyświetlać szczegółowe statystyki rozgrywek w formie wykresu i zapisywać dane do pliku.
 \end{itemize}
-Zwracane statystyki powinny zawierać następujące:
+Zwracane statystyki powinny zawierać:
 \begin{itemize}
-	\item procentowa liczba zwycięstw każdego algorytmu z wyszczególnieniem na tury w których została zakończona runda,
+	\item procentową liczbę zwycięstw każdego algorytmu z wyszczególnieniem na tury w których została zakończona runda,
 	\item rozkład procentowy zakończeń gry - ile rund skończyło się zagraniem karty Barona, Strażniczki, Księcia lub w ostatniej turze po wyczerpaniu talii,
-	\item wyszczególnienie procentowej liczby zwycięstw w zależności od tego który algorytm wykonuje ruch jako pierwszy.
+	\item wyszczególnienie procentowej liczby zwycięstw w zależności od tego, który algorytm wykonuje ruch jako pierwszy.
 \end{itemize}
 
 Wymagania niefunkcjonalne:
@@ -31,7 +31,7 @@ Wymagania niefunkcjonalne:
 \section{Koncepcja wykonania i wykorzystane technologie}
 By skupić się wyłączne na merytorycznym działaniu projektu, postanowiłem zaimplementować program w postaci aplikacji konsolowej, gdzie komunikacja odbywa się za pomocą wiersza poleceń[\ref{bib:wiki_wierszPolecen}]. Wprowadzenie warstwy graficznej jest zbędne wobec postawionych wymagań.
 
-Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt został wykonany zgodnie z metodyką zwinną (ang. agile methodology)[\ref{bib:metodyka_zwinna}], która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, oraz testowane i poprawiane wcześniejsze. Poniżej prezentuję zaplanowane przeze mnie iteracje tworzenia projektu (Rys. \ref{fig:diagramIteracji}.):
+Pomimo prostoty i niezmienności wymagań funkcjonalnych, projekt został wykonany zgodnie z metodyką zwinną (ang. agile methodology)[\ref{bib:metodyka_zwinna}], która wciąż zyskuje na popularności względem metodyk kaskadowych. Jej główną cechą jest porzucenie szczegółowego planowania projektu na rzecz obserwacji i reagowania. Całość oprogramowania jest wytwarzana w kolejnych iteracjach, w których implementowane są kolejne funkcjonalności, a następnie testowane i poprawiane, aż do uzyskania pożądanego stanu. Poniżej prezentuję zaplanowane przeze mnie iteracje tworzenia projektu (Rys. \ref{fig:diagramIteracji}.):
 
 \clearpage
 \begin{figure}[H]
@@ -48,6 +48,8 @@ Ze względu na osobiste umiejętności, do implementacji wybrałem język progra
 Poniżej prezentuję diagramy klas UML, dokumentujące obecną strukturę kodu. 
 \subsection{Diagram klas pakietu model}
 
+W pakiecie \textit{model} znajdują się wszystkie elementy składające się na samą grę. Głównym elementem jest klasa RoundState, odpowiadająca wierzchołkom $s_i$ należącym do zbioru $S$. Typy kart i zbiór zagrań $Z$ reprezentowane są w postaci klas typu enum.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/diagramKlas_model.eps}
@@ -55,10 +57,10 @@ Poniżej prezentuję diagramy klas UML, dokumentujące obecną strukturę kodu.
 	\label{fig:diagramKlasModel}
 \end{figure}
 
-W pakiecie \textit{model} znajdują się wszystkie elementy składające się na samą grę. Głównym element jest klasa RoundState, odpowiadająca wierzchołkom $s_i$ należącym do zbioru $S$. Typy kart i zbiór zagrań $Z$ reprezentowane są w postaci klas typu enum.
-
 \subsection{Diagram klas pakietu player}
 
+W pakiecie \textit{player} głównym elementem jest klasa abstrakcyjna Player, po której dziedziczą implementowane przeze mnie algorytmy. Warto zauważyć, że wykorzystuje również pakiet \textit{model}. Takie polimorficzne rozwiązanie znacznie ułatwia dodawanie kolejnych algorytmów do aplikacji, bez konieczności modyfikowania jej.
+\clearpage
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/diagramKlas_player.eps}
@@ -66,9 +68,9 @@ W pakiecie \textit{model} znajdują się wszystkie elementy składające się na
 	\label{fig:diagramKlasPlayer}
 \end{figure}
 
-W pakiecie \textit{player} głównym elementem jest klasa abstrakcyjna Player, po której dziedziczą implementowane przeze mnie algorytmy. Warto zauważyć, że wykorzystuje również pakiet \textit{model}. Takie polimorficzne rozwiązanie znacznie ułatwia dodawanie kolejnych algorytmów do aplikacji, bez konieczności modyfikowania jej.
-
 \subsection{Diagram klas pakietu engine}
+
+Pakiet \textit{gameEngine} realizuje zasady gry w sensie mechaniki działania kart. Klasa \textit{Engine} jest menadżerem i zarządza stanem gry na podstawie decyzji otrzymanej z klasy \textit{Player}. Metoda \textit{giveSpaceToPlayer} przekazuje obiektom klasy \textit{Player} referencję do \textit{PlayerSpace} i kopię obiektu \textit{RoundState}. 
 
 \begin{figure}[H]
 	\centering
@@ -76,7 +78,6 @@ W pakiecie \textit{player} głównym elementem jest klasa abstrakcyjna Player, p
 	\caption{Diagram klas pakietu \textit{gameEngine}} 
 	\label{fig:diagramKlasEngine}
 \end{figure}
-Pakiet \textit{gameEngine} realizuje zasady gry w sensie mechaniki działania kart. Klasa \textit{Engine} jest menadżerem i zarządza stanem gry na podstawie decyzji otrzymanej z klasy \textit{Player}. Metoda \textit{giveSpaceToPlayer} przekazuje obiektom klasy \textit{Player} referencję do \textit{PlayerSpace} i kopię obiektu \textit{RoundState}. 
 
 
 \section{Listingi}
@@ -250,13 +251,14 @@ Rys. \ref{fig:cli} prezentuje menu aplikacji, w którym można wpisywać następ
 	\item \textit{set round limit} - ustawia ilość rund w eksperymencie symulacyjnym,
 	\item \textit{start simulation} - rozpoczyna eksperyment symulacyjny,
 	\item \textit{start single game} - rozpoczyna pojedynczą symulację,
+	\item \textit{end} - kończy działanie programu,
 	\item \textit{switch players} - zamienia miejscami gracza pierwszego i drugiego,
 	\item \textit{start mirror simulation} - rozpoczyna eksperyment symulacyjny, w którym gracze zamiennie wykonują ruch jako pierwsi.
 \end{itemize}
 
 \clearpage
 \subsection*{Widok ustawień i gry}
-Każdorazowo, po wpisaniu komendy, w konsoli wyświetlają się dodatkowe informacje, szczególnie po rozpoczęciu eksperymentu symulacyjnego.
+Każdorazowo, po wpisaniu komendy, w konsoli wyświetlają się dodatkowe informacje, szczególnie po rozpoczęciu pojedynczej symulacji.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Resources/cli2.PNG}
@@ -264,11 +266,11 @@ Każdorazowo, po wpisaniu komendy, w konsoli wyświetlają się dodatkowe inform
 	\label{fig:cli2}
 \end{figure}
 
-Na rys. \ref{fig:cli2} można zauważyć ustawianie algorytmu dla gracza pierwszego i drugiego oraz przebieg pojedynczej gry. Na początku znajduje się informacja które algorytmy ze sobą grają, następnie jakie karty zostały odrzucone w układzie początkowym, a potem przebieg w następującej postaci:
+Na rys. \ref{fig:cli2} można zauważyć ustawianie algorytmu dla gracza pierwszego i drugiego oraz przebieg pojedynczej gry. Na początku znajduje się informacja tym, które algorytmy ze sobą grają, następnie jakie karty zostały odrzucone w układzie początkowym, a potem przebieg w następującej postaci:
 \begin{center}
 	[numer rundy] [karty pierwszego gracza] ; [karty drugiego gracza] ; [czyj ruch]: [podjęta decyzja]
 \end{center}
-Na końcu wskazany jest zwycięski algorytm, ruch kończący, oraz stosy kart odrzuconych.
+Na końcu wskazany jest zwycięski algorytm, ruch kończący oraz stosy kart odrzuconych.
 
 
 \subsection*{Widok gry człowieka z zaimplementowanym algorytmem}
@@ -280,7 +282,7 @@ Jeśli za pomocą komend jako jednego z graczy ustawimy człowieka, a jako drugi
 	\label{fig:cli3}
 \end{figure}
 
-Na rys. \ref{fig:cli3} przedstawiony został przebieg gry człowieka z przeciwnikiem komputerowym (algorytmem). Na początku należy ustawić jedno z graczy jako \textit{Human}, korzystając z komend \textit{set player 1} lub \textit{set player 2}. Następnie należy włączyć pojedynczą grę komendą \textit{start single game}.
+Na rys. \ref{fig:cli3} przedstawiony został przebieg gry człowieka z przeciwnikiem komputerowym (algorytmem). Na początku należy ustawić jednego z graczy jako \textit{Human}, korzystając z komend \textit{set player 1} lub \textit{set player 2}. Następnie należy włączyć pojedynczą grę komendą \textit{start single game}.
 
 
 \subsection*{Wykresy eksperymentu symulacyjnego}
@@ -292,7 +294,7 @@ Na wykresach przedstawione są informacje o przebiegu eksperymentu symulacyjnego
 	\label{fig:winChart}
 \end{figure}
 
-Na powyższym wykresie (Rys. \ref{fig:winChart}) wskazany jest stosunek zwycięstw na wykresie kołowym, oraz ilość zwycięstw każdego z algorytmów w danej rundzie, z uwzględnieniem średniej.
+Na powyższym wykresie (Rys. \ref{fig:winChart}) wskazany jest stosunek zwycięstw na wykresie kołowym oraz ilość zwycięstw każdego z algorytmów w danej rundzie, z uwzględnieniem średniej.
 
 \begin{figure}[H]
 	\centering
@@ -303,9 +305,10 @@ Na powyższym wykresie (Rys. \ref{fig:winChart}) wskazany jest stosunek zwycięs
 
 Powyższe wykresy słupkowe na rys. \ref{fig:decisionChart} prezentują rozkład wygrywających decyzji danego gracza w zależności od rundy.
 
+\clearpage
 \section{Problemy napotkane w trakcie realizacji}
 Jednym z problemów w kodzie aplikacji jest bardzo duża ilość instrukcji \textit{switch}. Wynika to z błędnie przyjętego modelu odwzorowania dostępnych decyzji w postaci klasy \textit{Enum}. Zdecydowanie lepszym rozwiązaniem byłoby utworzenie hierarchii klas odpowiadających każdej decyzji, które dziedziczyłyby po jednej wspólnej klasie, np. \textit{Play}. Takie podejście znacznie zredukowałoby ilość niepotrzebnego kodu i zwiększyło jego czytelność.
 
-Kolejną rzeczą sprawiającą wiele problemów jest kwestia interfejsu \textit{Copy} w Javie. Podczas testów przesyłania kopii stanu rundy do algorytmu podejmującego decyzje powstawało wiele problemów z kopiowaniem referencji, wobec czego postanowiłem ręcznie napisać metodę kopiującą.
+Kolejną rzeczą sprawiającą wiele problemów jest kwestia interfejsu \textit{Copy} w Javie. Podczas przesyłania kopii stanu rundy do algorytmu podejmującego decyzje powstawało wiele problemów z kopiowaniem referencji, wobec czego postanowiłem ręcznie napisać metodę kopiującą dla każdej klasy, która tego wymagała.
 
 Ze względu na dużą ilość losowanych parametrów, trudność sprawiło napisanie odpowiednich testów pokrywających wszystkie przypadki. W związku z tym testy sprawdzające fragmenty związane z losowaniem uruchamiane są wielokrotnie. Co prawda takie podejście sprawia, że nigdy nie mamy 100\% pewności przejścia wszystkich testów bez zmiany kodu, natomiast pozwala wykryć znacznie większą ilość przypadków brzegowych, które normalnie nie były by pokryte testem.
