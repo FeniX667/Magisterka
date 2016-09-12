@@ -35,7 +35,7 @@
 \contentsline {subsection}{\numberline {4.4.1}Listing cz\IeC {\k e}\IeC {\'s}ci metod klasy Engine}{41}
 \contentsline {subsection}{\numberline {4.4.2}Listing algorytmu MCTS}{42}
 \contentsline {section}{\numberline {4.5}Prezentacja systemu}{46}
-\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{51}
+\contentsline {section}{\numberline {4.6}Problemy napotkane w trakcie realizacji}{52}
 \contentsline {chapter}{\numberline {5}Rezultaty}{53}
 \contentsline {section}{\numberline {5.1}Algorytm losowy versus Algorytm Losowy}{53}
 \contentsline {section}{\numberline {5.2}Algorytm zach\IeC {\l }anny versus Algorytm losowy}{56}
